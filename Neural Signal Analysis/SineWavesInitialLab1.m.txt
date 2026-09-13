@@ -1,0 +1,32 @@
+%  Generating sin waves with diffrent frequencies and amplitudes
+
+clc; clear; close all;
+
+% Fundamental frequency of the sine wave
+freq = 20;             % Base/fundamental frequency (Hz) 40 for 20
+amplitude = [2, 4, 8]; % How high the wave will be          
+phase = 0;             % No phase shift pi, pi/2, pi/3
+
+
+fs_values = [500, 59, 24];     % Diff sampling frequencies (Hz)
+
+% time duration for the signal
+duration = 1;    % seconds
+
+figure;
+ 
+for i = 1:length(fs_values)
+    
+    fs = fs_values(i);                       % current sampling frequency
+    t = 0 : 1/fs : duration;                 % time
+    y = amplitude(i) * sin(2*pi*freq*t + phase);  % generate sine wave
+    
+    % plot
+    subplot(length(fs_values),1,i);
+    plot(t, y, 'LineWidth', 1.5);
+    grid on;
+
+    title(['20 Hz Sine Wave Sampled at ', num2str(fs), ' Hz']);
+    xlabel('Time (s)');
+    ylabel('Amplitude');
+end

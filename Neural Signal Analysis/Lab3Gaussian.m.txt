@@ -1,0 +1,29 @@
+% time domain window function - Signal in a limited time range
+% parameters
+fs = 1000;                % sampling frequency
+t = -1:1/fs:1;            % time vector
+frequencies = 1:20;       % f range
+sigma = 0.5;              % standard deviation/ changes spread of the gaussian
+
+% bell shaped gaussian envelope
+gaussian_envelope = exp(-t.^2 / (2 * sigma^2));
+
+% 20 charts using a for loop
+figure;
+for i = 1:20
+    f = frequencies(i);                % current frequency
+    sine_wave = sin(2 * pi * f * t);   % sine wave
+    modulated_wave = sine_wave .* gaussian_envelope; % modulated wave, Smooth and controlled wave
+    
+    % Plot
+    subplot(5, 4, i); % 5x4 grid
+    plot(t, modulated_wave, 'b', 'LineWidth', 1.2);
+    title(['Frequency: ', num2str(f), ' Hz']);
+    xlabel('Time (s)');
+    ylabel('Amplitude');
+    grid on;
+end
+
+% layout with super title
+sgtitle('Sine Waves with Gaussian Envelope (Frequencies 1 to 20 Hz)');
+

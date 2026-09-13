@@ -1,0 +1,60 @@
+clear; clc; close all;
+
+% Sampling Information
+fs = 1000;                 % Sampling frequency (Hz)
+T  = 2;                    % Signal duration (seconds)
+t  = 0:1/fs:T-1/fs;        % Time vector
+N  = length(t);            % Number of samples
+
+% Create Signal (Sum of Sine Waves)
+freq = [4 6 8 10];         % Frequencies (Hz)
+amp  = [2 3 8 3];          % Amplitudes
+
+x = zeros(size(t));
+for k = 1:length(freq)
+    x = x + amp(k)*sin(2*pi*freq(k)*t);
+end
+
+%Plot Time-Domain Signal
+figure
+subplot(3,1,1)
+plot(t, x, 'k', 'LineWidth', 1.5)
+xlabel('Time (s)')
+ylabel('Amplitude')
+title('Signal in Time Domain')
+grid on
+
+X_dft = zeros(1, N);
+
+for k = 1:N
+    for n = 1:N
+        X_dft(k) = X_dft(k) + ...
+            x(n) * exp(-1j*2*pi*(k-1)*(n-1)/N);
+    end
+end
+
+X_dft = X_dft / N;     % Normalize
+
+X_fft = fft(x);
+X_fft = X_fft / N;     % Normalize
+
+f = fs*(0:N/2)/N;
+
+subplot(3,1,2)
+stem(f, 2*abs(X_dft(1:N/2+1)), 'filled')
+xlabel('Frequency (Hz)')
+ylabel('Amplitude')
+title('Frequency Spectrum using DFT')
+xlim([0 40])
+grid on
+
+subplot(3,1,3)
+stem(f, 2*abs(X_fft(1:N/2+1)), 'filled')
+xlabel('Frequency (Hz)')
+ylabel('Amplitude')
+title('Frequency Spectrum using FFT')
+xlim([0 40])
+grid on
+
+error = max(abs(X_dft - X_fft));
+disp(['Maximum difference between DFT and FFT = ', num2str(error)])

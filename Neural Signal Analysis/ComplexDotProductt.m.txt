@@ -1,0 +1,33 @@
+clc; clear;
+
+% dot product of two arbitrary complex vectors
+ 
+a = [1+2i , 3-i , -2+0.5i];
+b = [2-i  , 1+4i , 0.5-1i];
+
+% Correct complex dot product
+dot_ab = sum(conj(a) .* b);
+
+disp('Dot product of arbitrary complex vectors <a,b>:')
+disp(dot_ab)
+
+fs = 100;                         % sampling rate
+t  = -1:1/fs:1;                   % time vector/timeline
+f0 = 5;                            % signal frequency
+theta = pi/5;                     % phase offset
+
+signal = sin(2*pi*f0*t + theta);  % test signal
+
+freqs = 1:0.5:10;                 % frequencies to test
+dotProd = zeros(size(freqs));
+
+for k = 1:length(freqs)
+    basis = exp(1i*2*pi*freqs(k)*t);      % complex sine wave
+    dotProd(k) = dot(basis, signal)/length(t); % complex dot product, signal multiplied by phase matched oscillator
+end
+
+figure;
+subplot(2,1,1)
+stem(freqs, abs(dotProd)), title('Magnitude (frequency match)')
+subplot(2,1,2)
+stem(freqs, angle(dotProd)), title('Phase difference')

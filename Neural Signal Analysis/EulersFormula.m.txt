@@ -1,0 +1,40 @@
+% use Euler's formula to plot vectors
+clc
+clear all
+
+Amp = 4;       % amplitude of desired point, distance from origin
+
+Phase = pi/3;    % phase of desired point, angle
+% we want a point which is 4 units away from the origin at 60  degrees. So
+% the polar coordinates (r,theta)= (4, pi/3)
+
+Point = Amp*exp( 1i*Phase ); %formula euler to create point, Amp = scales the radius
+
+% extract magnitude and angle
+mag = abs(Point); %computes length of complex vector, sqrt(asq+bsq)
+
+% mag= sqrt(Point*conj(Point));
+phs = angle(Point); %theta
+
+% plot the point  in the complex plane 
+
+figure, clf
+
+plot([0 real(Point)],[0 imag(Point)],'-s','linew',2,'markersize',10)
+
+% make plot look nicer
+set(gca,'xlim',[-4 4],'ylim',[-4 4])
+grid on, hold on, axis square
+plot(get(gca,'xlim'),[0 0],'k','linew',2)
+plot([0 0],get(gca,'ylim'),'k','linew',2)
+xlabel('Real axis')
+ylabel('Imaginary axis')
+
+% plot a line in polar cordinates and unit circle
+h = polar([0 phs],[0 mag],'r'); % draw same vector but using angle and radius
+set(h,'linewidth',2)         % define the line width
+x = linspace(-pi,pi,100);
+h = plot(cos(x),sin(x));     % plot unit circle
+set(h,'color',[0.5 0.5 0.5]) % define the color for unit circle
+T=[ 'Complex plane: [' num2str(real(Point)) ' ' num2str(imag(Point)) 'i ], Polar plane: ' num2str(mag)];
+title(T)

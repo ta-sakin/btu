@@ -1,0 +1,27 @@
+clc
+clear
+fs = 500;        % sampling rate in Hz
+TimeVec  = -1:1/fs:1; % time in seconds
+
+% Complex sine wave parameters
+f0 = 5;          % frequency in Hz
+Amp = 2;         % amplitude in a.u.
+phas = pi/3;     % phase in radians
+% Generate Complex sine wave e^(2pift+theta)
+ComplexSinWav = Amp*exp( 2*1i*pi*f0*TimeVec + phas );
+
+
+%  Plot the complex sin wave in 2D plane
+figure(1), clf
+subplot(211)
+plot(TimeVec,real(ComplexSinWav), TimeVec,imag(ComplexSinWav),'linew',2)
+xlabel('Time (sec.)'), ylabel('Amplitude')
+title('Complex sine wave projections')
+legend({'real';'imag'})
+
+% Plot the complex sin wave in 3D plane
+subplot(212)
+plot3(TimeVec,real(ComplexSinWav),imag(ComplexSinWav),'k','linew',3)
+xlabel('Time (sec.)'), ylabel('real part'), zlabel('imag. part')
+axis square
+rotate3d on   % enable to rotate the 3D olot

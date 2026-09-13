@@ -1,0 +1,25 @@
+clc
+clear all
+% several ways to create a complex number
+z0 = 1 + 1i;
+z1 = -1 + 3*1i;
+z2 = -5 - 3*sqrt(-1);
+z = complex(2,3);
+
+% plot the complex number
+figure(), hold on % We can use hold on for multiple plotting
+plot(real(z0),imag(z0) ,'b--o','markersize',12,'markerfacecolor','r') % real and imag functions of matlab
+plot(real(z1),imag(z1) ,'b--x','markersize',12,'markerfacecolor','g')
+plot(real(z2),imag(z2) ,'b--s','markersize',12,'markerfacecolor','k')
+plot(real(z),imag(z) ,'b--d','markersize',12,'markerfacecolor','m')
+
+% make plot look better
+set(gca,'xlim',[-5 5],'ylim',[-5 5]) %axis square
+
+grid on, hold on, axis square 
+plot(get(gca,'xlim'),[0 0],'k','linew',2) % get current axes , sets y to 0 and x to [-5 5]
+plot([0 0],get(gca,'ylim'),'k','linew',2) % get current axes , sets x to 0 and y to [-5 5]
+
+xlabel('Real axis')
+ylabel('Imaginary axis')
+title([ 'Number (' num2str(real(z)) ' ' num2str(imag(z)) 'i) on the complex plane' ])
