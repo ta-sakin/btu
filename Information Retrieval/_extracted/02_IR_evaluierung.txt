@@ -1,0 +1,1080 @@
+ Information Retrieval:!
+Evaluierung und Beurteilung!
+      von IR-Systemen"
+                                                                         Ingo Schmitt
+                         Brandenburgische Universität Cottbus
+                                         Institut für Informatik
+            Lehrstuhl für Datenbank- und Informationssysteme
+
+
+
+  Information Retrieval: 2 Evaluierung und Beurteilung von IR-Systemen          6. Juli 2011
+                                                                                        6. Juli 2011
+
+
+
+
+Welches System ist besser?
+
+
+
+
+       Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 2)
+                                                                                                    6. Juli 2011
+
+
+
+
+Welche Variante bringt das bessere Ergebnis?
+
+                                                                                           Phrasensuche
+
+
+
+
+          Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 3)
+                                                                                            6. Juli 2011
+
+
+
+
+Ziele der Evaluierung
+
+ Ziele der Evaluierung von IR-Systemen:
+   vergleichende Betrachtung zwischen mehreren IR-
+    Systemen
+   Konstruktion und Konfiguration eines IR-Systems
+
+
+
+ Exkurs: Evaluierung bei Datenbanksystemen
+   Funktionsumfang (teils standardisiert: z.B. SQL)
+   Laufzeiteffizienz und Speicherplatzeffizienz
+
+
+           Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 4)
+                                                                                                  6. Juli 2011
+
+
+
+
+Effizienz vs. Effektivität
+
+   Effizienz  möglichst sparsamer Umgang mit Ressourcen
+       In der Informatik typisch: Laufzeit- und Speicherplatzeffizienz
+       „Wird das, was gemacht wird, richtig (effizient) ausgeführt?“
+       vergleichende Betrachtung verschiedener Systeme nur bei
+        gleichwertigen bzw. identischen Ergebnissen sinnvoll.
+   Effektivität  Effektivität setzt die Qualität eines Ergebnisses ins
+    Verhältnis zum Aufwand
+       „Werden die richtigen Dinge ausgeführt?“
+   Effektivität zielt damit immer auf eine technische Lösung, bei der
+    Aufwand und Nutzen in einem günstigen Verhältnis zueinander
+    stehen.
+
+
+                 Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 5)
+                                                                                               6. Juli 2011
+
+
+
+
+Relevanz
+
+ Bei der Evaluierung von IR-Systemen geht man davon
+  aus, dass bezogen auf eine Anfrage q die
+  Dokumentenkollektion in zwei Teile zerfällt:
+     Rq die Menge der zur Anfrage relevanten Dokumente
+     Rq die Menge der für die Anfrage nicht relevanten Dokumente
+ Diese Annahme führt dazu, dass ein IR-System genau Rq
+  liefern sollte.
+ Man kann damit die Qualität des Ergebnisses durch die
+  Abweichung von Rq beschreiben.
+
+
+              Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 6)
+                                                                                                    6. Juli 2011
+
+
+
+
+Probleme der zweiwertigen Definition
+der Relevanz
+   Die Aufteilung hängt vom Vorwissen des Anfragers ab!
+       Die Relevanz bestimmter Dokumente kann ggf. nur mit Vorkenntnissen erkannt
+        werden!
+       Andererseits sind ggf. einführende Überblicksartikel nur für den Laien interessant!
+   Die Relevanz von Dokumenten kann voneinander abhängen.
+       So kann z.B. die Relevanz eines Dokumentes b erst durch das Lesen eines anderen
+        Dokumentes a deutlich werden.
+       Folge: Ist a im Ergebnis, so ist b relevant, sonst nicht!
+   Eine zweiwertige Relevanzskala erscheint zu vereinfachend.
+       Sicherlich wäre eine mehrstufige oder gar eine stetige Skala realistischer.
+       Das Problem wäre aber: es wird noch schwerer eine allgemein anerkannte
+        Einordnung der Dokumente bezüglich einer Anfrage zu finden.
+
+
+
+
+                   Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 7)
+                                                                                                      6. Juli 2011
+
+
+
+
+     Recall und Precision
+
+
+
+
+   Der Recall beantwortet die Frage: Wie vollständig ist die Antwort?
+
+
+
+
+   Die Precision beantworte die Frage: Wie genau ist die Antwort?
+
+
+
+
+                     Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 8)
+                                                                                        6. Juli 2011
+
+
+
+
+Eine andere Darstellung
+
+
+
+
+       Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 9)
+                                                                                                6. Juli 2011
+
+
+
+
+Das F-Measure
+
+ kombiniert die beiden klassischen Maße Recall und Precision
+ definiert gewichtetes harmonisches Mittel aus Recall und
+  Precision
+ Häufig findet die ungewichtete Variante mit
+  α = 0.5 Anwendung
+
+
+
+
+              Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 10)
+                                                                                               6. Juli 2011
+
+
+
+
+F-Measure
+
+
+
+
+                                                                                           1
+
+
+     0
+                              Recall                                             0
+                                                                           1
+
+         Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 11)
+                                                                                         6. Juli 2011
+
+
+
+
+Vergleich mehrerer Systeme
+
+
+
+
+       Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 12)
+                                                                                                6. Juli 2011
+
+
+
+
+Bestimmung des Recall (1/2)
+
+   Vollständige Relevanzbeurteilung einer repräsentativen Stichprobe
+     Problem: Anteil der relevanten Dokumente i. Allg. sehr gering
+      die Stichprobe muss sehr groß sein, was zu einem großen Aufwand
+       führt.
+
+
+
+
+              Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 13)
+                                                                                                  6. Juli 2011
+
+
+
+
+Bestimmung des Recall (1/2)
+
+   Dokument-Source-Methode
+     man wählt ein zufälliges Dokument aus der Datenbasis
+     man formuliert eine Frage, zu der dieses Dokument relevant ist
+
+       Man prüft, ob das Dokument tatsächlich in der Antwort ist.
+       Über mehrere Dokumente und Anfragen gemittelt ergibt sich ein Wert
+        für den Recall
+       Problem: es handelt sich nicht um „echte“ Benutzerfragen
+
+
+
+
+                Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 14)
+                                                                                               6. Juli 2011
+
+
+
+
+Bestimmung des Recall (2/2)
+
+ Anfrageerweiterung
+   man erweitert die Anfrage, so dass eine Obermenge der
+    ursprünglichen Antwortmenge gefunden wird
+   Z.B. mehrere Frageformulierungen von verschiedenen Bearbeitern
+   Problem: Man erhält trotzdem i. Allg. nur eine Teilmenge der
+    relevanten Dokumente
+   Folge: Recall-Schätzungen werden im allgemeinen zu hoch sein!
+ Abgleich mit externen Quellen
+   Man versucht parallel noch mit unabhängigen Methoden, relevante
+    Dokumente zu bestimmen
+   so kann man den Fragenden oder andere Fachleute befragen, welche
+    relevanten Dokumente sie kennen
+
+
+
+             Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 15)
+                                                                                                   6. Juli 2011
+
+
+
+
+  Pooling Methode
+                                                            Verschiedene Systeme
+     Juroren erstellen                                      liefern die Top 1000
+     Topics.                                                Dokumente für jedes Topic
+
+
+
+
+Relevanz-                                                       Pooling aller einmal
+Bewertung durch                                                 gefundenen Dokumente
+Juroren
+
+
+
+     Ellen Voorhees – CLEF 2001 Workshop
+
+                 Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 16)
+                                                                                                 6. Juli 2011
+
+
+
+
+                                                                   Vorgehen
+
+
+
+
+ Intellektuelle Bewertung
+    relevant oder nicht relevant
+
+ statistische Auswertung
+
+               Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 17)
+                                                                                                   6. Juli 2011
+
+
+
+
+Quelle: TREC presentation slide No. 15
+
+                 Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 18)
+                                                                                  6. Juli 2011
+
+
+
+
+Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 19)
+                                                                                  6. Juli 2011
+
+
+
+
+Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 20)
+                                                                                                   6. Juli 2011
+
+
+
+
+Mittelwertbildung über mehrere Anfragen
+
+über m Experimente den Mittelwert bilden  2 Möglichkeiten:
+   1. Makrobewertung; nutzungsorientierter Ansatz
+
+
+
+
+       Hier gehen alle Experimente unabhängig von Ergebnisgröße gleich ein.
+       Probleme gibt es, wenn einzelne Anfragen leere Ergebnisse liefern
+
+                                        ai + bi = 0
+
+
+
+
+                 Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 21)
+                                                                                                   6. Juli 2011
+
+
+
+
+Mittelwertbildung über mehrere Anfragen
+
+   2. Mikrobewertung (systemorientiert)
+       Hier gehen Anfragen mit einer größeren Ergebnismenge stärker ein.
+       Summe aller Anfragen als „eine große Anfrage“ betrachtet.
+
+
+
+
+                 Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 22)
+                                                                                                      6. Juli 2011
+
+
+
+
+Beispiel
+
+
+
+
+   Makrobewertung:                                              Mikrobewertung:
+       Recall: ¼ * (0,14 + 0,15 + 0,87 + 0,22)                       Recall: 125/167 = 0,75
+        = 0,35                                                        Precision: 125/226 = 0,55
+       Precision: ¼ * (0,1 + 0,17 + 0,6 + 0,5) =
+                                                                 große Anfrage 3 dominiert
+        0,34
+
+
+
+
+                    Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 23)
+                                                                                         6. Juli 2011
+
+
+
+
+Recall/Precision bei Systemen mit
+Ranking
+
+
+
+                    Precision
+
+
+
+
+                                                    Recall
+
+       Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 24)
+                                                                                              6. Juli 2011
+
+
+
+                                  Festlegung auf „Meßpunkte“
+                                  meist Precision bei einem Recall von 0,1
+                                  0,2 0,3 ...
+                                  -> Mittelwert ->
+                                  [Mean] Average Precision (MAP)
+Precision
+
+
+
+
+                                              Recall
+
+            Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 25)
+                                                                                                   6. Juli 2011
+
+
+
+
+Wichtig: Benutzerstandpunkte und
+tatsächlich verwendete Maße
+   MAP  Systemorientierter Ansatz
+   Aber nicht direkt als Benutzerstandpunkt interpretierbar
+
+
+   Ich sehe mir nur die Dokumente auf der ersten Seite an:
+        P@10 oder P@5
+ Ich schaue mir Dokumente bis zum ersten irrelevanten an:
+       Gute erste Treffer wichtig
+ Discounted Cumulative Gain
+       Misst anhand von gradueller Relevanz des Nutzers den Gewinn (gain)
+        an Relevanz durch ein Dokument an einer bestimmten Position
+
+
+                 Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 26)
+                                                                  06.07.2011
+
+
+
+
+Discounted Cummulative Gain
+
+ Grundlage: Graded Relevance vom Nutzer, z.B.
+  [0;3] wobei 0 irrelevant bedeutet
+ Annahme: Hochrelevante Dokumente sind am
+  sinnvollsten bzgl. des Informationsgewinns,
+  wenn sie eine vordere Position erreichen
+
+
+
+
+                Information Retrieval: Einführung und Überblick
+                                                                 06.07.2011
+
+
+
+
+Normalized DCG
+ DCGp verschiedener Durchläufe nur nach
+  Normalisierung vergleichbar -> nDCGp
+ Idee: Verhältnis zum idealen DCG -> IDCGp
+ IDCGp: DCGp nach absteigender Sortierung
+  nach Nutzerrelevanz
+
+
+
+ Durchschnitt von nDCGp verschiedenen
+  Experimente berechnen
+               Information Retrieval: Einführung und Überblick
+                                                                                               6. Juli 2011
+
+
+
+
+Wichtig: Anfrage-Typen
+
+ Navigational
+     Suche nach Homepage von Firma X
+ Informational
+     Gelbe-Seiten-Anfragen
+     Faktenfragen (question answering)
+     Ad-hoc (Suche alles zum Thema X)
+
+
+ Folge: Unterschiedliche Evaluierungserfordernisse,
+  insbesondere beim Relevance Feedback
+
+
+             Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 29)
+                                                                                                   6. Juli 2011
+
+
+
+
+Cranfield Experiment [CMK66]:
+6 Kriterien zur Evaluation von IR-Systemen
+1.   Recall  Fähigkeit des Systems alle relevanten Objekte zu finden
+2.   Precision  Fähigkeit des Systems nur die Objekte zu präsentieren, die
+     relevant sind
+3.   time lag  die Zeit zwischen Absetzen der Anfrage und Bereitstellung der
+     Antwort
+4.   Effort  der intellektuelle und physische Aufwand, der vom Benutzer zur
+     Erlangung der Antwort erforderlich ist (z.B. komplexe Eingaben, Rückfragen
+     des Systems, …)
+5.   form of presentation  die Qualität der Ergebnisdarstellung, welche die
+     Nützlichkeit für den Benutzer beeinflusst
+6.   coverage of the collection  der Grad, zu dem das System relevante Objekte
+     enthält (mehr eine Frage der Dokumente als des Retrieval-Systems)
+
+
+
+                 Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 30)
+                                                                                                   6. Juli 2011
+
+
+
+
+Vickery beschreibt 6 Kriterien, die er in
+zwei Gruppen unterteilt [Vic70]:
+   Kriterien, die sich auf Verfügbarkeit von Informationen beziehen:
+       coverage — Anteil der möglicherweise nützlichen Literatur, der in Betracht
+        gezogen wurde (z.B. bei mehreren verfügbaren Kollektionen: wurden alle
+        mit potentiell relevanten Dokumenten betrachtet)
+       recall — Anteil der möglicherweise nützlichen Dokumente, die im Ergebnis
+        der Anfrage enthalten sind
+       response time — durchschnittliche Antwortzeit
+   Kriterien, die sich auf die Selektivität der Antwort beziehen:
+       precision — Fähigkeit des Systems unnütze Dokumente zu unterdrücken
+       usability — Wert der ermittelten Dokumente für den Benutzer
+        (Zuverlässigkeit, Verständlichkeit, . . . )
+       presentation — Form, in der die Ergebnisse präsentiert werden
+
+
+                 Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 31)
+                                                                 06.07.2011
+
+
+
+
+Usability
+
+ Besonderer Fokus im IR durch Nutzerfokus
+ www.searchuserinterfaces.com/
+
+
+
+
+               Information Retrieval: Einführung und Überblick
+                                                                                             6. Juli 2011
+
+
+
+
+Ziele Evaluierungsinitiativen
+
+ Einheitliche Bewertungsmaßstäbe für Retrieval-
+  Systeme (Stoßrichtung Standardisierung)
+ Vergleich zwischen Systemen ermöglichen
+ Weiterentwicklung von IR Systemen vorantreiben
+ Anforderungen aus der Community aufnehmen
+  und Methodik weiterentwickeln
+
+
+
+
+           Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 33)
+                                                                                              6. Juli 2011
+
+
+
+
+TREC: Text REtrieval Conference
+
+ „TREC is a new ballgame for IR research and
+  development“ (Sparck Jones 1994)
+ Evaluierungsinitiative des National Institute of
+  Standards and Technology (NIST) in den USA
+ 1992: TREC-1 (Proceedings 1993)
+
+
+
+
+            Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 34)
+                                                                                  6. Juli 2011
+
+
+
+
+Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 35)
+                                                                                                 6. Juli 2011
+
+
+
+
+Vorgehen
+
+ Testbasis
+     Objekte (Dokumente, ....) mit geklärtem Copyright
+     Anfragen (Topics)
+         relevante Informationsbedürfnisse für pot. Benutzer
+     einheitliche Relevanzbewertung
+ zeitlicher Rahmen (ca. 4 Monate gesamt)
+     Ausgabe der Anfragen
+     Einreichen von Ergebnissen
+     Bekanntgabe der Ergebnisse
+
+
+               Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 36)
+                                                                                            6. Juli 2011
+
+
+
+
+2008 TREC Tracks
+
+ Blog Track
+ Enterprise Track
+ Legal Track
+ Million Query Track
+ Relevance Feedback Track
+
+
+
+
+          Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 37)
+                                                                                                    6. Juli 2011
+
+
+
+
+Past TREC Tracks
+
+   Cross-Language Track
+   Filtering Track
+   Genomics Track
+   HARD Track (High Accuracy Retrieval from Documents)
+   Interactive Track
+   Novelty Track
+   Question Answering Track
+   Robust Retrieval Track
+   SPAM Track
+   Terabyte Track
+   Video Track
+   Web Track
+
+
+                  Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 38)
+                                                             06.07.2011
+
+
+
+
+Question Answering
+
+
+
+
+           Information Retrieval: Einführung und Überblick
+                                                                                                 6. Juli 2011
+
+
+
+
+Beispiel-Topic                                                                      TREC-3: ohne CON
+ <TOP>                                                                              TREC-4 und -5:
+ <HEAD> Tipster Topic Description                                                   nur noch DESC
+ <NUM> Number: 066                                                                  ab TREC-5:
+ <DOM> Domain: Science and Technology                                               Varianten short und
+ <TITLE> Natural Language Processing                                                long
+ <DESC>
+ Document will identify a ctype of natural language processing
+ technology which is being developed or marketed in the U.S.
+ <NARR>
+ A relevant document will indentify a company or institution developing or
+ marketing a natural language processing technology, identify the technology, and
+ identify one or more features of the company‘s product.
+ <CON>NLP, translation, language, dictionary, font, software
+ <NAT> U.S.
+ </TOP>
+
+
+
+               Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 40)
+                                                                                                   6. Juli 2011
+
+
+
+
+ Beispiel-Dokument: Wall Street Journal
+
+<DOC>
+<DOCNO> WSJ880406-0090 </DOCNO>
+<HL> AT&T Unveils Services to Upgrade Phone Networks Under
+      Global Plan </HL>
+<AUTHOR> Janet Guyon (WSJ Staff) </AUTHOR>
+<DATELINE> New York </DATELINE>
+<TEXT>
+American Telephon & Telegraph Co. Introduced the first of a new
+generation of phone services with broad ...
+</TEXT>
+</DOC>
+ Quelle: Harman 1995,3f.
+                 Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 41)
+                                                                                              6. Juli 2011
+
+
+
+
+Relevanz-Bewertung
+ Abstraktion vom individuellen Benutzer und dessen
+  Kontext
+ Einheitliche Bewertung
+ Objektive Juroren, die nicht in einer
+  Benutzungssituation sind
+ Objektive Aussage über inhaltlichen Zusammenhang
+  zwischen Topic und Dokument
+
+
+
+
+            Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 42)
+                                                                                               6. Juli 2011
+
+
+
+
+ Cross-Language Evaluation Forum
+Forschung zu cross- und                                          Testumgebung
+multi-lingualen
+Information Retrieval
+Systemen                                                     Systementwicklung
+
+                                                                    Benchmarks
+
+                                                         Evaluierungsforschung
+
+EU Förderung: DELOS NoE
+for Digital Libraries                                  Mandl et al. @ CLEF 2003 - 2006
+
+
+
+             Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 43)
+                                                                                         6. Juli 2011
+
+
+
+
+GeoCLEF Monolingual English
+
+                 Bilingual 76% wrt Monolingual
+
+
+
+
+       Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 44)
+                                                                                           6. Juli 2011
+
+
+
+
+Variabilität
+
+ BEOBACHTUNG: Der Unterschied in der
+ Performanz zwischen den Systemen ist
+ wesentlich geringer als zwischen den Topics
+
+
+
+
+         Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 45)
+                                                                                              6. Juli 2011
+
+
+
+
+Beispiel GeoCLEF 2006
+
+
+
+
+      Varianz der Systeme in GeoCLEF 2006                                                Mandl 2008
+
+       Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 46)
+                                                                                              6. Juli 2011
+
+
+
+
+Beispiel GeoCLEF 2006
+
+
+
+
+      Varianz der Topics in GeoCLEF 2006                                                 Mandl 2008
+
+       Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 47)
+                                                                                            6. Juli 2011
+
+
+
+
+Aggregation mehrerer Anfragen
+
+ i.d.R. einfacher
+  arithmetischer Durchschnitt
+
+
+
+
+          Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 48)
+                                                                                          6. Juli 2011
+
+
+
+
+Welches System ist besser?
+
+
+
+
+    2 Systeme, 3 Anfragen
+
+        Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 49)
+                                                                                                     6. Juli 2011
+
+
+
+
+„IR Psychologie“
+
+«The unhappy customer, on average, will tell 27 other
+people …»
+
+
+«Dissatisfied customers tell an average of ten other
+people about their bad experience. Twelve percent tell
+up to twenty people.»
+       Bad news travels fast.
+                                                                         Credit to Jacques Savoy for slide
+
+
+          Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 50)
+                                                                                                        6. Juli 2011
+
+
+
+
+„IR Psychologie“
+
+On the other hand, satisfied customers will tell an average of five
+people about their positive experience.
+
+      Good news travels somewhat slower
+
+
+Eine Site-Suche sollte robust funktionieren
+Ausreisser nach unten müssen vermieden werden!
+  für jede Anfrage
+  für jedes Bewertungskriterium
+                                                                            Credit to Jacques Savoy for slide
+
+
+             Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 51)
+                                                                                            6. Juli 2011
+
+
+
+
+„IR Psychologie“
+
+ Sehr gute Ergebnisse, schlechte Interaktion
+   -> Unzufriedener Benutzer
+
+ Sehr gute Interaktion, schlechte Ergebnisse
+   -> Unzufriedener Benutzer
+
+
+
+
+          Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 52)
+                                                                                          6. Juli 2011
+
+
+
+
+ GMAP
+
+                       n
+
+geoAve = n " x i
+                     i=1
+
+
+
+
+        Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 53)
+                                                                                           6. Juli 2011
+
+
+
+
+Robustheit
+
+  Stabile Performanz über alle Anfragen anstatt hohe
+   durchschnittl. Performanz
+  “Schwierige” Anfragen gewinnen größeres Gewicht
+   bei der Evaluierung
+
+
+
+
+         Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 54)
+                                                                                                 6. Juli 2011
+
+
+
+
+NTCIR
+
+ Mehrsprachiges Retrieval für asiatische Sprachen
+ Durchgeführt in Tokio
+     National Institute for Informatics
+ Tasks
+     Cross-lingual
+         Chinesisch, Japanisch, Koreanisch -> Englisch
+     Patent-Retrieval
+     Web-Retrieval
+     Question Answering
+
+
+               Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 55)
+                                                                                               6. Juli 2011
+
+
+
+
+FIRE
+
+ Evaluierungsinitiative für Indische Sprachen
+     Hindi und Bengali (gehören zu den 10 meist gesprochenen
+      Sprachen der Welt)
+     Marathi, Tamil, Telugu, Punjabi, Malayalam
+     Englisch
+
+
+ Zeitungstexte
+ Läuft seit 2008
+ http://www.isical.ac.in/~clia/
+
+
+             Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 56)
+                                                                                                 6. Juli 2011
+
+
+
+
+INEX
+
+
+ INitiative for the Evaluation of XML Retrieval
+     Evaluierung von Retrieval mit strukturierten Dokumenten
+     Ziel: nicht das gesamte Dokument, sondern den kleinsten
+      relevanten Ausschnitt finden
+     Ausnutzen der Struktur
+     Testkollektion 2005: Reiseführer
+         http://inex.is.informatik.uni-duisburg.de:2004/
+
+
+
+
+               Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 57)
+                                                                                            6. Juli 2011
+
+
+
+
+IMIRSEL
+
+ International Music Information Retrieval
+  Systems Evaluation Laboratory Project
+   Beantwortung von Fragen zu Musikstücken
+
+ http://www.music-ir.org/evaluation/
+
+
+
+
+          Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 58)
+                                                                                             6. Juli 2011
+
+
+
+
+Benutzer?
+
+ Der Benutzer ist nie in der Rolle der Evaluierenden
+ Führt eine Verbesserung der Systeme hinsichtlich der
+  traditionellen Kennzahlen auch zu einer höheren
+  Benutzerzufriedenheit?
+ Führt ein gutes Ranking auch zu einer höheren
+  Benutzerzufriedenheit?
+
+
+
+
+           Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 59)
+                                                                                              6. Juli 2011
+
+
+
+
+Benutzerzufriedenheit
+ Bei mehreren Bild-Retrieval Systemen konnte kein
+  Zusammenhang zwischen Präferenz und Qualität
+  erkannt werden
+    Zwei Aufgaben
+    Elf Testpersonen
+              Maskari et al. 2006
+
+
+
+
+            Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 60)
+                                                                                                  6. Juli 2011
+
+
+
+
+Einwand Benutzerzufriedenheit
+
+   Für einfache Suchaufgaben und kontrollierte Retrieval-Qualität
+    ergab sich kein Effekt auf die Performanz der Benutzer für ein
+    System
+       Künstlich werden unterschiedlich gute Systeme geschaffen (versch.
+        MAP)
+       In 5 Minuten sollten so viele relevante Dokumente wie möglich
+        gefunden werden
+       Ca. 20 Testpersonen
+                           Turpin & Scholer 2006
+   Systemunterschiede lassen sich bei Benutzertests nicht
+    nachweisen Turpin & Hersh 2001
+       Modell für TREC und CLEF ist der „dedicated searcher“
+
+                Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 61)
+                                                                                                  6. Juli 2011
+
+
+
+
+Einwand Benutzerzufriedenheit
+
+   Für einfache Suchaufgaben und kontrollierte Retrieval-Qualität
+    ergab sich kein Effekt auf die Performanz der Benutzer für ein
+    System
+       Künstlich werden unterschiedlich gute Systeme geschaffen (versch.
+        MAP)
+       In 5 Minuten sollten so viele relevante Dokumente wie möglich
+        gefunden werden
+       Ca. 20 Testpersonen
+                           Turpin & Scholer 2006
+   Systemunterschiede lassen sich bei Benutzertests nicht
+    nachweisen Turpin & Hersh 2001
+       Modell für TREC und CLEF ist der „dedicated searcher“
+
+                Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 61)
+                                                                                                  6. Juli 2011
+
+
+
+
+Einwand Benutzerzufriedenheit
+
+   Für einfache Suchaufgaben und kontrollierte Retrieval-Qualität
+    ergab sich kein Effekt auf die Performanz der Benutzer für ein
+    System
+       Künstlich werden unterschiedlich gute Systeme geschaffen (versch.
+        MAP)
+       In 5 Minuten sollten so viele relevante Dokumente wie möglich
+        gefunden werden
+       Ca. 20 Testpersonen
+                           Turpin & Scholer 2006
+   Systemunterschiede lassen sich bei Benutzertests nicht
+    nachweisen Turpin & Hersh 2001
+       Modell für TREC und CLEF ist der „dedicated searcher“
+
+                Information Retrieval 1: 2. Evaluierung und Beurteilung von IR-Systemen (S. 61)
+

@@ -1,0 +1,1681 @@
+   Information Retrieval:!
+Berücksichtigung der Vagheit in
+           Sprache"
+                                                                       Ingo Schmitt
+                        Brandenburgische Universität Cottbus
+                                        Institut für Informatik
+           Lehrstuhl für Datenbank- und Informationssysteme
+
+
+
+    Information Retrieval: 3 Berücksichtigung von Vagheit in Sprache          6. Juli 2011
+                                                                                          6. Juli 2011
+
+
+
+
+Gliederung
+
+3.1 Ein einführendes Beispiel
+3.2 Stoppworteliminierung
+
+
+
+
+                                                                                        unterschiedlicher
+                                                                                         Je nach Sprache
+3.3 Stamm- und/oder Grundformreduktion
+
+
+
+
+                                                                                             Aufwand
+3.4 Mehrwortgruppenidentifikation
+3.5 Terminologische Kontrolle
+3.6 Ein sprachunabhängiger Ansatz
+3.7 Auszeichnung mittels Metadaten
+
+           Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 2)
+                                                                                                 6. Juli 2011
+
+
+
+
+Begrifflichkeiten
+
+   Wort
+       starker Bezug zur „Zeichenkette“
+       bezieht sich damit eher auf die syntaktische Ebene
+   Begriff, Term
+       adressiert stärker die Bedeutung
+       aus dem Englischen kommend „Term“
+   Konzept
+       drückt stärkeren Bezug zur Semantik aus
+       entspricht in der Regel einer Gruppe von Wörtern, die sehr inhaltsverwandt
+        sind und hinter denen ein inhaltliches Konzept steht.
+       Beispiel für Konzept
+           »Datenbank«, »Geldinstitut« oder »Bewegung«
+
+
+
+
+                    Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 3)
+                                                                                                   6. Juli 2011
+
+
+
+
+3.1 Ein einführendes Beispiel
+
+   Text:
+       »Wirtschaft und Gesellschaft befinden sich derzeit im größten Umbruch seit
+        der Industrialisierung. Die Ursache hierfür liegt in der globalen Verfügbarkeit
+        leistungsfähiger und zugleich kostengünstiger Informations- und
+        Kommunikationstechnologien. Das Informationszeitalter wird Realität.«
+   mögliche Repräsentation (Set of words):                           Mehrwortgruppenidentifizierung
+
+       befinden, Das, der, derzeit, Die, Gesellschaft, globalen, größten, hierfür, im, in,
+        Industrialisierung, Informations, Informationszeitalter,
+        Kommunikationstechnologien, kostengünstiger, leistungsfähiger, liegt,
+        Realität, seit, sich, Umbruch, und, Ursache, Verfügbarkeit, wird, Wirtschaft,
+        zugleich
+
+                                                                    Stammform- oder Grundformreduzierung
+
+        Stoppworteliminierung                Synonyme (Ursache, Grund), …  Thesauri, …
+
+
+                     Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 4)
+                                                                                               6. Juli 2011
+
+
+
+
+3.2 Stoppworteliminierung
+   Ziel:
+       Terme, die nicht zur „Semantik“ der Dokumente beitragen, nicht zu
+        verwalten.
+   Erzielte Effekte:
+       Reduzierung des Speicherplatzbedarfs
+       Damit auch Verbesserung der Performance der Matchingalgorithmen
+       Verbesserung von Recall und Precision
+        (z.B. im Vektorraummodell)
+   Ansätze zur Umsetzung:
+       Führen einer Stoppwortliste
+       Eliminierung hoch- und niedrigfrequenter Begriffe
+
+
+                  Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 5)
+                                                                                                                    6. Juli 2011
+
+
+
+
+   Stoppwortliste Englisch Bsp. (571 Wörter):
+a a's able about above according accordingly across actually after afterwards again against ain't all
+allow allows almost alone along already also although always am among amongst an and another
+any anybody anyhow anyone anything anyway anyways anywhere apart appear appreciate
+appropriate are aren't around as aside ask asking associated at available away awfully b be became
+because become becomes becoming been before beforehand behind being believe below beside
+besides best better between beyond both brief but by c c'mon c's came can can't cannot cant cause
+causes certain certainly changes clearly co com come comes concerning consequently consider
+considering contain containing contains corresponding could couldn't course currently d definitely
+described despite did didn't different do does doesn't doing don't done down downwards during e
+each edu eg eight either else elsewhere enough entirely especially et etc even ever every everybody
+everyone everything everywhere ex exactly example except f far few fifth first five followed
+following follows for former formerly forth four from further furthermore g get gets getting given
+gives go goes going gone got gotten greetings h had hadn't happens hardly has hasn't have
+haven't having he he's hello help hence her here here's hereafter hereby herein hereupon hers
+herself hi him himself his hither hopefully how howbeit however i i'd i'll i'm i've ie if ignored
+immediate in inasmuch inc indeed indicate indicated indicates inner insofar instead into inward is
+isn't it it'd it'll it's its itself j just k keep keeps kept know knows known l last lately later latter latterly
+least less lest let let's like liked …
+                                                         http://members.unine.ch/jacques.savoy/clef/englishST.txt
+
+
+                           Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 6)
+                                                                                                                6. Juli 2011
+
+
+
+
+  Stoppwortliste Deutsch Bsp. (603 Wörter):
+a ab aber aber ach acht achte achten achter achtes ag alle allein allem allen aller allerdings alles
+allgemeinen als als also am an andere anderen andern anders au auch auch auf aus ausser außer
+ausserdem außerdem b bald bei beide beiden beim beispiel bekannt bereits besonders besser
+besten bin bis bisher bist c d da dabei dadurch dafür dagegen daher dahin dahinter damals damit
+danach daneben dank dann daran darauf daraus darf darfst darin darüber darum darunter das das
+dasein daselbst dass daß dasselbe davon davor dazu dazwischen dein deine deinem deiner dem
+dementsprechend demgegenüber demgemäss demgemäß demselben demzufolge den denen
+denn denn denselben der deren derjenige derjenigen dermassen dermaßen derselbe derselben des
+deshalb desselben dessen deswegen d.h dich die diejenige diejenigen dies diese dieselbe dieselben
+diesem diesen dieser dieses dir doch dort drei drin dritte dritten dritter drittes du durch durchaus
+dürfen dürft durfte durften e eben ebenso ehrlich ei ei, ei, eigen eigene eigenen eigener eigenes ein
+einander eine einem einen einer eines einige einigen einiger einiges einmal einmal eins elf en ende
+endlich entweder entweder er Ernst erst erste ersten erster erstes es etwa etwas euch f früher fünf
+fünfte fünften fünfter fünftes für g gab ganz ganze ganzen ganzer ganzes gar gedurft gegen
+gegenüber gehabt gehen geht gekannt gekonnt gemacht gemocht gemusst genug gerade gern
+gesagt gesagt geschweige gewesen gewollt geworden gibt ging gleich gott gross groß grosse
+große …
+
+
+                                                      http://members.unine.ch/jacques.savoy/clef/germanST.txt
+
+
+                        Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 7)
+                                                                                             6. Juli 2011
+
+
+
+
+Probleme mit Stoppwortlisten
+
+ Erstellungs- und Pflegeaufwand:
+     Aber: es gibt für alle gängigen Sprachen umfassende
+      Stoppwortlisten
+ Ggf. Anpassung an die Domäne sinnvoll:
+     Begriff Rechner könnte für Informatikzeitschriften ggf. ein
+      sinnvolles Stoppwort sein
+
+
+
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 8)
+                                                                                               6. Juli 2011
+
+
+
+
+Eliminierung hoch- und
+niedrigfrequenter Begriffe
+
+ In einem Artikel schlägt Crouch vor [Cro90]:
+       Begriffe, die in weniger als 1% aller Dokumente auftreten, nicht
+        zu betrachten, weil sie zu spezifisch sind, und
+       Begriffe, die in mehr als 10% der Dokumente auftreten, nicht zu
+        betrachten, weil sie zu allgemein sind.
+   Setzt Existenz eines konkreten Datenbestands voraus
+
+
+
+
+                  Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 9)
+                                                                                              6. Juli 2011
+
+
+
+
+Einfluss der Dokumentgröße
+Beispiel: Kapitel und Verse des Neuen Testaments der Bibel
+
+
+
+
+                                   zu selten                           zu häufig
+
+
+
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 10)
+                                                                                               6. Juli 2011
+
+
+
+
+3.3 Stamm- und/oder
+Grundformreduktion
+ Flexionsformen (Beugungen):
+         Konjugation: laufen – lief – gelaufen
+         Deklination: das Haus – des Hauses – die Häuser
+   gleicher Wortstamm in verschiedenen Derivationsformen
+         Proben – Erprobung – Probe
+
+
+Matching sollte sich auf Wortstämme beziehen
+  Verbesserung von Recall
+
+
+
+                 Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 11)
+                                                                                 6. Juli 2011
+
+
+
+
+Nutzung im Rahmen der
+Anfragebearbeitung
+
+   Erweiterung der Anfrage oder
+   Generelle Abbildung der Terme auf die Grund- oder
+    Stammform
+
+
+
+
+              Information Retrieval: 3 Berücksichtigung von Vagheit in Sprache
+                                                                                            6. Juli 2011
+
+
+
+
+Erweiterung der Anfrage
+ sämtliche Wortformen bleiben in der Anfrage erhalten
+ Anfrage wird um alle denkbaren Wortformen erweitert.
+    z.B. per Thesaurus oder Lexikon
+
+"   Vorteil: Informationsgehalt der Anfrage bleibt
+    vollkommen bestehen
+"   Nachteil: Anfrage kann umfangreich werden
+     Performance-Einbußen
+
+Besser ist generelle Abbildung der Terme auf Grund- und
+  Stammform
+              Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 13)
+                                                                                               6. Juli 2011
+
+
+
+
+Abbildung auf die Grund- und
+Stammform
+Reduzierung auf Grund- oder Stammform bei
+  Umwandlung der Anfragen/Dokumente in die jeweilige
+  Repräsentation
+"   Vorteile:
+       reduzierte Zahl der zu verwaltenden Terme
+      Steigerung der Systemperformance
+       Rückführung zu Grund- und Stammform ist einfacher als
+        Anfrageerweiterung
+Nachteil:
+gezielte Suche nach Wortform unmöglich  Precision-Einbuße
+
+                 Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 14)
+                                                                                             6. Juli 2011
+
+
+
+
+Grundformreduktion
+
+ Wörter  grammatikalische Grundform
+     Substantive  Nominativ Singular
+     Verben  Infinitiv
+ Verfahren: Abtrennen der Flexionsendung und
+  Abbildung auf existierende Wörter
+
+
+Beispiel: applies  appl  apply
+
+
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 15)
+                                                                                          6. Juli 2011
+
+
+
+
+Stammformreduktion
+
+ führt Wörter auf ihren Wortstamm zurück.
+ Wortstamm muss kein Wort sein
+ Stamm für Verb und entsprechende Substantive ist
+  gleich
+
+
+Beispiel: computer, compute, computation,
+  computerization  comput
+
+
+
+            Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 16)
+                                                                                              6. Juli 2011
+
+
+
+
+Bezeichnungen nach Kuhlen
+
+Kuhlen [Kuh77] unterscheidet drei Verfahren zur Grund-
+  und Stammformreduktion:
+   Lexikographische Grundform
+   Formale Grundform
+   Stammform
+
+
+
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 17)
+                                                                                              6. Juli 2011
+
+
+
+
+Lexikographische Grundform
+
+   Form, in der das Wort in einem Wörterbuch zu finden ist
+
+   Rückgängigmachen durch Flexion möglicherweise entstandener
+    graphematischer Veränderungen der Grundform
+
+
+
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 18)
+                                                                                            6. Juli 2011
+
+
+
+
+Formale Grundform
+
+Formale Grundform nach Kuhlen:
+“... Wortfragmente, bei denen die “normalen” englischen und
+    fremdsprachigen (hauptsächlich lateinischen) Flexionsendungen
+    abgetrennt werden, ohne dass die entstandenen Wortfragmente
+    rekodiert würden.“.
+
+
+
+
+              Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 19)
+                                                                                            6. Juli 2011
+
+
+
+
+Stammform
+Stammform nach Kuhlen:
+ Zeichenketten, die durch Deflexion und Abtrennen von
+    Derivationsendungen entstehen
+   Zeichenketten sollen soweit wie möglich durch Rekodierung
+    vereinheitlicht werden
+
+
+
+
+              Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 20)
+                                                                                      6. Juli 2011
+
+
+
+
+Formale, lexikalische Grundform und
+Stammform am Beispiel
+
+
+       3                      1                     2                4
+
+
+
+
+        Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 21)
+                                                                                      6. Juli 2011
+
+
+
+
+Verfahren zur Grund- und
+Stammformreduktion
+ Trunkierung
+ Regeln
+ Wörterbücher
+
+
+Einsatz ist abhängig von Sprache
+   Englisch: schwach flektiert  Regeln
+   Italienisch: stärker flektiert  viele Regeln
+   Deutsch: Wörterbücher
+
+
+
+                   Information Retrieval: 3 Berücksichtigung von Vagheit in Sprache
+                                                                                            6. Juli 2011
+
+
+
+
+Verfahren auf Basis einfacher Trunkierung
+  Trunkierung explizit in der Anfrage
+  beispielsweise in Form von regulären Ausdrücken
+
+      reguläre Ausdrücke in UNIX (nach [Gul88]) etwa mit grep:
+
+
+
+
+              Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 23)
+                                                                                             6. Juli 2011
+
+
+
+
+Verfahren auf Basis einfacher Trunkierung
+
+ einfache Anfrage mit Trunkierung:
+
+    H[aä]us.* AND Finanz.*
+
+
+
+ Nachteile:
+
+   aufwendige Anfrageformulierung
+   syntaktische Regeln der natürlichen Sprache werden
+    nicht unterstützt
+
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 24)
+                                                                            06.07.2011
+
+
+
+
+Un*x-Tool grep
+
+
+
+
+         Information Retrieval: 3 Berücksichtigung von Vagheit in Sprache
+                                                                                         6. Juli 2011
+
+
+
+
+Lovins-Algorithmus zur Grundformreduktion
+ regelbasierter Algorithmus
+ für Texte im Englischen geeignet
+ Arbeitet zweistufig
+    Abtrennung der Endungen
+    Transformation der verbliebenen Endungen
+ Nicht beste Endung des Wortes wird gefunden
+ aber: Konsistenz, also Gleichbehandlung aller
+  Wörter
+
+
+
+           Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 26)
+                                                                                             6. Juli 2011
+
+
+
+
+Vorgehen des Lovins-Algorithmus
+
+ Abtrennung der Endungen anhand folgender Tabelle
+ Einhaltung von Bedingungen
+     A: keine Bedingung
+     B: verbleibender Wortstamm hat mind. 3 Zeichen
+     C: verbleibender Wortstamm hat mind. 4 Zeichen
+
+
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 27)
+                                                                                     6. Juli 2011
+
+
+
+
+Abtrennen von Wortendungen
+
+
+
+
+       Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 28)
+                                                                                              6. Juli 2011
+
+
+
+
+Vorgehen des Lovins-Algorithmus
+weitere Schritte:
+
+
+ Falls Wort mit s endet und davor kein s
+   Entferne das s
+     stems wird zu stem
+     aber stress bleibt stress
+
+
+
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 29)
+                                                                                              6. Juli 2011
+
+
+
+
+Vorgehen des Lovins-Algorithmus
+weitere Schritte:
+ Falls Wort mit es endet
+   Entferne das abschließende s
+     places wird zu place
+     Likes wird zu like
+     Theses wird zu these (Fehler!)
+     Indices wird zu indice (Fehler!)
+     Syntheses wird zu synthese (Fehler!)
+
+
+Problem: Wörter griechischen Ursprungs mit Singularform
+  -is (Pluralform -es)
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 30)
+                                                                                              6. Juli 2011
+
+
+
+
+Vorgehen des Lovins-Algorithmus
+weitere Schritte:
+
+
+ Überführe iev zu ief und metr zu meter
+     Believable wird zu believ und nun zu belief
+
+
+
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 31)
+                                                                                             6. Juli 2011
+
+
+
+
+Vorgehen des Lovins-Algorithmus
+weitere Schritte:
+ Falls Wort mit ing endet und davor mehr als ein
+  Buchstabe und kein th
+   Lösche das ing
+     thinking wird zu think
+     singing wird zu sing
+     sing wird zu sing (keine Änderung)
+     thing wird zu thing (keine Änderung)
+     preceding wird zu preced (Fehler; kein Wort)
+ Fehlerbehebung: Wenn Wort nach Reduktion auf et, ed,
+  es endet  e anhängen
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 32)
+                                                                                             6. Juli 2011
+
+
+
+
+Vorgehen des Lovins-Algorithmus
+weitere Schritte:
+
+
+ Falls Wort mit ed endet, davor Konsonant und davor
+  mindestens 1 Buchstabe
+   Lösche das ed
+     ended wird zu end
+     red wird zu red
+     proceed wird zu proceed
+     proceeded wird zu proceed
+
+
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 33)
+                                                                                            6. Juli 2011
+
+
+
+
+Vorgehen des Lovins-Algorithmus
+weitere Schritte:
+
+
+ Falls nach Entfernen der Endung ein Wort mit bb, dd, …,
+  tt endet
+   Entferne einen der doppelten Buchstaben
+     embedded wird zu embedd und nun zu embed
+
+
+
+
+              Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 34)
+                                                                                             6. Juli 2011
+
+
+
+
+Vorgehen des Lovins-Algorithmus
+weitere Schritte:
+ Falls Wort mit mehr als 5 Buchstaben auf ion endet: 
+  Entferne ion
+ Sofern letzter Buchstabe des Stammes Konsonant und
+  vorhergehender Vokal
+   füge zusätzlich e an
+   direction wird zu direct
+   polution wird zu polute
+   plantation wird zu plantate (Fehler!)
+   zion wird zu zion
+   scion wird zu scion
+   cation wird zu cate (Fehler, da cation ist Kunstwort)
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 35)
+                                                                                              6. Juli 2011
+
+
+
+
+Lovins-Algorithmus
+Fazit:
+ Englische Sprache braucht ca. 10 bis 20 Regeln
+ Ausnahmen für irreguläre Verben notwendig
+ Regeln sollten iterativ anwendbar sein
+     directions wird zu direction wird zu direct
+
+
+
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 36)
+                                                                                             6. Juli 2011
+
+
+
+
+Betrachtung von Vorsilben
+Vorsilben sollten nicht entfernt werden
+•   Beispiel: obwohl gleicher lateinischer Stamm, drückt Vorsilbe
+    unterschiedliche Semantik aus
+                  Behney
+
+
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 37)
+                                                                                             6. Juli 2011
+
+
+
+
+Weitere regelbasierte Algorithmen
+ Algorithmus von Porter [Por80]
+   Sehr häufig eingesetzt
+   Gleiche Idee wie Lovins-Algorithmus
+   Aber komplexere Regeln
+   z.B. in Textsuche von PostgreSQL 8.4
+
+ Weitere Stemming-Algorithmen für Englisch verfügbar,
+  etwa Lancaster Stemming Algorithm
+ Martin Porters Projekt mit fertigen Algorithmen und
+  Framework zur Eigenentwicklung
+     http://snowball.tartarus.org/
+
+
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 38)
+                                                                                          6. Juli 2011
+
+
+
+
+Verfahren, die auf Wörterbüchern basieren
+ Regelbasierte Verfahren nur für schwach flektierte
+  Sprachen wie Englisch
+ für stark flektierte Sprachen (deutsche Sprache)
+   Wörterbuch
+    Flexionsform  Grundform
+       lief  laufen
+
+       Häuser  Haus
+
+    Derivationsform  Grundform
+
+       Lieblosigkeit  lieblos
+
+       Berechnung  rechnen
+
+
+
+Problem: Pflege des Wörterbuchs, Fachvokabular oft nötig
+            Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 39)
+                                                                                           6. Juli 2011
+
+
+
+
+3.4 Mehrwortgruppenidentifikation
+
+ Suche nach „Bundeskanzlerwahl“
+
+
+ Dokument enthält aber „die Wahl des Bundeskanzlers“
+ Was ist mit Dokument „... die Wahl des Bundeskanzlers
+  fiel auf Saumagen mit Kraut ...“?
+
+
+
+
+             Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 40)
+                                                                                           6. Juli 2011
+
+
+
+
+Ansätze zur Mehrwortgruppenidentifi-
+kation im Deutschen
+ Ignorieren des Problems, d.h. Reduktion auf Grund- und
+  Stammform reicht
+   Terme sind etwa „Wahl“, „Bundeskanzler“ und
+    „Bundeskanzlerwahl“
+   Problem: Suche nach „Wahl“ in Dokument „Bundeskanzlerwahl“
+    nicht erfolgreich
+     Recall leidet
+ Zerlegen zusammengesetzter Wörter in Bestandteile
+   Recall steigt
+   Suche nach „Bundeskanzlerwahl“ faktisch unmöglich
+
+
+
+
+             Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 41)
+                                                                                            6. Juli 2011
+
+
+
+
+Ansätze zur Mehrwortgruppenidentifi-
+kation im Englischen
+ Keine zusammengesetzten Wörter vorhanden
+ Damit sind Worte bereits zerlegt
+   Mehrwortgruppen (compound terms, phrases) tragen eigene
+    Bedeutung
+   z.B. „Information Retrieval“ oder „Artificial Intelligence“
+     Precision leidet
+
+
+
+
+              Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 42)
+                                                                                              6. Juli 2011
+
+
+
+
+Ermittlung von Mehrwortgruppen im
+Englischen
+
+ 1. Ansatz
+     Mehrwortgruppe: Wörter A und B mit maximal n Wörtern
+      dazwischen
+     Verfeinerung: Berücksichtigung von Reihenfolge und
+      Satzgrenzen
+     Achtung: „college junior“, „junior college“ und „junior in
+      college“ tragen völlig unterschiedliche Bedeutungen
+
+
+
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 43)
+                                                                                           6. Juli 2011
+
+
+
+
+Ermittlung von Mehrwortgruppen im
+Englischen
+ 2. Ansatz (Natural Language Processing):
+   Parser ermittelt grammatikalische Satzstruktur
+   Probleme:
+      Nicht alle Sätze sind zur Grammatik konform
+      Komplexe Satzformen
+      Aufwand der Algorithmen
+
+
+     Trotzdem existieren praktisch einsetzbare Parser,
+      siehe etwa in [Str94]
+
+
+
+
+             Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 44)
+                                                                                                                                        06.07.2011
+
+
+
+
+Weizenbaums ELIZA (1966)
+
+
+
+
+                                                                          http://bs.cyty.com/menschen/e-etzold/archiv/science/rat.htm
+       Information Retrieval: 3 Berücksichtigung von Vagheit in Sprache
+                                                                                             6. Juli 2011
+
+
+
+
+Mehrwortgruppen – Identifikation im
+Darmstädter Indexierungsansatz
+einfaches, robustes Verfahren zur Identifikation von
+   Mehrwortgruppen [Lus86]
+ Nur für Deutsch (Beispiel aber in Englisch)
+ Ausgangspunkt ist Mehrwortgruppen-Wörterbuch
+     Durch Analyse zahlreicher Texte automatisch gewonnen
+     Lange Wörter wurden identifiziert und dann zerlegt
+ Analyse des Textes
+     Auftreten einer Komponente einer Mehrwortgruppe
+       Test ob restliche Komponente innerhalb Maximalabstand
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 46)
+                                                                                              6. Juli 2011
+
+
+
+
+Mehrwortgruppen – Identifikation im
+Darmstädter Indexierungsansatz
+Kriterien zur Beschreibung der Form einer Mehrwortgruppe:
+1.   Abstand zwischen Komponenten (alle Wörter, nur Stoppwörter oder
+     nur relevante Wörter)
+2.   Reihenfolge der Komponenten
+3.   Komponenten im gleichen Satz
+4.   Für jede Komponente: Gleichheit bzgl. Grundform oder Stammform
+ Wahrscheinlichkeit syntaktisch korrekter Identifikation von
+  Mehrwortgruppe abschätzbar
+
+
+Experimentelle Untersuchungen haben ergeben, dass von den genannten
+   Merkmalen nur das erste und vierte die Identifikationssicherheit
+   signifikant beeinflusst
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 47)
+                                                                                              6. Juli 2011
+
+
+
+
+Mehrwortgruppen – Identifikation im
+Darmstädter Indexierungsansatz
+Beispieltext:
+Identifizierte Kompon.:
+   TUNNEL JUNCTION
+   TUNNEL CURRENT
+   ELECTRICAL
+    CONDUCTIVITY
+   ALUMINIUM
+    SUBSTRATES
+   MEASURE ELECTRICAL
+   FILM COEFFICIENT
+Die ersten drei korrekt, restliche falsch
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 48)
+                                                                                               6. Juli 2011
+
+
+
+
+Ein Nachsatz zur Begriffswelt
+Präkombination, Präkoordination und Postkoordination
+   Präkombination:
+    bereits in Indexierungssprache sind Begriffsverknüpfungen abgelegt, etwa
+    “Halswirbelfraktur” oder “Europäischer Binnenmarkt”
+
+   Präkoordination:
+    Verknüpfung im Zuge der Indexierung bei der Erstellung der
+    Repräsentationen, etwa “Halswirbel” + “Fraktur”  “Halswirbelfraktur”
+
+
+   Postkoordination:
+    Verknüpfung, die während der Suche mittels Boolescher oder sonstiger
+    Operatoren gebildet werden, etwa “Europa UND Binnenmarkt”
+
+
+
+                 Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 49)
+                                                                                           6. Juli 2011
+
+
+
+
+3.5 Terminologische Kontrolle
+ stammt aus dem Bibliothekswesen
+ Ziel: Vermeidung Mehrdeutigkeit durch „eindeutige“
+  Begriffsverwendung
+ manuelle Indexierung: zweistufiger Prozess
+
+
+  1. Erkennen der wieder auffindbar zu machenden Essenz eines
+     Textes
+  2. Wiedergeben dieser Essenzen in ausreichender Form
+
+
+
+ Verwendung künstlicher Sprache mit eindeutiger
+  Vorzugsbenennung.
+
+             Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 50)
+                                                                                          6. Juli 2011
+
+
+
+
+Terminologische Kontrolle
+Indexierungssprache:
+
+   künstliche Sprache
+   dient zum Wiedergeben der Essenz eines Textes
+   Deskriptoren: Elemente der Indexierungssprache
+
+
+   Terminologiekontrolle: Regeln und Aktivitäten, die
+    einen Deskriptor eindeutig definieren und
+    Mehrdeutigkeiten und Unklarheiten ausschalten
+
+
+
+            Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 51)
+                                                                                              6. Juli 2011
+
+
+
+
+Synonymkontrolle
+ Zusammenfassung von Bezeichnungen zu
+  Äquivalenzklassen
+ Arten von Synonymen:
+      Schreibweisenvarianten: „Friseur“, „Frisör“ oder „UN“, „UNO“,
+       „Vereinte Nationen“
+      unterschiedliche Konnotationen, Sprachstile,
+       Verbreitungsgebiete: „Telefon“, „Fernsprecher“ oder
+       „Pferd“ „Gaul“ oder „Myopie“, „Kurzsichtigkeit“
+      Quasi-Synonyme: „Schauspiel“, „Theaterstück“ oder „Rundfunk“,
+       „Hörfunk“
+ Deskriptor (Vorzugsbenennung): „Ross“, „Gaul“, „Mähre“,
+  „Klepper“, „Pferd“ ⇒ „Pferd“
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 52)
+                                                                                             6. Juli 2011
+
+
+
+
+Synonymkontrolle
+
+Einsatz von Thesauri
+ Äquivalenzklassen von Synonymen und
+ Begriffen mit geringen oder irrelevanten
+  Bedeutungsdifferenzen
+     unterschiedliche Spezifität:
+      „Sprachwissenschaft“ und „Linguistik“
+     Antonyme: „Härte“ und „Weichheit“
+     spezieller Unterbegriff: „Winterweizen“ und „Weizen“
+     Gleichsetzung von Verb und Substantiv: „wohnen“ und
+      „Wohnung“
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 53)
+                                                                            06.07.2011
+
+
+
+
+Allgemeiner Thesaurus
+
+
+
+
+         Information Retrieval: 3 Berücksichtigung von Vagheit in Sprache
+                                                                                              6. Juli 2011
+
+
+
+
+Polysemkontrolle
+Aufteilung mehrdeutiger Bezeichnungen auf mehrere
+  Äquivalenzklassen
+
+   Homographen: Unterscheidung nach sprachlicher Betonung
+    “Tenor” im Sinne von “Haltung, Inhalt, Sinn, Wortlaut” und
+     “Tenor” im Sinne von “hohe Männerstimme”
+
+
+   Polyseme: Unterscheidung nach dem Kontext
+    “Bank” im Sinne von “Sitzgelegenheit” aber auch “Geldinstitut”
+
+
+
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 55)
+                                                                                              6. Juli 2011
+
+
+
+
+Morphologische Zerlegung
+Morphologische Zerlegung: Zerlegung Mehrwortgruppen in ihre
+  Wortbildungselemente, sogenannte Morpheme
+   “Abfallbeseitigung” ⇒ “Abfall” UND “Beseitigung”
+   “Krankenhausbibliothek” ⇒ “Krankenhaus” UND “Bibliothek”
+
+
+Manchmal Zerlegung nicht sinnvoll:
+   “Handschuh”, “Eisenbahn”
+Semantische Zerlegung: Zerlegung in begriffliche Einheiten, welche
+  Ausgangsbegriff reproduzieren
+   “Eisenbahn” ⇒ “Schienenverkehr” UND “Überlandverkehr”
+   “Handschuh” ⇒ “Hand” UND “Bekleidung”
+
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 56)
+                                                                                           6. Juli 2011
+
+
+
+
+Thesaurus
+[Kom75] definiert einen Thesaurus wie folgt:
+       Ein Thesaurus ist eine natürlich-sprachlich basierte
+       Dokumentationssprache, die die umkehrbar eindeutige
+       Zuordnung von Begriffen und Bezeichnungen der natürlichen
+       Sprache anstrebt, indem sie vollständige Vokabularkontrolle
+       und terminologische Kontrolle ausübt und die Begriffe sowie
+       Relationen zwischen ihnen durch Darstellung von Relationen
+       zwischen den Bezeichnungen und gegebenenfalls zusätzliche
+       Hilfsmittel darstellt.
+
+
+
+
+             Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 57)
+                                                                                    06.07.2011
+
+
+
+
+Deskriptor
+
+Calvin Mooers führte 1956 Konzept des Deskriptors ein:
+Repräsentant einer Wortfamilie bzw. Begriffs
+
+
+Festlegung der Bedeutung per Definition
+Gültigkeit nur innerhalb eines Systems
+
+
+
+
+                 Information Retrieval: 3 Berücksichtigung von Vagheit in Sprache
+                                                                                                6. Juli 2011
+
+
+
+
+Thesaurusrelationen
+   Thesaurusrelation: Beziehung zwischen Wörtern in einem
+    Thesaurus
+   nach DIN 1643-1 drei Grundtypen:
+        1.    Äquivalenzrelation: Beziehungen zwischen wirklichen
+              Synonymen
+        2.    Hierarchierelation:
+             1.   Abstraktionsrelation (generische Relation, etwa „LKW
+                  ist ein Kraftfahrzeug“)
+             2.   Bestandsrelation (partitive Relation, etwa
+                  „ein PKW besteht aus Motor, ...“)
+        3.    Assoziationsrelation: bezeichnen verwandte Begriffe,
+              etwa „SQL“ und „Datenbanken“
+
+                  Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 59)
+                                                                                              6. Juli 2011
+
+
+
+
+Thesaurusrelationen
+
+
+
+
+B für broader, N für narrower, T für term, G für generalization,
+P für participation
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 60)
+                                                                                      6. Juli 2011
+
+
+
+
+Thesaurusrelationen
+
+
+
+
+        Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 61)
+                                                                                            6. Juli 2011
+
+
+
+
+Nutzung eines Thesaurus in einem IR-
+System
+ Anfrageerweiterung
+  ⇒ höherer Recall-Wert, schlechterer Precision-Wert
+  ⇒ sollte für Nutzer optional sein
+
+
+ Erstellung der Dokumentenrepräsentation
+  Verwendung der Vorzugsbenennungen
+  ⇒ reduzierter Speicherplatzbedarf
+  ⇒ höherer Recall-Wert, evtl. schlechterer Precision-Wert
+
+
+
+
+              Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 62)
+                                                                                              6. Juli 2011
+
+
+
+
+3.6 Ein sprachunabhängiger Ansatz
+
+ Problem bei Ansätzen zur Grund- und
+  Stammformreduktion, zur Mehrwortgruppenbetrach-
+  tung: feste Bindung an Sprache
+   neue Sprache erfordert Anpassung
+ Sprachunabhängiger Ansatz: n-grams
+     für Trigrams (n = 3) : Eisenbahn  eis, ise, sen, enb, nba, bah, ahn
+     für Bigrams (n = 2): Eisenbahn  ei, is, se, en, nb, ba, ah, hn
+     Manchmal auch mit Wortgrenze:
+      Eisenbahn  #ei, is, se, en, nb, ba, ah, hn#
+
+
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 63)
+                                                                                           6. Juli 2011
+
+
+
+
+Evaluierung von n-grams
+ n-grams zur Indexierung statt Wörter
+ 3 prinzipielle Ansätze beim Vektorraummodell
+  1.   Wörter als Terme (= Dimensionen des Vektorraumes)
+  2.   Stammformen als Terme
+  3.   5-grams als Terme
+       Schritte: Interpunktion entfernen, Umwandlung in
+       Klein-buchstaben, Abbildung Zahlen auf einziges
+       Zeichen
+
+
+
+
+             Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 64)
+                                                                                            6. Juli 2011
+
+
+
+
+Evaluierung von n-grams
+ TREC-Untersuchung:
+       Kurze Anfragen  Wörter und Stammformen als Terme
+        besser als 5-grams
+       Lange Anfragen  5-grams besser
+   Problem: Erklärung des Suchergebnisses auf
+    Grundlage von n-grams unmöglich
+
+
+
+
+              Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 65)
+                                                                                             6. Juli 2011
+
+
+
+
+3.7 Auszeichnung mittels Metadaten
+ Reduzierung der Vagheit der natürlichen Sprache
+  mittels Metadaten
+ Spezielle Felder für Dokument etwa für Titel, Verfasser,
+  Erstellungsdatum
+ Beispiele:
+    Dublin Core
+    Semantic Web
+
+
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 66)
+                                                                                          6. Juli 2011
+
+
+
+
+Dublin Core
+ Dublin Core Metadata Initiative (DCMI): 1995 gegründet
+  in Dublin, Ohio auf Workshop organisiert von Online
+  Computer Library Center (OCLC) und dem National
+  Center for Supercomputing Applications (NCSA)
+ Ziel:
+   Entwicklung eines standardisierten Metadatensatzes
+     zur Beschreibung von digitalen Dokumenten
+   Allgemein verständliche Semantik und erweiterbar
+   Erstellung der Metadaten durch Autoren
+
+
+
+
+            Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 67)
+                                                                                             6. Juli 2011
+
+
+
+
+Auszeichnung
+mittels Metadaten
+   Der Kernsatz von Dublin
+    Core: 15 Elemente
+
+
+   Elemente sind optional und
+    können zudem wiederholt
+    aufgeführt werden
+
+
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 68)
+                                                                                     6. Juli 2011
+
+
+
+
+Auszeichnung mittels Metadaten
+
+
+
+
+       Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 69)
+                                                                                           6. Juli 2011
+
+
+
+
+Auszeichnung mittels Metadaten
+Angabe etwa im Head-Block einer HTML-Datei:
+
+
+
+
+             Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 70)
+                                                                                           6. Juli 2011
+
+
+
+
+Auszeichnung mittels Metadaten
+Semantic Web
+ Begriff von Tim Berners-Lee
+ Ziel: Erweiterung von WWW, um Dokumentsemantik
+  besser durch Algorithmen erfassen zu können
+   bessere Suche, besserer Dokumentenaustausch
+
+ Realisierung:
+   Anreicherung von Inhalten mittels maschinenverständlicher
+    Metadaten
+   Schichtenarchitektur
+
+ Standardisierung durch World Wide Web Consortium
+  (W3C)
+             Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 71)
+                                                                                      6. Juli 2011
+
+
+
+
+Auszeichnung mittels Metadaten
+Semantic Web
+
+
+
+
+        Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 72)
+                                                                                               6. Juli 2011
+
+
+
+
+Auszeichnung mittels Metadaten
+Semantic Web
+   Unicode: Standard mit Schriftzeichen für viele Sprachen
+   URI (Uniform Resource Identification): einheitliche Adressierung
+   RDF (Resource Description Framework): Repräsentation der
+    Metadaten auf Basis von XML
+   Ontologie:
+     Beziehung/Regeln zwischen einzelnen Elementen
+     W3C: OWL (Web Ontology Language)
+ Logic: maschinelles Schließen auf Metadaten
+ Trust und Proof: Herstellung von Vertrauenswürdigkeit mittels
+  Signaturen und Verschlüsselung
+
+
+
+                 Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 73)
+                                                                                             6. Juli 2011
+
+
+
+
+RDF-Modell
+
+ allgemeine Sprache für Metadaten für WWW-
+  Ressourcen
+ Resourcen: Dokumente, Bilder, beliebige Objekte
+  etwa Waren mit Preis und Verfügbarkeit
+ Beispiel: Die Webseite http://ail.inf.uni-bayreuth.de/ hat
+  einen Autor, dessen Name Andreas Henrich ist.
+     URL zur Identifikation einer Ressource  Subject
+     Autor als Eigenschaft (Attribut)  Predicate
+     Andreas Henrich als Attributwert  Object
+
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 74)
+                                                                                             6. Juli 2011
+
+
+
+
+RDF-Modell
+
+Überführung natürlichsprachlicher Aussage in
+  maschinenverständliches Format benötigt:
+
+     maschinenverständliche Identifikatoren für Subject, Predicate
+      und Object
+     Maschinell lesbares Format für Identifikatoren
+
+
+ Uniform Resource Identifier (URI)
+
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 75)
+                                                                                          6. Juli 2011
+
+
+
+
+Uniform Resource Identifier (URI)
+ URL für Webseiten als Untermenge von URI
+ URI zur eindeutigen Identifizierung beliebiger Objekte
+ RDF: URI für Subject, Predicate und Object
+
+
+
+
+            Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 76)
+                                                                                             6. Juli 2011
+
+
+
+
+RDF - Modell
+
+ Beispiel: Die Webseite http://ai1.inf.uni-bayreuth.de/ hat
+  einen Autor, dessen Name Andreas Henrich ist.
+
+
+ Bestandteile identifiziert durch URI
+     Subject: http://ai1.inf.uni-bayreuth.de/
+       URL
+     Predicate: http://purl.org/dc/elements/1.1/creator
+       Verwendung von Dublin Core
+     Object: http://ai1.inf.uni-bayreuth.de/mitarbeiter/henrich/
+       Homepage von Andreas Henrich
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 77)
+                                                                                             6. Juli 2011
+
+
+
+
+RDF – Modell als Graph
+RDF-Aussagen als Knoten und Kanten in einem Graphen
+   Knoten: Subject und die Object durch Knoten
+   Benannte und gerichtete Kante: Predicate
+
+
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 78)
+                                                                                             6. Juli 2011
+
+
+
+
+RDF – Modell als Graph
+
+ Sammlung von Aussagen, etwa
+
+     Webseite http://ai1.inf.uni-bayreuth.de/ hat Autor, dessen
+      Name Andreas Henrich ist
+     Webseite http://ai1.inf.uni-bayreuth.de/ hat Erstellungsdatum
+      mit Wert 1.10.2001
+     Webseite http://ai1.inf.uni-bayreuth.de/ hat als Sprache den
+      Wert Deutsch
+
+
+ Gemeinsamer Graph von Knoten und Kanten
+
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 79)
+                                                                                            6. Juli 2011
+
+
+
+
+RDF – Modell als Graph
+
+
+
+
+ Wert als Literal und nicht als URI
+ Object einer Aussage kann Subject anderer Aussage sein
+
+
+
+
+              Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 80)
+                                                                                             6. Juli 2011
+
+
+
+
+RDF – Modell als Graph
+
+
+
+
+   zum Autor werden weitere Metadaten angegeben (Straße, Ort)
+   Autor ist also gleichzeitig Object der einen Aussage und Subject der
+    zweiten Aussage
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 81)
+                                                                                              6. Juli 2011
+
+
+
+
+RDF / XML Syntax Spezifikation
+
+   RDF definiert eine Syntax für die Abbildung der RDF-Graphen in
+    XML
+   Knoten und Kanten eines RDF-Graphen werden als Elemente,
+    Attribute, Elementinhalte und Attributwerte in XML abgebildet
+   URIs für Eigenschaften und Objekte werden mittels
+    Namensräumen abgebildet
+
+
+
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 82)
+                                                                                              6. Juli 2011
+
+
+
+
+RDF / XML Syntax Spezifikation
+   Beispiel:
+
+
+
+
+   Predicate als Element aus Dublin-Core-Modell
+
+
+                Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 83)
+                                                                                          6. Juli 2011
+
+
+
+RDF / XML Syntax Spezifikation
+Erweiterung um lokal definiertes Vokabular ex
+
+
+
+
+            Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 84)
+                                                                                            6. Juli 2011
+
+
+
+
+RDF-Schema
+
+ Mittels RDF-Schema (RDFS) lässt sich ein Typsystem
+  erstellen
+ Klassen:
+     ähnlich Klasse in objektorientierten Programmsprachen
+     Können beliebige Objekte repräsentieren,
+      etwa Webseiten, Personen, Dokumententypen, Dinge oder
+      auch abstrakte Konzepte
+     Unterstützung von Vererbung
+
+
+
+ RDF-Schema wird in RDF erstellt
+
+
+
+              Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 85)
+                                                                                             6. Juli 2011
+
+
+
+
+RDF-Schema: Klassen
+Im Folgenden werden in RDFS drei Klassen definiert:
+     Automobil: Basisklasse Automobil wird von RDF-Schema-
+      Basisklasse Resource abgeleitet
+
+
+     Pkw: Klasse Pkw wird von Klasse Automobil abgeleitet
+
+
+     Sportwagen: die Klasse Sportwagen wiederum von Klasse Pkw
+
+
+
+
+               Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 86)
+                                                                                     6. Juli 2011
+
+
+
+
+RDF-Schema: Klassen
+
+
+
+
+       Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 87)
+                                                                                            6. Juli 2011
+
+
+
+
+RDF-Schema: Eigenschaften
+Eigenschaften (Predicates) zu den einzelnen Klassen können wie
+   folgt definiert werden:
+
+
+
+
+              Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 88)
+                                                                                               6. Juli 2011
+
+
+
+
+RDF-Schema
+ Eigenschaften (Predicate) haben als Kante Ausgangstyp
+  (domain) und Zieltyp (range)
+
+     Ausgangstyp:
+            Muss Klasse sein
+     Zieltyp:
+            kann ein Literal
+            aber auch Klasse sein
+
+
+
+
+                 Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 89)
+                                                                                               6. Juli 2011
+
+
+
+
+RDF-Dokument
+
+
+
+
+Hier Subject mit rdf:ID statt rdf:about  referenzierbar mittels
+   Relativer URI: „#AndreasHenrichPKW“
+   Absoluter URI: „http://ai1.inf.uni-bayreuth.de/parkplatz/
+    #AndreasHenrichPKW“
+
+                 Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 90)
+                                                                                               6. Juli 2011
+
+
+
+
+RDF-Dokument
+
+
+
+
+Hier Subject mit rdf:ID statt rdf:about  referenzierbar mittels
+   Relativer URI: „#AndreasHenrichPKW“
+   Absoluter URI: „http://ai1.inf.uni-bayreuth.de/parkplatz/
+    #AndreasHenrichPKW“
+
+                 Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 90)
+                                                                                               6. Juli 2011
+
+
+
+
+RDF-Dokument
+
+
+
+
+Hier Subject mit rdf:ID statt rdf:about  referenzierbar mittels
+   Relativer URI: „#AndreasHenrichPKW“
+   Absoluter URI: „http://ai1.inf.uni-bayreuth.de/parkplatz/
+    #AndreasHenrichPKW“
+
+                 Information Retrieval 1: 3. Berücksichtigung der Vagheit in Sprache (S. 90)
+

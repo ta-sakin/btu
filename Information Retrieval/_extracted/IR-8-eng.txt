@@ -1,0 +1,860 @@
+                                      Probabilistic Retrieval
+
+
+
+
+                              8. Probabilistic Retrieval
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval   Lecture in summer semester 501 / 543
+                                      Probabilistic Retrieval
+
+
+
+Outline
+
+
+
+
+    1   BIR: Binary Independence Retrieval
+    2   The Ideal Answer
+    3   Formal Definition
+    4   Relevance Feedback
+    5   BM25
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval   Lecture in summer semester 502 / 543
+                                      Probabilistic Retrieval
+
+
+
+What should be calculated?
+
+
+
+
+        So far: no theoretically based models, but still good results
+        Goal: theoretical foundation for retrieval
+        Probability that a document D is relevant with respect to a query Q
+        Chance:
+           ▶   probability for relevance/probability for irrelevance
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval   Lecture in summer semester 503 / 543
+                                      Probabilistic Retrieval   BIR: Binary Independence Retrieval
+
+
+
+8.1 BIR: Binary Independence Retrieval
+
+
+
+        Robertson/Sparck Jones [1976]
+        Basic assumptions:
+           ▶ binary term weights, i.e. wdk ∈ {0, 1}
+           ▶ cf. [0, 1] for vector space model
+           ▶ independence assumption of the individual dimensions of the
+
+             representation vector
+           ▶ same as in the vector space model
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval           Lecture in summer semester 504 / 543
+                                      Probabilistic Retrieval   BIR: Binary Independence Retrieval
+
+
+
+Definitions
+
+
+        Document: D
+        Query: Q
+        Set of relevant documents: R + (Q)
+        Probability that D is relevant to Q
+
+                                                 P(D ∈ R + (Q))
+
+        Representation of a document: β(D)
+        Dimensionality (#terms): t
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval           Lecture in summer semester 505 / 543
+                                      Probabilistic Retrieval   BIR: Binary Independence Retrieval
+
+
+
+Core idea
+
+
+
+        Conditional probability that document D ′ , which has the same
+        representation as D, is relevant for query Q
+
+                                  P(D ′ ∈ R + (Q)|β(D ′ ) = β(D))
+
+        actually: probability of relevance for all documents of the same
+        representation
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval           Lecture in summer semester 506 / 543
+                                      Probabilistic Retrieval   BIR: Binary Independence Retrieval
+
+
+
+Example
+
+
+
+
+                                      P(D ′ ∈ R + (Q)|β(D ′ ) = x)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval           Lecture in summer semester 507 / 543
+                                      Probabilistic Retrieval   BIR: Binary Independence Retrieval
+
+
+
+Example - A new document
+
+
+
+
+                                      P(D ′ ∈ R + (Q)|β(D ′ ) = x)
+
+Relevance probability for D10 is 12 , because it is in class (1, 0)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval           Lecture in summer semester 508 / 543
+                                      Probabilistic Retrieval   BIR: Binary Independence Retrieval
+
+
+
+Open problem
+
+        How is the relevance probability determined empirically?
+        2t possible representations
+        Much more than 2t documents are needed for evaluation!
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval           Lecture in summer semester 509 / 543
+                                      Probabilistic Retrieval   The Ideal Answer
+
+
+
+8.2 The Ideal Answer
+
+
+
+        Assumption that there is an ideal answer that contains all relevant
+        documents regarding Q
+        Wanted: representation of this answer
+        Problem: We do not know it!
+        Approximation via relevance feedback to the representation of the
+        ideal answer
+           ▶   representation of the ideal answer contains either 1 or 0 per dimension
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval       Lecture in summer semester 510 / 543
+                                      Probabilistic Retrieval   The Ideal Answer
+
+
+
+Properties of the ideal answer
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval       Lecture in summer semester 511 / 543
+                                      Probabilistic Retrieval   The Ideal Answer
+
+
+
+Further assumptions
+
+
+        Probability that D is relevant for Q depends only on query
+        representation and document representation
+        There exists an ideal answer R + (Q)
+        Chance that D is relevant with respect to Q:
+
+
+                                                 P(D ∈ R + (Q))
+                                                     / R + (Q))
+                                                 P(D ∈
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval       Lecture in summer semester 512 / 543
+                                      Probabilistic Retrieval   The Ideal Answer
+
+
+
+Chance
+
+
+        If probability for relevance becomes 0, then chance is also 0
+        For relevance probability of 1, chance goes to infinity
+        Chance grows monotonically
+           ▶   i.e. it does not matter whether sorting is done by chance or probability
+
+
+
+                                                 P(D ∈ R + (Q))
+                                                     / R + (Q))
+                                                 P(D ∈
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval       Lecture in summer semester 513 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+8.3 Formal Definition
+
+
+
+
+        Complement to R + (Q) is R − (Q): binary relevance decision
+           ▶   i.e. union are all documents
+        Weights of representation vectors are binary, i.e. wdk ∈ {0, 1}
+           ▶   applies to documents and query
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 514 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Ranking criterion
+
+
+
+        Similarity between D and Q
+
+
+                                                   P(D ′ ∈ R + (Q)|β(D ′ ) = β(D))
+                           sim(D, Q) =
+                                                   P(D ′ ∈ R − (Q)|β(D ′ ) = β(D))
+
+
+        Chance that D ′ is relevant if it has the same representation as D
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 515 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Bayes’ theorem
+
+
+        Deals with conditional probabilities, e.g. a under condition b
+
+
+                                                                P(a ∧ b)
+                                             P(a|b) =
+                                                                 P(b)
+
+
+                                                                P(a ∧ b)
+                                             P(b|a) =
+                                                                 P(a)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 516 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Example for Bayes’ theorem
+
+
+
+
+        P(b) = 10%
+        P(a ∧ b) = 5%
+        P(a|b) = 0.05
+                  0.1 = 0.5 ⇒ 50%
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 517 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Bayes transformations
+
+
+        Sometimes it can be convenient to infer probabilities from
+        probabilities that are easy to determine
+
+
+                                                     P(a ∧ b)
+                                  P(b|a) =                                  | · P(a)
+                                                      P(a)
+
+
+                                        P(a) · P(b|a) = P(a ∧ b)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval           Lecture in summer semester 518 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Bayes transformations
+
+
+
+
+                                                                P(a ∧ b)
+                                             P(a|b) =
+                                                                 P(b)
+
+
+                                                            P(a) · P(b|a)
+                                         P(a|b) =
+                                                               P(b)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 519 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Insertion into chance
+                          P(a|b) = P(a∧b)
+                                    P(b)                        P(a|b) = P(a)·P(b|a)
+                                                                            P(b)
+
+
+
+
+                             P(D ′ ∈ R + (Q)) · P(β(D ′ ) = β(D)|D ′ ∈ R + (Q))
+         sim(D, Q) =
+                                              P(β(D ′ ) = β(D))
+                                           P(β(D ′ ) = β(D))
+                          ·
+                            P(D ′ ∈ R − (Q)) · P(β(D ′ ) = β(D)|D ′ ∈ R − (Q))
+                             P(D ′ ∈ R + (Q)) · P(β(D ′ ) = β(D)|D ′ ∈ R + (Q))
+                          =
+                             P(D ′ ∈ R − (Q)) · P(β(D ′ ) = β(D)|D ′ ∈ R − (Q))
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 520 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Further simplification
+
+
+        Probability that any document is (ir)relevant remains constant per
+        query
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 521 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Preliminary final result
+
+
+
+
+                                               P(β(D ′ ) = β(D)|D ′ ∈ R + (Q))
+                       sim(D, Q) ≈
+                                               P(β(D ′ ) = β(D)|D ′ ∈ R − (Q))
+
+
+        Numerator:
+           ▶   probability that representation is given if the document is relevant
+        Denominator:
+           ▶   probability that representation is given if it is irrelevant
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 522 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Example
+
+
+
+
+        New document D11 = (1, 1), sim(D11, Q) = 4
+
+
+                                         P(β(D ′ ) = β(D)|D ′ ∈ R + (Q))                         2
+                   sim(D, Q) ≈                                                                   3
+                                                                                                 1
+                                         P(β(D ′ ) = β(D)|D ′ ∈ R − (Q))                         6
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 523 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Example
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 524 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Componentwise evaluation
+
+
+
+        Probabilities are no longer determined per description vector, but per
+        vector component
+        We replace β(D ′ ) = β(D) with componentwise equality
+
+
+                      P(∀{i|wdi =1} (wd ′ i = 1) ∧ ∀{i|wdi =0} (wd ′ i = 0)|D ′ ∈ R + (Q)|)
+ sim(D, Q) ≈
+                      P(∀{i|wdi =1} (wd ′ i = 1) ∧ ∀{i|wdi =0} (wd ′ i = 0)|D ′ ∈ R − (Q)|)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 525 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+The “Independence” in the BIR model
+
+
+                      P(∀{i|wdi =1} (wd ′ i = 1) ∧ ∀{i|wdi =0} (wd ′ i = 0)|D ′ ∈ R + (Q)|)
+ sim(D, Q) ≈
+                      P(∀{i|wdi =1} (wd ′ i = 1) ∧ ∀{i|wdi =0} (wd ′ i = 0)|D ′ ∈ R − (Q)|)
+
+
+        Assuming that all components are independent of each other, then:
+        P(a ∧ b) = P(a) · P(b)
+
+
+                             ( {i|wdi =1} P(wd ′ i = 1)|D ′ ∈ R + (Q)))
+                              Q
+                 sim(D, Q) ≈ Q
+                             ( {i|wdi =1} P(wd ′ i = 1)|D ′ ∈ R − (Q)))
+                            ( {i|wdi =0} P(wd ′ i = 0)|D ′ ∈ R + (Q)))
+                             Q
+                           · Q
+                            ( {i|wdi =0} P(wd ′ i = 0)|D ′ ∈ R − (Q)))
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 526 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Further transformations
+
+
+
+
+        Goal: avoid multiplying all terms
+        We know:
+           ▶   log (a1 · a2 · a3 ) = log (a1 ) + log (a2 ) + log (a3 )
+           ▶   if a1 > a2 > a3, then this is also true for their logarithms
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 527 / 543
+                                      Probabilistic Retrieval    Formal Definition
+
+
+
+Final formula
+
+        Under the following assumptions:
+           ▶ binary relevance judgment (P(R + ) + P(R − ) = 1)
+           ▶ we consider only query terms = 1
+           ▶ we can omit all factors that are the same or assumed to be the same
+
+             for all documents related to the query
+           ▶ we obtain:
+
+
+
+
+                                      X                      P(wd ′ i = 1)|D ′ ∈ R + (Q))
+         sim(D, Q) ≈                               (log
+                                                           1 − P(wd ′ i = 1)|D ′ ∈ R + (Q))
+                              {i|wqi =wdi =1}
+
+                                                                1 − P(wd ′ i = 1)|D ′ ∈ R − (Q))
+                                                    + log                                        )
+                                                                  P(wd ′ i = 1)|D ′ ∈ R − (Q))
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval         Lecture in summer semester 528 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Determination of the initial result
+
+
+
+
+        Searched: estimate that P(wd ′ i = 1|D ′ ∈ R + (Q)) or
+        P(wd ′ i = 1|D ′ ∈ R − (Q))
+        Assumption: equally frequent, i.e.:
+           ▶   P(wd ′ i = 1|D ′ ∈ R + (Q)) = 0.5
+           ▶   P(wd ′ i = 1|D ′ ∈ R − (Q)) = nNi
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 529 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Determination of the initial result
+
+
+
+                                                    X                   0.5      1 − ni
+                      sim(D, Q) ≈                                (log       + log ni N )
+                                                                        0.5        N
+                                            {i|wqi =wdi =1}
+                                                    X                  N − ni
+                                        =                        log
+                                                                         ni
+                                            {i|wqi =wdi =1}
+
+
+
+        Strong similarity to the tf · idf formula
+           ▶   idf : N − ni ≈ N for large N
+           ▶   tf : because of sum index and binary values
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 530 / 543
+                                      Probabilistic Retrieval   Formal Definition
+
+
+
+Example
+
+
+        Index vocabulary t = 8
+        Query vector Q = (1, 0, 0, 1, 1, 0, 0, 0)
+        Number of documents N = 500
+        n1 = 87; n4 = 23; n5 = 100
+        Document D = (1, 0, 0, 0, 1, 1, 0, 0)
+
+
+                                              500 − 87           500 − 100
+                sim(D, Q) = log (                      ) + log (           ) ≈ 1.28
+                                                 87                 100
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval        Lecture in summer semester 531 / 543
+                                      Probabilistic Retrieval   Relevance Feedback
+
+
+
+8.4 Relevance Feedback
+
+
+
+
+        Idea of relevance feedback
+           ▶   pseudo relevance
+                   ⋆   feedback does not require user interaction
+                   ⋆   let V be the set of r highest ranked documents
+           ▶   real relevance feedback
+                   ⋆   let V ∗ be the set of positively evaluated documents
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval         Lecture in summer semester 532 / 543
+                                      Probabilistic Retrieval   Relevance Feedback
+
+
+
+Adjustment according to relevance feedback
+
+
+
+
+                                                                    |{D ′ ∈ V |wd ′ i = 1}|
+                    P(wd ′ i = 1|D ′ ∈ R + (Q)) =
+                                                                             |V |
+
+
+                                                                ni − |{D ′ ∈ V |wd ′ i = 1}|
+                P(wd ′ i = 1|D ′ ∈ R − (Q)) =
+                                                                        N − |V |
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval         Lecture in summer semester 533 / 543
+                                      Probabilistic Retrieval     Relevance Feedback
+
+
+
+Variants for very small sets V
+
+                                                                  |{D ′ ∈ V |wd ′ i = 1}| + 0.5
+               P(wd ′ i = 1|D ′ ∈ R + (Q)) =
+                                                                            |V | + 1
+
+                                                            ni − |{D ′ ∈ V |wd ′ i = 1}| + 0.5
+            P(wd ′ i = 1|D ′ ∈ R − (Q)) =
+                                                                      N − |V | + 1
+
+Or
+
+
+                                                                  |{D ′ ∈ V |wd ′ i = 1}| + nNi
+                P(wd ′ i = 1|D ′ ∈ R + (Q)) =
+                                                                           |V | + 1
+
+                                                                ni − |{D ′ ∈ V |wd ′ i = 1}| + nNi
+            P(wd ′ i = 1|D ′ ∈ R − (Q)) =
+                                                                          N − |V | + 1
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval           Lecture in summer semester 534 / 543
+                                      Probabilistic Retrieval   Relevance Feedback
+
+
+
+Criticism of the BIR model
+
+
+
+        Independence assumption of the individual components (as with the
+        vector space model)
+        Initial result is estimated very roughly, relevance feedback becomes
+        necessary
+           ▶   improvement only valid for one query, no general learning
+        Binary weighting is less informative than weighting in vector space
+        model
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval         Lecture in summer semester 535 / 543
+                                      Probabilistic Retrieval   Relevance Feedback
+
+
+
+Experiments
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval         Lecture in summer semester 536 / 543
+                                      Probabilistic Retrieval   BM25
+
+
+
+8.5 BM25
+
+
+
+
+        Developed by Robertson/Sparck Jones
+        First used in the Okapi system at City University (London)
+        Successfully used on TREC
+        Based on probabilistic retrieval
+        Combines tf · idf variant with probabilistic retrieval
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval   Lecture in summer semester 537 / 543
+                                      Probabilistic Retrieval   BM25
+
+
+
+BM25
+
+
+
+                           t
+                           X                               (k1 + 1)tfdi            (k3 + 1)tfqi
+      sim(D, Q) =                IDF (ni ) ·                        dl
+                                                                                 ·
+                                                   k1 ((1 − b) + b avdl ) + tfdi     k3 + tfqi
+                           i=1
+                                 N − ni + 0.5
+          IDF (ni ) = log
+                                   ni + 0.5
+
+
+        k1 (between 1.0 and 2.0), b (normally 0.75) and k3 (between 0 and
+        1000) are constants
+        dl: length of the document in words
+        avdl: average length of documents
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval   Lecture in summer semester 538 / 543
+                                      Probabilistic Retrieval   BM25
+
+
+
+BM25 vs. vector space model
+
+
+
+
+        Attention! If ni > N2 , IDF can become negative:
+           ▶   e.g. set to zero
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval   Lecture in summer semester 539 / 543
+                                      Probabilistic Retrieval   BM25
+
+
+
+Slope
+
+
+
+
+        In the vector space model, the disadvantage of short documents
+        should be eliminated by normalization
+        Problem: short documents contain few terms, i.e. their description
+        vectors have few components with wdk > 0
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval   Lecture in summer semester 540 / 543
+                                      Probabilistic Retrieval   BM25
+
+
+
+Slope
+
+
+
+
+        Result:
+           ▶ short documents have large component values after normalization,
+             since normalized length 1 is “divided” among few components
+           ▶ long documents have small component values
+
+           ▶ ⇒ with few query terms, documents with high wdk values are preferred
+
+             (short documents)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval   Lecture in summer semester 541 / 543
+                                      Probabilistic Retrieval   BM25
+
+
+
+Slope
+
+
+                          v                   v
+                          u t                 u t
+                          uX             N 2 u X
+        Old normalization t   (tfdi · log ) = t   wdi2 is replaced by:
+                                         ni
+                                          i=1                                  i=1
+
+
+                                                                      old normalization
+                    kfd = (1 − slope) + slope ·
+                                                                  average old normalization
+
+        Slope mostly in the range 0.65 − 0.75 (determine empirically)
+        New wdk = kfd · wdk
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval         Lecture in summer semester 542 / 543
+                                      Probabilistic Retrieval   BM25
+
+
+
+Slope at BM25
+
+
+                           t
+                           X                               (k1 + 1)tfdi            (k3 + 1)tfqi
+      sim(D, Q) =                IDF (ni ) ·                        dl
+                                                                                 ·
+                                                   k1 ((1 − b) + b avdl ) + tfdi     k3 + tfqi
+                           i=1
+                                 N − ni + 0.5
+          IDF (ni ) = log
+                                   ni + 0.5
+
+
+        b and k1 control the slope cf. vector space model
+
+
+                                                                    old normalization
+                kfd = (1 − slope) + slope ·
+                                                                average old normalization
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval   Lecture in summer semester 543 / 543
+

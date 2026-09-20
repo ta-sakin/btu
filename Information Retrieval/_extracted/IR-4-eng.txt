@@ -1,0 +1,1644 @@
+                 Simple IR Models and their Implementation
+
+
+
+
+      4. Simple IR Models and their Implementation
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 213 / 543
+                 Simple IR Models and their Implementation
+
+
+
+Outline
+
+
+
+    1   Pattern Matching
+    2   Word Search
+    3   Boolean Retrieval
+    4   Coordination Level Match
+    5   Extended Boolean
+    6   Fuzzy Set Model
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 214 / 543
+                 Simple IR Models and their Implementation
+
+
+
+IR model
+
+
+
+Implicit as well as explicit aspects:
+     Assumptions, for example:
+           ▶   no matter if word occurs once or ten times in the document
+           ▶   independence of individual index terms
+        Representation of documents and queries
+        Retrieval function
+           ▶   calculation of relevance score for a query and a document
+           ▶   approximation of the relevance probability
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 215 / 543
+                 Simple IR Models and their Implementation    Pattern Matching
+
+
+
+4.1 Pattern Matching
+
+
+        Very simple IR model
+        Submodel of some IR models
+        Task: search for a string (search pattern) in longer text
+        Realization:
+           ▶ compare sequentially search pattern of length m from left to right with
+             the text of length n to be searched
+             ⇒ O(m ∗ n)
+           ▶ better algorithms: Boyer-Moore-Horspool-Sunday algorithm,
+
+             Knuth-Morris-Pratt algorithm
+             ⇒ O(n)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval      Lecture in summer semester 216 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+4.2 Word Search
+
+
+
+
+        Very simple IR model
+        Task:
+           ▶   given: word W
+           ▶   result: all documents containing W
+        possible extension: use stem or base form reduction
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 217 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Word set
+
+
+
+
+Extension to word set {W1 , ..., Wk }
+        Search for documents containing all given words
+        Implicit AND combination over the searched words
+        First step to Boolean retrieval
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 218 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Difference to pattern matching
+
+
+
+
+        No test whether given pattern or search word is contained in one text,
+        but determination of set of documents containing search word
+        ⇒ extension to word sets
+        Search word must appear in the document as a word
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 219 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Implementation approaches for word search
+
+
+
+        Pattern matching algorithm on each document and subsequent test
+        for word
+           ▶   problem: search effort grows linearly with the size of the document
+               collection
+        Create index structure in advance
+           ▶   inverted lists
+           ▶   signatures
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 220 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Inverted lists
+For each word a sorted list of documents containing this word is managed
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 221 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Word search: search word
+
+
+
+
+Search for all documents that contain exactly the search word
+        Scanning through the inverted list for the given search word
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 222 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Word search: same stem
+
+
+
+
+        Search for occurrences with the same stem:
+           1   form stem for search word
+           2   create temporary list set: all lists for words whose stem is identical to
+               the stem of the search word
+           3   form union of the document IDs of the lists
+           4   documents of the union set form the result of the query
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 223 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Word search: same stem
+
+
+
+        Efficient determination of the union set over multiple lists using
+        sorting of the lists by document IDs
+           ▶   lists are scanned in parallel
+           ▶   exploiting the sorting:
+                   1   initialize all lists to the first element
+                   2   smallest current element gets into result list
+                   3   lists with smallest current element are set to next element
+                   4   if there are still elements in total
+                       ⇒ step 2
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 224 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Word search: by word set
+
+
+        Intersection of affected lists
+        Lists are scanned in parallel
+        Exploiting the sorting of the lists
+           1   initialize all lists to the first element
+           2   all current elements the same
+               ⇒ transfer to results list
+           3   all current elements not equal
+               ⇒ lists with smallest element are set to next element
+           4   if there are still elements in total
+               ⇒ step 2
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 225 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Implementation of inverted lists
+
+
+Required storage space:
+    Example TREC collection
+           ▶ contains article from Financial Times
+           ▶ size of the document collection is 564 MB
+           ▶ collection contains 210,158 articles, each of which has an average of
+
+             about 150 different words
+           ▶ assumption: 4 bytes per document ID
+
+             ⇒ 210,158 * 150 * 4 bytes = 126,094,800 bytes = 120 MB
+           ▶ disregarded: terms themselves, administrative data, frequency of
+
+             occurrence, location
+           ▶ conclusion: index can quickly reach 20% of the document collection
+
+             ⇒ background storage
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 226 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Zipf’s law
+
+
+
+Observations while counting words in texts:
+        A few words occur very frequently
+        English texts:
+           ▶ the two most frequently occurring words represent 10% of all
+             occurrences
+           ▶ the six most frequent words represent 20% of all occurrences
+
+           ▶ the fifty most frequent words represent 50% of all occurrences
+
+
+        Very many words occur very rarely
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 227 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Zipf’s Law: Brown and Lob
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 228 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Zipf’s law
+
+        Sort words by frequency of occurrence
+        ⇒ product of rank number and frequency of occurrence is constant
+        (Zipf’s Law)
+           ▶ most common word about 7 million times
+           ▶ second most common word about 3.5 million times
+           ▶ third most common word about 2.3 million times
+
+        Formal:
+           ▶ representative text corpus C
+           ▶ W (C ) is the set of words that occur in C
+           ▶ h(w ) is frequency of which a word w ∈ W (C ) occurs in the corpus
+           ▶ let r (w ) denote the rank of w ∈ W (C ) when the words are sorted by
+
+             decreasing frequency
+           ▶ then: r (w ) ∗ h(w ) ≈ c(constant), ∀w ∈ W (C )
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 229 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Zipf’s Law
+
+
+
+
+                                                                              Example from Wikipedia
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval     Lecture in summer semester 230 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Zipf’s Law and inverted lists
+
+
+
+Conclusion:
+        Few long lists
+        despite removal of stop words
+        Many short lists
+        despite removal of very rare words (Crouch)
+        Search structure needed to map words to corresponding list
+        ⇒ e.g. B-tree or digital trees
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 231 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+B + -tree
+
+
+
+
+        Known from lecture database technology
+           ▶   application in databases and file systems
+        Balanced tree
+        Storage of data sorted by keys
+        Leaf nodes contain data
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 232 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Inverted list management
+
+
+        Persistent management on background storage
+        Management in blocks/pages
+           ▶ 1:1 mapping between lists and pages not useful due to variability of list
+             lengths
+           ▶ several small lists on one page
+           ▶ large lists across multiple pages
+
+        Multilevel addressing of a list
+           1   file identifier
+           2   block number in file
+           3   start address in block (additionally length)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 233 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Inverted list management
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 234 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Signatures
+
+
+        Alternative to inverted lists
+        Hash mapping l-character word w1 w2 ...wl to signature
+        (bit string of fixed length F )
+        Efficient comparison operations on signatures
+        Example hash mapping:
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 235 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Signature properties
+
+
+
+
+        Hash function h usually maps large domain to small range (filter)
+        h(word1 ) = h(word2 ) with word1 ̸= word2 (collision) is possible, i.e.
+        different words get same hash value
+        Operations on signatures are therefore not exact
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 236 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Signature file idea
+
+
+
+        Signature file as inexact filter
+        Check necessary condition for document to contain word
+        Inexact ⇒ although fulfilling the condition, document does not always
+        contain word (false alarm)
+        False alarms must be filtered out afterwards
+        But: post-filter on relatively few documents
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 237 / 543
+                 Simple IR Models and their Implementation                  Word Search
+
+
+
+Signature file: architecture
+
+                                                              Query
+
+
+
+
+                                                                           Query
+
+
+
+                                        Hash function
+
+
+                             Query signature                                   Due to False Alarms
+                                                            Preselection
+                                                            of document
+                                                            identifiers
+                                  Signature matching 1---------i.i            String matching   1------i► Resu lt
+
+
+
+
+                                               Signatures                              Selected
+                                                                                       documents
+
+
+
+
+                                      Signatures                                   Texts
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)                 Lecture Information Retrieval                          Lecture in summer semester 238 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Motivation for signatures
+
+
+
+
+        Pattern matching
+           ▶   all documents must always be scanned
+        Signatures
+           ▶ signature comparison faster than pattern matching
+           ▶ candidate selection
+           ▶ pattern matching on smaller set of documents
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 239 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Overlaying signatures
+
+
+
+Superimposed Coding:
+        Mapping of 1 word to 1 signature consisting of F bits with m
+        (signature   weight) bits set
+             F
+               
+        ⇒ m      different signatures possible
+        Signatures of several words are bitwise by OR combined ⇒ block
+        signature
+        ⇒ Fewer signatures per document
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 240 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Block signature: example
+
+
+
+F=12, m=4
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 241 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Hash function
+
+
+
+Problem: hash value should generate m set bits per word in bitcode of
+length F
+        Use more than m hash functions with mapping to [1...F ]
+        Results indicate position of the set bits
+        Equal positions possible
+        ⇒ use of the m first different positions
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 242 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Hash function
+
+
+        i-th hash function with mapping to [0...F − 1]
+        Argument: l-character word w1 w2 ...wl
+        i-th prime number pi
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 243 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Parameters for superimposed coding
+
+
+
+
+        Signature length F
+        Signature weight m
+        Overlay factor D:
+        number of word signatures per block signature
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 244 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Logical blocks
+
+
+
+
+        Documents are divided into logical blocks (and a rest block)
+        A logical block contains exactly D different words to be indexed
+        Each logical block has a block signature
+        Result: multiple block signatures for one document
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 245 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Search for documents
+
+
+
+Search for documents containing word w
+        Calculation of word signature Sw for word w
+        Bitwise AND combination of Sw with each block signature Sbi of the
+        signature file
+        If Sw = Sw ∧ Sbi , then corresponding document is in candidate set
+        Removal of false alarms from candidate set using pattern matching
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 246 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Conjunctive query
+
+
+        Several search words combined with AND
+        ⇒ OR combination the signatures of the search words of the query
+        ⇒ Only documents found where all query words are within one block
+
+
+
+
+        Query “Information Retrieval” (101) would not find the document
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 247 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Conjunctive query
+
+
+
+
+        Alternative:
+           ▶   determine candidate set for each query word
+           ▶   before pattern matching ⇒ set intersection
+        Advantage: procedure works always
+           ▶   How to proceed with OR combination?
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 248 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+False Alarms
+
+
+
+        Can occur with signature files
+        This means:
+           ▶   block or its block signature fulfills necessary condition
+           ▶   the pattern to be searched for is not contained in the block or the
+               document represented
+        Reasons:
+           ▶   hash function can map different words to identical signature
+           ▶   by overlaying the signatures
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 249 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+False alarms
+False alarms = necessary condition fulfilled \ block contains pattern
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 250 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+False alarms: example
+
+
+
+
+        Example:
+           ▶   let: F = 12, m = 3 and D = 3
+           ▶   query ‘text’ AND ‘search’
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 251 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+False alarms: example
+
+
+
+
+                                                                         Candidates are the first 3 text
+                                                                         blocks
+
+                                                                         2nd block is false alarm
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval      Lecture in summer semester 252 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Minimize the number of false alarms
+
+
+
+
+        Right choice of design parameters F , m and D
+        Goals:
+           ▶   minimal storage space for signatures
+           ▶   minimal probability of false alarms
+        ⇒ conflicting goals
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 253 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Error probability Fd
+
+
+
+        Probability that signature or block signature condition is met, but
+        represented document does not contain the pattern to be searched for
+        Formal definition using probability:
+           ▶   Fd = P (search pattern not in block ∧ signature fulfills condition)
+        Assumptions:
+           ▶   query consists of one word
+           ▶   equal distribution of signatures
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 254 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Calculation of the error probability
+        m
+        F : probability that a bit of a word signature is set
+        (1 − m   D
+              F ) : probability that bit in block signature is not set (overlay
+        due to D)
+        1 − (1 − m  D
+                 F ) : probability that bit in block signature is set
+        (1 − (1 − m  D m
+                  F ) ) : probability that block signature matches query
+        (m bits set must match; candidate set)
+        If all candidates are false alarms (very pessimistic), then
+        Fd = (1 − (1 − m    D m
+                          F) )
+        F increases ⇒ Fd decreases monotonically
+        D increases ⇒ Fd increases monotonically
+        m increases ⇒ Fd can decrease or increase
+        ⇒ minimization finds best value m for given values F and D
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 255 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Optimization for m
+
+
+        For large D, formula for Fd can be approximated by exponential
+        distribution:
+                                                                       mD
+                                                Fd = (1 − e − F )m
+        From this, the optimal value for m is obtained by derivation and
+        transformation as:
+                                                     mopt = F ∗ln2
+                                                              D
+        Insert into the formula to calculate the probability of error:
+                                                                     F ∗ln2
+                                                     Fd = ( 12 ) D
+        Use of mopt ⇒ number of ones is 50%
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 256 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Practical application of the probability of error
+
+
+
+        Storage space calculation:
+           ▶ word consists of cw characters on average
+           ▶ character requires 8 bit
+           ▶ let Y be the total number of words in all documents
+
+           ▶ storage space requirement for documents: SD = Y ∗ cw ∗ 8bit
+           ▶ storage space requirement for signatures: S = Y ∗ F bit
+                                                        S       D
+           ▶ we put both values in a ratio α: S = α ∗ S
+                                               S         D
+           ▶ thus: F = α ∗ c ∗ 8
+                   D         w
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 257 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Practical application of the probability of error
+
+
+
+
+        Example α = 0.1 and cw = 10
+             F
+             D = 8, for instance F = 80 and D = 10
+           ▶
+           ▶ F = 2.14%
+              d
+        Example α = 0.2 and cw = 10
+             F
+             D = 16, for instance F = 80 and D = 5
+           ▶
+           ▶ F = 0.0459%
+              d
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 258 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Storage structures for signature files
+
+
+
+
+        Three alternatives:
+           ▶ sequential signature files
+           ▶ bit slice organization
+           ▶ S-tree
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 259 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Sequential signature files
+
+
+        Signature file for N blocks is a bit matrix with F columns and N rows
+        Most simple storage: sequential storage of the individual rows of the
+        matrix
+        ⇒ SSF (Sequential Signature File)
+        After each signature reference to document
+        Alternative: all references in separate file, because only some
+        references have to be read
+
+        Search effort grows linearly with document collection size
+        Files may fit into main memory
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 260 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Sequential signature files
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 261 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Bit slice organization
+
+
+
+
+        SSF: block signatures are read completely
+        Actually only columns needed where query signature bits are set
+        Idea BSSF (Bit-Sliced Signature Files):
+           ▶   each column in separate file ⇒ F files (bit slice)
+           ▶   per query (one search word) m bit slices must be read
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 262 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Bit slice organization: structure
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 263 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Bit slice organization: example
+
+
+
+
+                                                                              Block is false alarm
+
+                                                                              Block no candidate
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 264 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Bit slice organization: evaluation
+
+
+
+
+        Advantage over SSF: not all bits have to be checked
+        Disadvantage: update operations require F disk accesses
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 265 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+S-tree
+
+
+
+        Horizontal division of the N × F bit matrix
+        Similar to B-tree
+        Structure:
+           ▶ each node has a maximum of k entries
+           ▶ entry: signature and address
+           ▶ inner nodes: address refers to child in tree
+           ▶ leaf: address refers to document/block
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 266 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+S-Tree: overlay
+
+
+
+
+        Signature of an inner node is OR combination of child signatures
+        Problem: nodes near the root can contain many ‘ones’
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 267 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+S-tree: structure (k = 4)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 268 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Search in S-tree
+
+
+
+        Start at the root
+        Traverse all children for which AND match with query signature
+        successful
+        Multiple search paths possible
+
+        Example: query signature 01000 00000 generates traverse of N1, N2,
+        N3, N6, N8, D12, D27, D31, D07
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 269 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Insertion into S-Tree
+
+
+
+        Navigate to the leaf via nodes that would need minimal expansion
+        Overflow:
+           ▶ splitting the leaf
+           ▶ generate two “seed signatures”, which should be maximally different
+             (effort O(k 2 ))
+           ▶ fast heuristics for finding seed signatures:
+
+             search for the signatures whose bits are furthest to the left or right
+           ▶ then alternately assign most similar signature to each seed signature
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 270 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Insertion into S-Tree
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 271 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+S-Tree: conclusion
+
+
+
+
+        Advantage: search effort grows only sublinear to the size of the
+        document collection
+        Disadvantage: nodes near the root often have a lot of set bits
+        ⇒ only few nodes can be omitted from search
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 272 / 543
+                 Simple IR Models and their Implementation    Word Search
+
+
+
+Comparison of signature storage structures
+
+
+
+Profile indicates importance of operations
+
+                                                           Profile
+           Structure
+                                Search              Insert    Delete           Storage
+           Sequential           rare                dominant rare              important
+           Bit slices           dominant            rare      rare             less important
+           S-tree               (little)            much      much             less important
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 273 / 543
+                 Simple IR Models and their Implementation    Boolean Retrieval
+
+
+
+4.3 Boolean Retrieval
+
+        Boolean expressions over search words
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval       Lecture in summer semester 274 / 543
+                 Simple IR Models and their Implementation    Boolean Retrieval
+
+
+
+Document representation
+
+
+        Document as word set (possibly after stop word elimination and/or
+        stem form reduction)
+        Variants:
+           ▶ multiset instead of set
+             ⇒ storage of the frequency of occurrence
+           ▶ set of (word, occurrence location) pairs
+           ▶ location of occurrence:
+
+                   ⋆   for example in the title, heading or text
+                   ⋆   alternatively word position in the text (sentence number, word number)
+                       ⇒ useful for NEAR queries
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval       Lecture in summer semester 275 / 543
+                 Simple IR Models and their Implementation    Boolean Retrieval
+
+
+
+Query representation
+
+
+
+        Information need is formulated as a Boolean expression
+        Words in a word set are implicitly combined with OR or AND
+        Examples:
+           ▶ ‘eagle bear’ ⇒ ‘eagle’ AND ‘bear’
+           ▶ ‘eagle’ AND (‘bear’ OR ‘lion’)
+           ▶ ‘eagle’ AND NOT ‘lion’
+           ▶ BUT operator instead of AND NOT
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval       Lecture in summer semester 276 / 543
+                 Simple IR Models and their Implementation    Boolean Retrieval
+
+
+
+Implementation
+
+
+
+Variants:
+        Pattern matching
+        very inefficient for large document collections
+        Signatures
+        well suited for AND combinations (but only blockwise)
+        Inverted list
+        most versatile option
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval       Lecture in summer semester 277 / 543
+                 Simple IR Models and their Implementation    Boolean Retrieval
+
+
+
+Implementation with inverted lists
+Simple (one search word) query
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval       Lecture in summer semester 278 / 543
+                 Simple IR Models and their Implementation    Boolean Retrieval
+
+
+
+Combined queries
+
+
+
+        AND combination
+           ▶   intersection of the lists (using sorting for efficiency)
+        OR combination
+           ▶   union
+        Unary negation q = NOT q2
+           ▶   usually very large result, binary variant is better
+        Binary negation q = q1 AND NOT q2
+           ▶   complementary set
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval       Lecture in summer semester 279 / 543
+                 Simple IR Models and their Implementation    Boolean Retrieval
+
+
+
+Other operations
+
+
+
+
+        ti NEAR[k]tj
+           ▶ term ti must not be further than k words away from term tj
+           ▶ requires occurrence position in inverted list
+           ▶ scan through lists in parallel and test possible pairs
+
+        IN TITLE
+           ▶   word appears in the title
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval       Lecture in summer semester 280 / 543
+                 Simple IR Models and their Implementation    Boolean Retrieval
+
+
+
+Boolean Retrieval: summary
+
+
+
+Problems:
+        In simplest form no reduction to basic and stem form
+        No weighting of words by location or frequency
+        No decomposition of compound terms
+        Hardly predictable size of the result set
+        No ranking of the results
+        User must be proficient in Boolean logic
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval       Lecture in summer semester 281 / 543
+                 Simple IR Models and their Implementation    Coordination Level Match
+
+
+
+4.4 Coordination Level Match
+
+
+
+Motivation:
+        Example query of Boolean retrieval:
+        ‘House AND Garden AND Italy’
+        Problem: documents with 2 word matches do not appear, just like
+        documents with 0 or 1 match
+        Goal: if no document with 3 word matches
+        ⇒ documents with 2 matches as result
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 282 / 543
+                 Simple IR Models and their Implementation    Coordination Level Match
+
+
+
+Coordination level match
+
+
+Query consists of
+        Terms that should occur and
+        Terms that should not occur
+Example: ‘House, Garden, NOT France’
+
+Retrieval function sums up values (ranking):
+        Desired term in the document: +1
+        Undesired term in the document: -1
+Example document: ‘Garden in France’ ⇒ 0
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 283 / 543
+                 Simple IR Models and their Implementation    Coordination Level Match
+
+
+
+Implementation
+
+
+
+        Using inverted lists
+        Utilization of sorted lists
+        Parallel scanning through the lists and addition of the values
+        Ignore the documents with values less than or equal to 0
+        Display of result documents sorted by value
+        Effort: O(n ∗ m) with n for number of documents and m for number
+        of lists to be scanned
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 284 / 543
+                 Simple IR Models and their Implementation    Coordination Level Match
+
+
+
+Inverted lists
+Query: “Cost, Motorcycle, NOT Production”
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 285 / 543
+                 Simple IR Models and their Implementation    Extended Boolean
+
+
+
+4.5 Extended Boolean
+
+
+
+
+        Boolean retrieval leads to low user satisfaction
+        ‘Softening’ of the strict set semantics by partial matching
+        Weighting of the occurrence of individual terms and the query terms
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval      Lecture in summer semester 286 / 543
+                 Simple IR Models and their Implementation    Extended Boolean
+
+
+
+Extended Boolean retrieval
+
+
+
+        E.g. Waller/Kraft (1979)
+           ▶   Parameterized junctor
+
+                                             t1 ∧ / ∨ ... ∧ / ∨ tn
+                               (1 − γ) ∗ min(wt1 , ..., wtn ) + γ ∗ max(wt1 , ..., wtn )
+
+           ▶   Conjunction characteristic: 0 ≤ γ ≤ 0.5
+           ▶   Disjunction characteristic: 0.5 ≤ γ ≤ 1
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval      Lecture in summer semester 287 / 543
+                 Simple IR Models and their Implementation    Extended Boolean
+
+
+
+Extended Boolean with weights
+
+
+        xi ∈ [0, 1] is i-th similarity value with respect to search term ti and
+        document dj
+        E.g. p-norm model (Salton et al.; 1983)
+
+                         qor = t1 ∨p ... ∨p tn                      qand = t1 ∧p ... ∧p tn
+                                                                    Pn           p    1
+                                                                        i=1 (xi )
+                                          sim(qor , dj ) = (              n          )p
+                                                                       Pn            p        1
+                                                                          i=1 (1−xi )
+                                      sim(qand , dj ) = 1 − (                  n            )p
+
+                                                      1≤p≤∞
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval               Lecture in summer semester 288 / 543
+                 Simple IR Models and their Implementation    Extended Boolean
+
+
+
+Properties p-norm
+
+
+
+        p=1
+                                                                                 Pn
+                                                                                  i=1 xi
+                                sim(qor , dj ) = sim(qand , dj ) = (               n       )
+        p=∞
+
+                                            sim(qor , dj ) = max(xi )
+                                            sim(qand , dj ) = min(xi )
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval      Lecture in summer semester 289 / 543
+                 Simple IR Models and their Implementation    Fuzzy Set Model
+
+
+
+4.6 Fuzzy Set Model
+
+
+        Idea: application of fuzzy set theory (Zadeh) as retrieval model
+        Boolean retrieval: term contained or not in document
+        Problem: Boolean values are too sharp
+        Example: document with term ‘SQL’ is semantically related to term
+        ‘database’
+        Approach: term-to-document association as membership value from
+        [0, 1], where 1 or 0 means maximum or minimum membership,
+        respectively
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval     Lecture in summer semester 290 / 543
+                 Simple IR Models and their Implementation    Fuzzy Set Model
+
+
+
+Fuzzy set
+
+
+
+A fuzzy set S over a population G is described by function µS : G → [0, 1],
+which gives the degree of membership to S for each element from G
+
+Combination (operations proposed by Zadeh):
+        Negation: µ¬S (u) = 1 − µS (u)
+        Disjunction: µA∪B (u) = max(µA (u), µB (u))
+        Conjunction: µA∩B (u) = min(µA (u), µB (u))
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval     Lecture in summer semester 291 / 543
+                 Simple IR Models and their Implementation    Fuzzy Set Model
+
+
+
+Representation of the query/documents
+
+
+
+
+        Query analogous to Boolean retrieval
+        Document Dj : µi (Dj ) for all terms ti of the vocabulary
+        Retrieval function: Zadeh operations
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval     Lecture in summer semester 292 / 543
+                 Simple IR Models and their Implementation    Fuzzy Set Model
+
+
+
+Representation of the query/documents: example
+
+        Vocabulary: t1 =‘House’, t2 =‘Garden’, t3 =‘Italy’, t4 =‘France’
+        Query: ‘House AND (Italy OR France) AND NOT Garden’
+        Retrieval function:
+        min(min(µ1 (Dj ), max(µ3 (Dj ), µ4 (Dj ))), 1 − µ2 (Dj ))
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval     Lecture in summer semester 293 / 543
+                 Simple IR Models and their Implementation    Fuzzy Set Model
+
+
+
+Determination of the membership values
+
+
+Approach of Ogawa, Morita, Kobayashi [OMK91]
+        Calculation via term-to-term matrix [ci,l ]
+        ci,l is correlation between terms ti and tl
+                      n
+        ci,l = ni +ni,l
+                    l −ni,l
+
+
+
+        nl is number of documents that contain tl
+        ni,l is number of documents containing ti and tl
+        ci,l = 1 holds for i = l
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval     Lecture in summer semester 294 / 543
+                 Simple IR Models and their Implementation    Fuzzy Set Model
+
+
+
+Determination of the membership values
+
+
+
+Example
+        Term ‘house’ in 7 documents
+        Term ‘roof’ in 6 documents
+        Both together in 5 documents
+        ni = 7, nl = 6, ni,l = 5 ⇒ ci,l = 85
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval     Lecture in summer semester 295 / 543
+                 Simple IR Models and their Implementation    Fuzzy Set Model
+
+
+
+Determination of the membership values
+
+Calculation of term-to-document membership from term-to-term matrix
+                       Q
+µi (Dj ) = 1 −                 (1 − ci,l )
+                      tl ∈Dj
+
+
+        Replace 1 − x by ¬x and x ∗ y by x ∧ y and apply De Morgan’s laws
+        and double negation rule
+
+        ⇒ µi (Dj ) = ∨ ci,l
+                           tl ∈Dj
+
+
+        Term-to-term values of the document are factually disjunctively
+        combined
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval     Lecture in summer semester 296 / 543
+                 Simple IR Models and their Implementation    Fuzzy Set Model
+
+
+
+Implementation
+
+
+
+
+Usage of inverted lists
+        List for term ti contains documents Dj with µi (Dj ) > 0
+        Another problem: long lists
+        shorter lists by using threshold value
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval     Lecture in summer semester 297 / 543
+                 Simple IR Models and their Implementation    Fuzzy Set Model
+
+
+
+Evaluation fuzzy set model
+
+
+        Advantages
+           ▶   support of the vagueness of the language by term correlations
+           ▶   ranking
+        Disadvantages
+           ▶ dominance of Zadeh operations min/max
+           ▶ complex Boolean query formulation
+           ▶ performance problems due to long lists
+           ▶ term-to-term matrix on dynamic document collection
+
+             (better on representative data set)
+           ▶ alternative: term correlation from thesaurus
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval     Lecture in summer semester 298 / 543
+                 Simple IR Models and their Implementation    Fuzzy Set Model
+
+
+
+Dominance problem of the Zadeh operations
+
+
+
+        Query: ‘House AND Italy’
+
+                                             Term            D1       D2
+                                             House           0.3      0.9
+                                             Italy           0.3      0.2
+                                             Query           0.3      0.2
+
+        System considers D1 more relevant than D2
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval     Lecture in summer semester 299 / 543
+

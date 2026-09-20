@@ -1,0 +1,777 @@
+                                Introduction and Overview
+
+
+
+Motivation and introduction: outline I
+
+
+
+        The term Information Retrieval (IR)
+           ▶ explanation of terms
+           ▶ example scenario for an IR system
+           ▶ historical view and recent developments
+
+
+        Tasks for IR systems
+        Difference between IR and fact retrieval (search in databases)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   8 / 543
+                                Introduction and Overview
+
+
+
+Motivation and introduction: outline II
+
+
+
+        Basic process of Information Retrieval
+           ▶ Boolean retrieval
+           ▶ Vector space model
+           ▶ Probabilistic Information Retrieval
+
+
+        Formulation of an information need
+        Presentation and evaluation of search results
+        Summary and structure of the course
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   9 / 543
+                                Introduction and Overview
+
+
+
+Motivation and introduction
+
+
+
+
+        Topic of Information Retrieval is the search for documents
+        Specific form of a search can vary:
+           ▶ Which data set is being searched?
+           ▶ What types of documents are being searched for?
+           ▶ How exactly can the information need be formulated?
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   10 / 543
+                                Introduction and Overview
+
+
+
+Examples of IR scenarios
+
+
+
+        Search for text content in the World Wide Web
+        Search for images in the World Wide Web
+        Search within a web presence
+        Search in other media types (video, audio, ...)
+        Special filter services (Google Alerts, ....)
+        Search in a library (one of the roots of IR)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   11 / 543
+                                Introduction and Overview
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   12 / 543
+                                Introduction and Overview
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   13 / 543
+                                Introduction and Overview
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   14 / 543
+                                Introduction and Overview
+
+
+
+Library catalog IKMZ
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   15 / 543
+                                Introduction and Overview
+
+
+
+Important aspects of IR
+
+
+
+        Formulation of the information need
+        Interpretation of the content of textual and multimedia documents
+        (extraction of semantics)
+        Models (representation) behind IR systems
+        Issues related to the implementation of IR systems (such as
+        algorithms and data structures used)
+        IR system assessment issues
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   16 / 543
+                                Introduction and Overview
+
+
+
+The terms data, knowledge and information in information
+science (Kuhlen) I
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   17 / 543
+                                Introduction and Overview
+
+
+
+The terms data, knowledge and information in information
+science (Kuhlen) II
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   18 / 543
+                                Introduction and Overview
+
+
+
+Term “retrieval”:
+
+
+
+Merriam-Webster
+
+        locate and bring in
+        call to mind again
+        get back again
+        get and bring back
+        recover from storage
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   19 / 543
+                                Introduction and Overview
+
+
+
+Tasks for IR systems
+
+
+
+        Classification
+              ▶   catalogs, patent databases, ...
+        Query processing
+        Browsing
+        Information Filtering
+        ...
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   20 / 543
+                                Introduction and Overview
+
+
+
+Historical differentiation between DB and IR
+
+
+
+        Database users
+           ▶ programmer
+           ▶ query based on schema
+           ▶ interface is application
+
+        Information Retrieval users
+           ▶ end user
+           ▶ query is vague
+           ▶ direct interaction with the system
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   21 / 543
+                                Introduction and Overview
+
+
+
+Differentiation between Information Retrieval and Fact
+Retrieval
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   22 / 543
+                                Introduction and Overview
+
+
+
+Search engine functionality
+
+
+
+
+        Search
+        Catalog
+        ...
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   23 / 543
+                                Introduction and Overview
+
+
+
+Web catalog functionality
+
+
+
+
+                                                                             Manual maintenance
+                                                                             Historically per hand
+                                                                             with support from
+                                                                             algorithmic classification
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval      Lecture in summer semester   24 / 543
+                                Introduction and Overview
+
+
+
+Search engine: what lies behind?
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   25 / 543
+                                Introduction and Overview
+
+
+
+Information Retrieval as a basis
+
+
+        Information Retrieval (IR) considers information systems in terms of
+        their role in the process of knowledge transfer from human knowledge
+        producers to information demanders.
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   26 / 543
+                                Introduction and Overview
+
+
+
+Outline
+
+
+
+    1   Models of Information Retrieval
+           1   The Boolean IR model
+           2   The Vector Space Model according to Salton
+           3   Quality criteria for IR systems
+           4   Consideration of content and quality
+           5   Content-based image retrieval (CBIR)
+    2   Context-based Information Retrieval
+    3   Search and the market
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   27 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+1. Models of Information Retrieval
+
+        Aspects:
+           ▶ representation of the information need
+           ▶ representation of the documents
+           ▶ matching
+           ▶ implementation
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   28 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+1.1 The Boolean IR Model
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   29 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Implementation: inverted lists
+
+        Main idea:
+           ▶   The normal representation is:
+
+                      the document is saved together with all of its words
+           ▶ However, a search does not start with the documents, but with the
+             words!
+           ▶ So, invert the representation:
+
+
+
+                       for each word, save all documents that contain this word
+           ▶   A list of documents containing this word is managed for each word:
+
+                                                      the inverted list
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   30 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Example: inverted lists
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   31 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Processing of queries
+        Motorcycle AND quality:
+           ▶ parallel traversing of the associated lists
+           ▶ transfer document references existing in both lists into the result list
+           ▶ high efficiency due to sorted lists
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   32 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Disadvantages of the Boolean model
+
+
+        No stemming of the words to a basic form
+        No weighting of words in query and representation
+           ▶   according to the location of occurrence
+           ▶   according to the frequency of occurrence
+        No decomposition of compound terms
+        Formulation of a query is not easy
+        Hardly predictable result size
+        No ranking of the result documents
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   33 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+1.2 The Vector Space Model according to Salton
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   34 / 543
+                                 Introduction and Overview    Models of Information Retrieval
+
+
+
+Description vector for a text document
+                     1   Stop word elimination:
+                             ▶   remove words that carry no meaning on their
+                                 own and occur in almost all texts (and, or,
+                                 the, ...)
+                     2   Stemming:
+                             ▶   tracing all occurring word forms back to their
+                                 stem or base (emperors → emperor, ...)
+                     3   Synonym/homonym handling:
+                             ▶   replace synonyms with preferred form
+                     4   Compound words:
+                             ▶   break down compound words and/or combine
+                                 words to compound words
+                     5   Construction of a vector:
+                             ▶   individual components stand for occurrence
+                                 frequencies of terms (e.g. 1 = history, 2 =
+                                 Napoleon, 3 = France, ...)
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester   35 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Processing a query
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   36 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Determination of vector components:
+The tf · idf formula according to Salton
+
+        t = Number of terms in the vocabulary
+        N = Number of documents in the collection
+        nk = Number of documents containing term k
+        tfdk = Frequency of occurrence of term k in document D
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   37 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+1.3 Quality Criteria for IR Systems
+
+
+
+        Which aspects are of importance for the evaluation of an IR system?
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   38 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Evaluation of IR systems
+
+
+        How to measure the quality of the result?
+        Assumption:
+           ▶   For a given query, it can be uniquely decided for each object whether it
+               is relevant or not.
+        Quality of the result
+           ▶   How complete is the result?
+                   ⋆   portion of relevant documents found in all relevant documents
+                   ⋆   50 relevant docs found; 100 relevant docs total ⇒ Recall = 50%
+           ▶   How accurate is the result? Does it contain only relevant entries?
+                   ⋆   portion of relevant documents in the result set
+                   ⋆   50 relevant docs found; 75 docs in result ⇒ Precision = 67%
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   39 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+1.4 Consideration of Content and Quality
+
+
+
+        Other criteria:
+           ▶ “quality” of the result documents
+           ▶ type of article (overview article, specific article, ...)
+           ▶ ...
+
+        How to measure the quality?
+           ▶   idea (for web engines):
+                   ⋆   Many links pointing to a page indicate quality!
+                   ⋆   an implementation: PageRank method from Google
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   40 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Calculation of page quality
+
+
+                                                X         R(q)
+               R(p) = ε + (1 − ε) ·                                                   (Recursion!)
+                                                       outlinks(q)
+                                               (q,p)
+        R(p) = PageRank of page p
+        ε = Parameter between 0.1 and 0.2
+        (q, p) = Pages q with link to page p
+        outlinks(q) = Number of outbound links from page q
+
+        Values are calculated in an iterative procedure of 5 to 50 iterations
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   41 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+PageRank problems
+
+        There is no thematic weighting of the links
+           ▶   links could be weighted according to the thematic relevance of the
+               linking page
+        Number of links depends on “age” of a page
+        There are numerous other criteria for quality, e.g.:
+           ▶ up-to-dateness (e.g. via modification date)
+           ▶ availability
+           ▶ information content (number of technical terms/words in the text)
+           ▶ popularity (e.g. via PageRank or social media “likes”)
+           ▶ authority (e.g. via manual assessments)
+           ▶ cohesion (density of content → proximity of the terms used)
+
+
+        How do you account for “quality” and content relevance?
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   42 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Accounting of quality and relevance
+
+
+
+
+        Addition
+        Multiplication
+        ...
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   43 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Approach: mixing the result (addition)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   44 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+1.5 Content-based Search
+        Transfer to other media
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   45 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Description vector for images
+        Properties:
+           ▶ color
+           ▶ texture
+           ▶ shape
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   46 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Processing a query
+
+
+
+
+Alternative: object recognition (terms) by CNN
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   47 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Structured MM documents
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   48 / 543
+                                Introduction and Overview    Models of Information Retrieval
+
+
+
+Query processing/optimization
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   49 / 543
+                                Introduction and Overview    Context-based Information Retrieval
+
+
+
+2. Context-based Information Retrieval
+
+
+
+        Idea:
+           ▶ Use another source in order to
+             concretize the information
+             need!
+           ▶ Exploit knowledge from the
+
+             context of the user.
+           ▶ This knowledge is used to
+
+             derive a more targeted query
+             presentation.
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   50 / 543
+                                Introduction and Overview    Context-based Information Retrieval
+
+
+
+User model for context information
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   51 / 543
+                                Introduction and Overview    Context-based Information Retrieval
+
+
+
+Generic architecture framework
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   52 / 543
+                                Introduction and Overview    Search and the Market
+
+
+
+3. Search and the Market
+
+
+
+
+        Idea:
+           ▶    Whoever wants to be found should pay for it!
+        Problems:
+           ▶    Whoever can not/will not pay will not be found!
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   53 / 543
+                                Introduction and Overview    Search and the Market
+
+
+
+Once upon a time: open payment per click
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   54 / 543
+                                Introduction and Overview    Search and the Market
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   55 / 543
+                                Introduction and Overview    Search and the Market
+
+
+
+You can still find the info
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   56 / 543
+                                Introduction and Overview    Search and the Market
+
+
+
+Search for “ERP”
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   57 / 543
+                                Introduction and Overview    Search and the Market
+
+
+
+Who pays how much?
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   58 / 543
+                                Introduction and Overview    Search and the Market
+
+
+
+Sponsored search today
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   59 / 543
+                                Introduction and Overview    Search and the Market
+
+
+
+The same with Google
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval           Lecture in summer semester   60 / 543
+

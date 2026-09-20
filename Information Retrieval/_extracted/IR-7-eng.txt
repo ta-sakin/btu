@@ -1,0 +1,1305 @@
+                          Alternatives to the Global Search
+
+
+
+
+                  7. Alternatives to the Global Search
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 422 / 543
+                          Alternatives to the Global Search
+
+
+
+Outline
+
+
+
+
+    1   Classification in IR (manual process)
+    2   Cluster Approaches (Automatic Classification)
+    3   Browsing (Exploratory Search)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 423 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+7.1 Classification in IR
+
+
+
+        Classification: structuring of a difficult to understand set of objects
+        (SQL: group by)
+        Definition according to Gabler’s business informatics lexicon:
+           ▶   “Classification, abstraction concept leading to a division of things and
+               concepts linked by common characteristics. From both a scientific and
+               a practical point of view, classification serves to increase the
+               manageability of any field of work.”
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 424 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Example of classification
+
+
+Set of students classified by “mother tongue” and stage of study
+        French in basic studies
+        German in basic studies
+        Italian in main studies
+        Austrian in main studies
+
+Example shows strong relation to a concrete application and that classes
+are not necessarily disjoint
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 425 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Goal of classification
+
+
+
+        Structuring the elements of a population according to features
+        Usually alternative features possible
+        Example:
+           ▶ division of documents according to “monographs”, “anthologies”,
+             “journal articles”, ...
+           ▶ alternative features: authors, number of pages, year of publication,
+
+             topics covered, ...
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 426 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Classification and Information Retrieval
+
+
+
+        Classification by topics
+        However, very high diversity of topics
+        ⇒ multilevel approach, topic hierarchies or trees
+        Use of classification scheme in libraries
+        goal: find quickly related titles
+        Other popular examples:
+           ▶   groups of substances in chemistry, taxonomies in biology
+           ▶   subject classification in encyclopedias
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 427 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+TARIC (customs tariffs of the EU)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 428 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+International Patent Classification (IPC)
+
+
+        Nine-volume manual for the classification of filed and accepted
+        patents
+        Hierarchical system
+        Levels:
+           ▶ sections
+           ▶ classes
+           ▶ subclasses
+           ▶ groups
+           ▶ subgroups
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 429 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Problems of classifications
+
+
+
+
+        Innovative topics often not considered
+        High effort for setup and maintenance
+        No clear classification of interdisciplinary topics
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 430 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Sections
+
+
+    Section         Content
+    A               daily living needs
+    B               working method; transporting
+    C               chemistry; metallurgy
+    D               textiles; paper
+    E               construction; earth drilling; mining
+    F               mechanical engineering; lighting; heating; weapons; blasting
+    G               physics
+    H               electrical engineering
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 431 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Example path
+
+
+
+  Key                    Level               Designation
+  G                      section             physics
+  G01                    class               measure; test
+  G01R                   subclass            measurement of electrical quantities; mea-
+                                             surement of magnetic quantities
+  G01R 23                group               arrangements for measuring frequencies; ar-
+                                             rangements for analyzing frequency spectra
+  G01R 23/16             subgroup            Spectral analysis; Fourier analysis
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 432 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Revisions of the IPC
+
+
+
+
+        Problem: innovations often do not fit well into classification
+        Therefore, every 5 years revision
+        Previously classified patents remain in old version
+        Retrieval must therefore take into account older revisions
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 433 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+ACM Classification System
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 434 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+The decimal classification
+
+
+
+        Universal Decimal Classification (UDC)
+        Unification in the library system
+        Developed in 1876 by the American librarian Malvil Dewey
+        (1851-1931)
+        Each basic science identified by a digit, such as 0 for general, 1 for
+        philosophy and psychology
+        Subgroups identified by next digit and so on
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 435 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Example classification group 622.33
+
+
+
+        6 for Applied Sciences, Medicine, Technology
+        2 for Engineering, Technology in general
+        2 for Mining
+        3 for Mining of specific minerals, ores, rocks
+        3 for Coal mining
+
+Groups of 3 are separated from each other by a dot
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 436 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Faceting
+
+
+
+
+        UDC auxiliary tables
+           ▶ division of the documents according to place, time, form, language or
+             finer subject classification
+           ▶ noted in parentheses
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 437 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Examples
+
+
+
+        Place: 622(430) for “Mining Technology in Germany”
+        Symmetrical relationship between 2 topics: 621.3:622 the “Electrical
+        Engineering in Mining”
+        Relationship: 622+629 classified “Mining and Metallurgy”
+        Interval with “/”: [23/28:294.3](540) classifies “Christianity in
+        relation of Buddism in India”
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 438 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+General attachment numbers
+
+
+The following preceding or enclosing characters are permitted:
+        = language
+        (0...) form
+        (...) place
+        (=...) human ancestry, ethnic grouping and nationality
+        “...” time
+        .00 viewpoint
+        -05 persons and personal characteristics
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 439 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Linking decimal classifications
+
+
+
+        + enumeration of several facts
+        : symmetrical relationship between two facts
+        :: asymmetrical relationship between two facts
+        / extension character for grouping together several adjacent decimal
+        classification numbers
+        ’ grouping character to form new facts from the combination of
+        individual decimal classification components
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 440 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Catalogs on the Internet
+
+
+        2 approaches to search the Internet:
+           ▶   search engines like Google
+           ▶   catalogs like Yahoo, Web.de
+        Both approaches work mostly in parallel
+        Similar to librarianship
+        But spatial ordering of physical documents is not required
+        ⇒ multiple entries possible
+        Manual maintenance of the classification required
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 441 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Types of classification hierarchies
+
+
+
+
+        Monoclassification hierarchy: a class is subordinate to only one other
+        class
+        ⇒ tree
+        Polyclassification hierarchy: subordination to multiple classes
+        ⇒ hierarchy
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 442 / 543
+                          Alternatives to the Global Search   Classification in IR
+
+
+
+Problems with classifications
+
+
+
+
+        Fast aging due to manual creation
+        Therefore inhomogeneities are unavoidable
+        Goal: monoclassification if possible
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester 443 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+7.2 Clustering Approaches
+
+
+
+
+        Automated division of a set into subsets (clusters)
+           ▶   elements within clusters are similar
+           ▶   elements of different clusters are dissimilar
+        Large sets get structured
+        Undiscovered relationships become visible
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 444 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Clustering analysis and Information Retrieval
+
+
+
+Example applications:
+  1 Clustering documents based on their representations:
+
+           ▶   on entire collection or
+           ▶   on result set
+    2   Clustering of documents based on other criteria, such as citations
+    3   Clustering of terms to find synonyms
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 445 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Similarity measures and distances
+
+
+
+
+    1   Similarity or distance (such as Euclidean distance) between documents
+    2   Document length should not have any influence
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 446 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Cosine measure
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 447 / 543
+                          Alternatives to the Global Search    Clustering Approaches
+
+
+
+Dice coefficient
+
+
+
+                                                            t
+                                                            X
+                                                         2·   (wik · wjk )
+                                                              k=1
+                                      simDi ,Dj =      t                t
+                                                       X                X
+                                                              wik2 +          wjk2
+                                                       k=1              k=1
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval            Lecture in summer semester 448 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Jaccard coefficient
+
+
+
+                                                          t
+                                                          X
+                                                            (wik · wjk )
+                                                          k=1
+                       simDi ,Dj =       t                t                   t
+                                         X                X                   X
+                                                wik2 +          wjk2 −              (wik · wjk )
+                                         k=1              k=1                 k=1
+
+
+                                              J(X , Y ) = |X ∩Y |
+                                                          |X ∪Y |
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval             Lecture in summer semester 449 / 543
+                           Alternatives to the Global Search   Clustering Approaches
+
+
+
+Similarity matrix
+
+
+
+        Similarity measures generate a symmetric similarity matrix
+        Save as inverted list
+                                                                                                         
+                   simD2 ,D1
+                  simD ,D                   simD3 ,D2                                                    
+                        3 1                                                                              
+           SIM =  simD4 ,D1                 simD4 ,D2         simD4 ,D3
+                                                                                                         
+                                                                                                          
+                     ..                        ..                ..            ..                        
+                      .                         .                 .                .                     
+                          simDN ,D1          simDN ,D2         simDN ,D3        · · · simDN ,DN −1
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)            Lecture Information Retrieval           Lecture in summer semester 450 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Clustering algorithms
+
+
+
+
+        Hierarchical algorithms
+        Non-hierarchical algorithms
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 451 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Non-hierarchical clustering approaches
+
+
+
+
+Variants
+        Cluster generation
+        Cluster update
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 452 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Clique technique as generating non-hierarchical algorithm
+
+        Each element of a cluster has similarity over a given threshold to
+        every other element of the cluster
+        Maximum clusters (cliques) are searched for
+        Problems:
+           ▶ an element can belong to several clusters
+           ▶ cluster can contain only one element
+           ▶ expensive calculation
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 453 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Star technique as generating non-hierarchical algorithm
+
+        Differentiation of satellite and cluster nodes
+        Cluster node forms cluster with satellite nodes being more similar to
+        cluster node than a threshold
+        One element can appear in several clusters
+        Quadratic costs
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 454 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Reallocation technique as updating, non-hierarchical
+algorithm
+
+
+        Assignment of new element to the best cluster
+           ▶ centroid (artificial average element) is managed for each cluster
+           ▶ calculation of similarity to each centroid
+           ▶ assignment to the most similar centroid
+           ▶ recalculation of the centroids
+           ▶ reassignment of all elements regarding new centroid
+           ▶ centroids must then be adjusted again ...
+
+
+        Repeat until stability achieved
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 455 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Determination of the threshold
+
+
+
+
+        Too high ⇒ single element cluster
+        Too low ⇒ very extensive clusters
+
+        Hierarchical algorithms are better in that respect
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 456 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Hierarchical clustering approaches
+
+
+
+        Variants
+           ▶   agglomerative algorithms: successive merging of single element clusters
+           ▶   dividing algorithms: successive decomposition of N-element clusters
+               into smaller clusters
+        Advantage: relatively low computational effort, since number of
+        cluster variants is reduced step by step
+        Disadvantage: once a decision have been made, it cannot be revised
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 457 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Agglomerative algorithms
+
+
+
+Variants of how clusters are merged
+        Single link
+        Complete link
+        Average link
+        Centroid method
+        Ward’s method
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 458 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Single link
+
+
+
+        Clusters with the greatest similarity are grouped together
+        Similarity between clusters as maximum similarity between their
+        elements
+
+                                          MAXx∈A;y ∈B sim(x, y )
+
+        Disadvantage: large clusters tend to increase in size
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 459 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Complete Link
+
+
+
+        Clusters with the greatest similarity are grouped together
+        Similarity between clusters as minimal similarity between their
+        elements
+
+                                          MINx∈A;y ∈B sim(x, y )
+
+        small clusters are preferred for merging
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 460 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Average link
+
+
+
+        Clusters with the greatest similarity are grouped together
+        Similarity between clusters as average similarity between their
+        elements
+                                        1     P
+                                      |A×B| ·  x∈A;y ∈B sim(x, y )
+
+
+        Compromise between single and complete link
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 461 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Centroid link
+
+
+
+
+        Clusters with the greatest similarity are grouped together
+        Similarity between clusters as similarity between their centroids
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 462 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Ward’s method
+
+
+
+
+        Clusters with smallest error sum are merged
+        Error sum is squares of individual Euclidean distances of cluster
+        elements
+        Advantage: homogeneous clusters and symmetrical cluster hierarchy
+        Disadvantage: high calculation effort
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 463 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Agglomerative hierarchical clustering algorithms:
+dendogram
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 464 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+General agglomerative algorithm
+
+
+Basis: similarity matrix
+    1   Start with N one-element clusters (numbered accordingly)
+    2   Search for pair (x, y ) with highest similarity
+    3   Merge x and y :
+           1   merge the columns and rows of x and y
+           2   new value is maximum for single link (analog for the other algorithms)
+           3   new cluster gets smaller number from the original clusters
+    4   Steps are repeated N − 1 times
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 465 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Example average link
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 466 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Merging of clusters 4 and 6
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 467 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Merging of clusters 1 and 4
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 468 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Merging of clusters 2 and 5
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 469 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Merging of clusters 1 and 2
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 470 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Merging the remaining clusters
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 471 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Dendrogram
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 472 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Application areas of clustering algorithms
+
+
+
+
+        Automatic thesaurus generation
+        Search along a cluster hierarchy
+        Preparation of the result of a query
+        Maintenance of a classification
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 473 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Automatic thesaurus generation
+
+
+
+
+        Thesaurus in order to increase recall value
+        Instead of manually created thesaurus: term clustering
+        Application of star technique
+        Starting point: term × document matrix, occurrence frequencies in
+        the cells
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 474 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Example: term × document matrix
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 475 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Example: term × term similarity
+
+Here numerator of the dice coefficient and threshold 40
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 476 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Example: term × document matrix
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 477 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Search along a cluster hierarchy
+
+
+
+
+        Navigation from root to leaves along a dendogram
+        Each cluster is represented by a typical document (most similar to
+        centroid)
+        Advantage: query does not have to be formulated (browsing)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 478 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Preparation of the result of a query
+
+
+
+
+        Structuring of a query result without sorting (Boolean retrieval) by
+        forming thematic clusters
+        Meaningful for result with ranking to separate content orientations
+        Problem: no explicit description of the clusters
+        Better: classification, but high manual effort
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 479 / 543
+                          Alternatives to the Global Search   Clustering Approaches
+
+
+
+Maintenance of a classification
+
+
+
+        Assignment of a new document to a classification using clustering
+        algorithm, such as single link
+        Second step: reallocation technique for checking the current
+        assignment
+        Test whether classification is conclusive
+        (using similarity matrix)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 480 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+7.3 Browsing
+
+
+
+        Browsing: navigational access to information
+           ▶   other aspects: combing, skimming
+        Requires appropriate preparation of the document collection
+           ▶ bibliographies and references
+           ▶ classifications
+           ▶ hypertext documents
+           ▶ clusters and cluster hierarchies
+           ▶ visual representation of document collections
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 481 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Bibliographies and references
+
+
+
+
+        Scientific papers contain bibliographies and references
+        Effort to track a reference is high
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 482 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Classification
+
+
+
+
+        Considering documents in the same class
+        Class hierarchy: consider more specific or more general documents
+        Browsing from root to leaves
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 483 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Hypertext documents
+
+
+
+
+        Hypertext formats like HTML contain references to other locations in
+        the document or to other documents
+        No clearly defined structure, but a network of references
+        High risk of getting lost, therefore mostly in combination with search
+        engine search and catalogs
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 484 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Clusters and cluster hierarchies
+
+
+
+
+        Considering documents in the same cluster
+        Search along cluster hierarchy
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 485 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Visual representation of document collections
+
+
+
+
+        Idea: complex relationships are easier to comprehend graphically than
+        textually
+        Use of navigation tools in the document space
+        Information visualization problem
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 486 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+1-dimensional linear representation
+
+
+
+
+        Sorted list of documents
+        Sorting for example by classification or publication date
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 487 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Example: Java API documentation
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 488 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+2-dimensional representation
+
+
+
+
+        Arrangement in a plane
+        Arrangement variants
+           ▶ dimension reduction to 2 dimensions
+           ▶ representation of cluster hierarchies (in combination with dimension
+             reduction)
+           ▶ arrangement based on forces of attraction and repulsion
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 489 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Example: ET-Map
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 490 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+3-dimensional representation
+
+
+
+
+        Further dimension, such as contour lines
+        Height can mean number of documents of the topic (NewsMap)
+        Time dimension (perspective wall)
+        Representation of additional dimensions coded by icons, size and
+        shape of objects
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 491 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+NewsMap
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 492 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Perspective wall
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 493 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Multidimensional representation
+
+
+
+
+        Additional dimensions represented by icons, colors, size of symbols
+        More than 7 dimensions are not useful
+        Approach by Matt Ward (criteria of motor vehicles)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 494 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Criteria of motor vehicles
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 495 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Tree like representation
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 496 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Representation as a network
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 497 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Scatter plot
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 498 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Basics of document collection visualization
+
+
+
+
+        “visual-information-seeking-mantra” by Ben Shneiderman: “Overview
+        first, zoom and filter, then detail on demand”
+        Embedding of documents or groups in 1-, 2-, or multidimensional
+        vector space based on similarity or distance as far as possible
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 499 / 543
+                          Alternatives to the Global Search   Browsing
+
+
+
+Information visualization tasks
+  Task                                Description
+  Overview                            Give an overview of the entire collection.
+  Zoom                                Display the elements of current interest enlarged
+                                      (in more detail).
+  Filter                              Hide elements that are not currently of interest.
+  Details-on-Demand                   Allow to select an element or a group and show the
+                                      related detailed information.
+  Relate                              Show the connections and links between the ele-
+                                      ments (e.g. content references or citations).
+  History                             The previous actions should be saved in order to
+                                      perform operations such as Undo, Replay or proac-
+                                      tive refinement.
+  Extract                             Allow extraction of partial collections or query pa-
+                                      rameters.
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester 500 / 543
+

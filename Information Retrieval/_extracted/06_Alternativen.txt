@@ -1,0 +1,1231 @@
+ Information Retrieval:
+Alternativen zur globalen
+          Suche!
+                                                                 Ingo Schmitt
+                     Brandenburgische Universität Cottbus
+                                     Institut für Informatik
+        Lehrstuhl für Datenbank- und Informationssysteme
+
+
+
+    Information Retrieval 1: 6 Alternativen zur globalen Suche           06.07.2011
+                                                                                06.07.2011
+
+
+
+
+Überblick
+
+ Klassifikation
+ Cluster-Ansätze (automatische Klassifikation)
+ Browsing (Exploratives Suchen)
+ Zusammenfassung
+
+
+
+
+                   Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                                06.07.2011
+
+
+
+
+6.1 Klassifikation
+
+ Klassifikation: Strukturierung einer schwer
+  überschaubaren Objektmenge (SQL: group by)
+ Definition nach Gablers Wirtschaftsinformatik-Lexikon:
+
+  „Klassifizierung, Klassifikation, Abstraktionskonzept, das zu einer
+  Einteilung von Dingen und Begriffen führt, die durch gemeinsame
+  Merkmale miteinander verbunden sind. Sowohl aus
+  wissenschaftlicher als auch aus praktischer Sicht dient die
+  Klassifizierung zur Erhöhung der Überschaubarkeit eines beliebigen
+  Arbeitsbereichs.
+
+
+
+                   Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                            06.07.2011
+
+
+
+
+Beispiel einer Klassifikation
+Menge Studenten klassifiziert nach „Muttersprache“ und
+ Studiumsabschnitt
+ Franzose im Grundstudium
+ Deutscher im Grundstudium
+ Italiener im Hauptstudium
+ Österreicher im Hauptstudium
+
+
+Beispiel zeigt starken Bezug zu einer konkreten
+  Anwendung und dass Klassen nicht unbedingt disjunkt
+  sind
+
+               Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                             06.07.2011
+
+
+
+
+Ziel einer Klassifikation
+
+ Strukturieren der Elemente einer
+  Grundgesamtheit nach Merkmalen
+ Üblicherweise alternative Merkmale möglich
+ Beispiel:
+   Einteilung von Dokumenten nach „Monographien“,
+    „Sammelbänden“, „Zeitschriftenartikel“, ...
+   Alternative Merkmale: Autoren, Seitenzahl,
+    Erscheinungsjahr, behandelte Themen, ...
+
+
+                Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                                06.07.2011
+
+
+
+
+Klassifikation und Information Retrieval
+
+ Klassifikation nach Themen
+ Allerdings sehr hohe Themenvielfalt
+   mehrstufiges Vorgehen, Themenhierarchien oder
+   -bäume
+ Einsatz von Klassifikationsschema in Bibliotheken
+  Ziel: schnelles Auffinden verwandter Titel
+ Weitere populäre Beispiele:
+     Stoffgruppen in der Chemie, Taxonomien in der Biologie
+     Stoffgliederungen in Enzyklopädien
+
+
+                   Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                        06.07.2011
+
+
+
+
+TARIC (Zolltarife der EU)
+
+
+
+
+           Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                                  06.07.2011
+
+
+
+
+Internationale Patentklassifikation IPC
+
+ Erarbeitung seit 1954 – neunbändiges Handbuch zur
+  Klassifikation von eingereichten und akzeptierten
+  Patenten
+ Hierarchisches System
+ Ebenen:
+     Sektionen
+     Klassen
+     Unterklassen
+     Gruppen
+     Untergruppen
+
+                     Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                          06.07.2011
+
+
+
+
+Probleme von Klassifikationen
+
+ Innovative Themen können oft nicht
+  berücksichtigt werden
+ Hoher Aufwand für Aufbau und Pflege
+ Keine eindeutige Einordnung von
+  interdisziplinären Themen
+
+
+
+
+             Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                         06.07.2011
+
+
+
+
+Sektionen
+
+
+
+
+            Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                        06.07.2011
+
+
+
+
+Beispielpfad
+
+
+
+
+           Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                            06.07.2011
+
+
+
+
+Revisionen der IPC
+
+ Problem: Neuerungen passen häufig nicht gut in
+  Klassifikation
+ Daher alle 5 Jahre Revision
+ Bisher klassifizierte Patent bleiben in alter
+  Version
+ Recherche muss daher ältere Revisionen
+  berücksichtigen
+
+
+               Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                       06.07.2011
+
+
+
+
+ACM Classification System
+
+
+
+
+          Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                             06.07.2011
+
+
+
+
+Die Dezimalklassifikation
+
+ Universal Decimal Classification UDC
+ Vereinheitlichung im Bibliothekswesen
+ 1876 vom amerikanische Bibliothekar Malvil Dewey
+  (1851-1931) entwickelt
+ Jede Grundwissenschaft identifiziert durch eine Ziffer,
+  etwa 0 für Allgemeines, 1 für Philosophie und
+  Psychologie
+ Untergruppen identifiziert durch nächste Ziffer u.s.w.
+
+
+
+
+                Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                               06.07.2011
+
+
+
+
+Beispiel Klassifikationsgruppe 622.33
+
+
+ 6 für Technologie
+ 2 für Technik
+ 2 für Bergbautechnik
+ 3 für einzelne Bergbauzweige
+ 3 für Kohlebergbau
+
+
+3-er-Gruppen werden mittels Punkt voneinander getrennt
+
+                  Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                            06.07.2011
+
+
+
+
+Facettierung
+
+ UDC-Hilfstafeln
+   Einteilung der Dokumente nach Ort, Zeit, Form,
+    Sprache oder auch zur feineren Stoffgliederung
+   In Klammern notiert
+
+
+
+
+               Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                               06.07.2011
+
+
+
+
+Beispiele
+
+ Ort: 622(430) für »Bergbautechnik in Deutschland«
+ Symmetrische Beziehung zwischen 2 Themen:
+  621.3:622 die »Elektrotechnik im Bergbau«
+ Beziehung: 622+629 klassifiziert »Mining and
+  Metallurgy«
+ Intervall mit „/“: [23/28:294.3](540) klassifiziert
+  »Christianity in relation of Buddism in India«
+
+
+
+
+                  Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                                06.07.2011
+
+
+
+
+Allgemeine Anhängezahlen
+
+Folgende vorangestellte bzw. umschliessenden Zeichen
+  sind zulässig:
+    = Sprache
+    (0...) Form
+    (...) Ort
+    (=...) Rassen und Völker
+    »...« Zeit
+    .00 Gesichtspunkt
+    -05 Person
+
+
+
+                   Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                                06.07.2011
+
+
+
+
+Verknüpfung von
+Dezimalklassifikationen
+   + Aufzählung mehrerer Sachverhalte
+   : symmetrische Beziehung zwischen zwei Sachverhalten
+   :: asymmetrische Beziehung zwischen zwei Sachverhalten,
+   / Erstreckungszeichen zur Zusammenfassung mehrerer
+    nebeneinander stehender Dezimalklassifikations-Zahlen
+   ’ Zusammenfassungszeichen zur Bildung neuer Sachverhalte aus
+    der Kombination einzelner Dezimalklassifikations-Komponenten.
+
+
+
+
+                   Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                           06.07.2011
+
+
+
+
+Kataloge im Internet
+
+ 2 Ansätze zur Suche im Internet:
+   Suchmaschinen wie Google
+   Kataloge wie Yahoo, Web.de
+
+ Beide Ansätze meistens parallel
+ Ähnlich Bibliothekswesen
+ aber räumliche Ordnung von Dokumenten nicht
+  gefordert  Mehrfacheinträge möglich
+ Manuelle Pflege der Klassifikation nötig
+
+              Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                           06.07.2011
+
+
+
+
+Arten von Klassifikationshierarchien
+
+
+ Monoklassifikationshierarchie: eine Klasse darf
+  nur einer anderen Klasse untergeordnet sein 
+  Baum
+ Polyklassifikationshierarchie: Unterordnung
+  mehrerer Klassen  Hierarchie
+
+
+
+
+              Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                           06.07.2011
+
+
+
+
+Probleme mit Klassifikationen
+
+ Wegen manueller Erstellung schnelle Alterung
+ Daher Inhomogenitäten und Brüche
+  unvermeidbar
+ Ziel: möglichst Monoklassifikation
+
+
+
+
+              Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                            06.07.2011
+
+
+
+
+6.2 Cluster-Ansätze
+
+ Automatisierte Einteilung Menge in Teilmengen
+  (Cluster)
+   Elemente innerhalb Cluster sind ähnlich
+   Elemente verschiedener Cluster sind unähnlich
+
+ Große Mengen können damit strukturiert
+  werden
+ Unentdeckte Zusammenhänge können sichtbar
+  werden
+
+               Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                                    06.07.2011
+
+
+
+
+Cluster-Analyse und Information
+Retrieval
+Beispielhafte Anwendungen
+1.       Clustering von Dokumenten anhand ihrer
+         Repräsentationen:
+         auf gesamter Kollektion oder
+         auf Ergebnismenge
+2.       Clustering von Dokumenten anhand anderer Kriterien,
+         etwa Zitaten
+3.       Clustering von Termen, um Synonyme zu finden
+
+
+                       Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                          06.07.2011
+
+
+
+
+Ähnlichkeitsmaße und Distanzen
+
+ Ähnlichkeit bzw. Abstand (etwa Euklidsche
+  Distanz) zwischen Dokumenten
+ Dokumentlänge sollte keinen Einfluss haben
+
+
+
+
+             Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                                   06.07.2011
+
+
+
+
+Kosinusmaß
+
+
+
+Summe über Produkt
+aller Terme taucht immer
+wieder auf
+
+
+         Normierung
+
+
+
+
+                      Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                        06.07.2011
+
+
+
+
+Dice-Koeffizient
+
+
+
+
+           Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                        06.07.2011
+
+
+
+
+Jaccard-Koeffizient
+
+
+
+
+           Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                           06.07.2011
+
+
+
+
+Ähnlichkeitsmatrix
+
+ Ähnlichkeitsmaße erzeugen symmetrische
+  Ähnlichkeitsmatrix
+ Abspeichern als invertierte Liste
+
+
+
+
+              Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                          06.07.2011
+
+
+
+
+Cluster-Verfahren
+
+ Hierarchische Verfahren
+ Nichthierarchische Verfahren
+
+
+
+
+             Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                            06.07.2011
+
+
+
+
+Nichthierarchische Ansätze zur Cluster-
+Bildung
+
+Varianten
+ Erzeugung von Clustern
+ Aktualisierung von Clustern
+
+
+
+
+               Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                                06.07.2011
+
+
+
+
+Clique-Technik als erzeugendes
+nichthierarchisches Verfahren
+
+
+ Jedes Element eines Clusters hat Ähnlichkeit über
+  Schwellenwert zu jedem anderen Element des Clusters
+ Maximale Cluster (Cliquen) werden gesucht
+ Probleme:
+     Ein Element kann mehreren Clustern angehören
+     Cluster kann nur ein Element enthalten
+     Aufwändige Berechnung
+
+
+                   Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                             06.07.2011
+
+
+
+
+Star-Technik als erzeugendes
+nichthierarchisches Verfahren
+
+
+
+
+ Unterscheidung Satellit- und Cluster-Knoten
+ Cluster-Knoten bildet Cluster mit Satellitenknoten
+  ähnlicher als Schwellenwert zu Cluster-Knoten
+ Ein Element kann in mehreren Clustern vorkommen
+ Quadratischer Aufwand
+
+                Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                                06.07.2011
+
+
+
+
+Reallokationstechnik als
+aktualisierendes, nichthier. Verf.
+ Zuordnung neues Element zum besten Cluster
+     Zu jedem Cluster wird Zentroid (künstliches
+      Duchschnittselement) verwaltet
+     Berechnung Ähnlichkeit zu jedem Zentroid
+     Zuordnung zum ähnlichsten Zentroid
+     Neuberechnung der Zentroiden
+     Neuzuordnung aller Elemente bzgl. neuem Zentroid
+     Zentroide müssen dann wieder angepasst werden ...
+ Wiederholung bis Stabilität erreicht
+ Einsatz etwa nach Star-Technik
+
+                   Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                           06.07.2011
+
+
+
+
+Festlegung des Schwellenwerts
+
+ Zu hoch  einelementige Cluster
+ Zu niedrig  sehr umfangreiche Cluster
+
+
+ Diesbezüglich besser sind hierarchische
+  Verfahren
+
+
+
+
+              Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                                06.07.2011
+
+
+
+
+Hierarchische Ansätze zur Cluster-
+Bildung
+ Varianten
+     Agglomerative Verfahren: sukzessives Verschmelzen
+      einelementiger Cluster
+     Teilende Verfahren: sukzessive Zerlegung
+      N-elementiger Cluster in kleinere Cluster
+ Vorteil: relativ geringer Berechnungsaufwand, da
+  Cluster-Variantenanzahl schrittweise reduziert wird
+ Nachteil: einmal getroffene Entscheidungen können
+  nicht mehr revidiert werden
+
+
+                   Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                                  06.07.2011
+
+
+
+
+Agglomerative Verfahren
+
+Varianten, wie Cluster verschmolzen werden
+   Single Link
+   Complete Link
+   Average Link
+   Zentroid-Methode
+   Ward‘s Methode
+
+
+
+
+                     Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                            06.07.2011
+
+
+
+
+Single Link
+
+ Cluster mit größter Ähnlichkeit werden
+  zusammengefasst
+ Ähnlichkeit zwischen Clustern als maximale Ähnlichkeit
+  zwischen ihren Elementen
+
+
+ Nachteil: große Cluster tendieren zur Vergrößerung
+
+
+
+
+               Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                             06.07.2011
+
+
+
+
+Complete Link
+
+ Cluster mit größter Ähnlichkeit werden
+  zusammengefasst
+ Ähnlichkeit zwischen Clustern als minimale Ähnlichkeit
+  zwischen ihren Elementen
+
+
+ kleine Cluster werden bei Verschmelzung bevorzugt
+
+
+
+
+                Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                             06.07.2011
+
+
+
+
+Average Link
+
+ Cluster mit größter Ähnlichkeit werden
+  zusammengefasst
+ Ähnlichkeit zwischen Clustern als durchschnittliche
+  Ähnlichkeit zwischen ihren Elementen
+
+
+ Kompromiss zwischen Single und Complete Link
+
+
+
+
+                Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                             06.07.2011
+
+
+
+
+Zentroid Link
+
+ Cluster mit größter Ähnlichkeit werden
+  zusammengefasst
+ Ähnlichkeit zwischen Clustern als Ähnlichkeit zwischen
+  ihren Zentroiden
+
+
+
+
+                Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                              06.07.2011
+
+
+
+
+Ward‘s Methode
+
+ Cluster mit kleinster Fehlersumme werden
+  verschmolzen
+ Fehlersumme ist Quadrate der einzelnen Euklidschen
+  Distanzen der Cluster-Elemente
+ Vorteil: homogene Cluster und symmetrische Cluster-
+  Hierarchie
+ Nachteil: hoher Berechnungsaufwand
+
+
+
+
+                 Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                       06.07.2011
+
+
+
+
+Agglomerative hierarchische Cluster-
+Verfahren: Dendogramm
+
+
+
+
+          Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                                      06.07.2011
+
+
+
+
+Allgemeiner Algorithmus für
+agglomerative Verfahren
+Grundlage: Ähnlichkeitsmatrix
+1.        Start mit N einelementigen Clustern
+          (entspr. durchnummeriert)
+2.        Suche nach Paar (x,y) mit höchster Ähnlichkeit
+3.        Verschmelzen von x und y:
+     1.     Verschmelzen der Spalten und Zeilen von x und y
+     2.     Neuer Wert ist Maximum bei Single Link
+            (analog für die anderen Verfahren)
+     3.     Neuer Cluster bekommt kleinere Nummer der Ursprungscluster
+4.        Schritte werden N-1 oft wiederholt
+
+
+                         Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                           06.07.2011
+
+
+
+
+Beispiel Average Link
+                                                     Wie berechnen sich die
+                                                    neuen Ähnlichkeitswerte?
+
+
+
+
+           Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                       06.07.2011
+
+
+
+
+Verschmelzen von Cluster 4 und 6
+
+
+
+
+          Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                       06.07.2011
+
+
+
+
+Verschmelzen von Cluster 1 und 4
+
+
+
+
+          Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                       06.07.2011
+
+
+
+
+Verschmelzen von Cluster 2 und 5
+
+
+
+
+          Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                       06.07.2011
+
+
+
+
+Verschmelzen von Cluster 1 und 2
+
+
+
+
+          Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                        06.07.2011
+
+
+
+
+Verschmelzen der restlichen Cluster
+
+
+
+
+           Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                        06.07.2011
+
+
+
+
+Ablauf der Cluster-Bildung
+
+
+
+
+           Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                           06.07.2011
+
+
+
+
+Anwendungsgebiete für Cluster-
+Verfahren
+
+ Automatische Thesaurus-Erzeugung
+ Suche entlang einer Cluster-Hierarchie
+ Aufbereitung des Ergebnisses einer Anfrage
+ Wartung einer Klassifikation
+
+
+
+
+              Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                            06.07.2011
+
+
+
+
+Automatische Thesaurus-Erzeugung
+
+ Thesaurus zur Erhöhung Recall-Wert
+ Statt manuell erstelltem Thesaurus Term-
+  Clustering
+ Anwendung Star-Technik
+ Ausgangspunkt: Term× Dokument-Matrix,
+  Vorkommenshäufigkeiten in den Zellen
+
+
+
+
+               Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                       06.07.2011
+
+
+
+
+Beispiel: Term×Dokument-Matrix
+
+
+
+
+          Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                               06.07.2011
+
+
+
+
+Beispiel: Term×Term-Ähnlichkeit
+
+Hier Zähler des Dice-Koeffizienten und Schwellenwert 40
+
+
+
+
+                  Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                       06.07.2011
+
+
+
+
+Beispiel: Term×Dokument-Matrix
+
+
+
+
+          Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                             06.07.2011
+
+
+
+
+Suche entlang einer Cluster-Hierarchie
+
+
+ Navigation von Wurzel zu Blättern entlang eines
+  Dendogramms
+ Jeder Cluster wird durch typisches Dokument (am
+  ähnlichsten zum Zentroid) repräsentiert
+ Vorteil: Anfrage muss nicht formuliert werden
+  (gehört zum Browsing)
+
+
+
+
+                Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                             06.07.2011
+
+
+
+
+Aufbereitung des Ergebnisses einer
+Anfrage
+ Strukturierung Anfrageergebnis ohne Sortierung
+  (Boolesches Retrieval) durch Bildung thematischer
+  Cluster
+ Sinnvoll auf Ergebnis mit Rangordnung zum Trennen
+  inhaltlicher Ausrichtungen
+ Problem: keine explizite Beschreibung der Cluster
+ Besser: Klassifikation, dafür aber hoher manueller
+  Aufwand
+
+
+                Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                              06.07.2011
+
+
+
+
+Wartung einer Klassifikation
+
+ Zuordnung neues Dokument zur Klassifikation mittels
+  Cluster-Verfahren, etwa Single-Link
+ Zweiter Schritt: Reallocation-Technik zur Überprüfung
+  der aktuellen Zuordnung
+ Test, ob Klassifikation schlüssig ist
+  (mittels Ähnlichkeitsmatrix)
+
+
+
+
+                 Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                                 06.07.2011
+
+
+
+
+6.3 Browsing
+
+ Browsing: Navigierender Zugriff auf Informationen
+     Weitere Aspekte: Durchstöbern, Überfliegen
+ Setzt entsprechende Aufbereitung der
+  Dokumentkollektion voraus
+     Literaturverzeichnisse und Referenzen
+     Klassifikationen
+     Hypertext-Dokumente
+     Cluster und Cluster-Hierarchien
+     Visuelle Darstellung von Dokumentkollektionen
+
+
+                    Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                            06.07.2011
+
+
+
+
+Literaturverzeichnisse und Referenzen
+
+
+ Wissenschaftliche Arbeiten enthalten
+  Literaturverzeichnisse und Referenzen
+ Aufwand zum Verfolgen einer Referenz sehr hoch
+
+
+
+
+               Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                             06.07.2011
+
+
+
+
+Klassifikationen
+
+ Betrachten der Dokumente in der selben Klasse
+ Klassenhierarchie: speziellere oder allgemeinere
+  Dokumente betrachten
+ Browsen von Wurzel bis zu den Blättern
+
+
+
+
+                Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                            06.07.2011
+
+
+
+
+Hypertext-Dokumente
+
+ Hypertext-Formate wie HTML enthalten Verweise auf
+  andere Stellen im Dokument oder andere Dokumente
+ Keine klar vorgegebene Struktur, sondern Netz von
+  Verweisen
+ Hohe Gefahr des Verlaufens, daher meist in
+  Kombination mit Suchmaschinensuche und Katalogen
+
+
+
+
+               Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                          06.07.2011
+
+
+
+
+Cluster und Cluster-Hierarchien
+
+ Betrachten von Dokumenten im gleichen
+  Cluster
+ Suche entlang Cluster-Hierarchie
+
+
+
+
+             Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                           06.07.2011
+
+
+
+
+Visuelle Darstellung von
+Dokumentkollektionen
+ Idee: komplexe Zusammenhänge leichter
+  graphisch als textuell erfassbar
+ Einsatz von Navigationshilfen im
+  Dokumentraum
+ Problem der Informationsvisualisierung
+
+
+
+
+              Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                           06.07.2011
+
+
+
+
+1-dimensionale lineare Darstellung
+
+ Sortierte Liste von Dokumenten
+ Sortierung etwa durch Klassifikation oder
+  Veröffentlichungsdatum
+
+
+
+
+              Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                      06.07.2011
+
+
+
+
+Beispiel: Dokumentation der Java-
+API
+
+
+
+
+         Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                            06.07.2011
+
+
+
+
+2-dimensionale Darstellung
+
+ Anordnung in der Ebene
+ Varianten der Anordnung
+  Dimensionsreduzierung auf 2 Dimensionen
+  Darstellung von Cluster-Hierarchien (in Kombination
+   mit Dimensionsreduzierung)
+  Anordnung anhand Kräften der Anziehung und
+   Abstoßung
+
+
+
+
+               Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                        06.07.2011
+
+
+
+
+Beispiel: ET-Map
+
+
+
+
+           Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                          06.07.2011
+
+
+
+
+3-dimensionale Darstellung
+
+ Weitere Dimension, etwa Höhenlinien
+ Höhe kann etwa Anzahl Dokumente zum Thema
+  bedeuten (NewsMap)
+ Zeitdimension (perspective wall)
+ Darstellung zusätzlicher Dimensionen kodiert
+  mittels Icons, Größe und Form von
+  Gegenständen
+
+
+             Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                       06.07.2011
+
+
+
+
+NewsMap
+
+
+
+
+          Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                        06.07.2011
+
+
+
+
+Perspective Wall
+
+
+
+
+           Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                           06.07.2011
+
+
+
+
+Mehrdimensionale Darstellung
+
+ Zusätzliche Dimensionen darstellbar mittels
+  Icons, Farben, Größe von Symbolen
+ Ab ca. 7 Dimensionen nicht mehr sinnvoll
+ Ansatz von Matt Ward (Kriterien von
+  Kraftfahrzeugen)
+
+
+
+
+              Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                        06.07.2011
+
+
+
+
+Kriterien von Kraftfahrzeugen
+
+
+
+
+           Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                       06.07.2011
+
+
+
+
+Baumartige Darstellung
+
+
+
+
+          Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                       06.07.2011
+
+
+
+
+Darstellung als Netzwerk
+
+
+
+
+          Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                        06.07.2011
+
+
+
+
+Scatter Plot
+
+
+
+
+           Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                           06.07.2011
+
+
+
+
+Grundlagen der Visualisierung von
+Dokumentkollektionen
+ „visual-information-seeking-mantra“ von Ben
+  Shneiderman: „Overview first, zoom and filter,
+  then detail on demand“
+ Möglichst ähnlichkeits- bzw. distanzbasiertes
+  Einbetten von Dokumenten oder Gruppen in 1-,
+  2-, oder mehrdimensionalen Vektorraum
+
+
+
+
+              Information Retrieval 1: 6 Alternativen zur globalen Suche
+                                                                        06.07.2011
+
+
+
+
+Aufgaben der
+Informationsvisualisierung
+
+
+
+
+           Information Retrieval 1: 6 Alternativen zur globalen Suche
+

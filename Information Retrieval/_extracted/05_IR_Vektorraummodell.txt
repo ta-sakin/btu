@@ -1,0 +1,892 @@
+Information Retrieval: Das
+    Vektorraummodell!
+
+                                                       Ingo Schmitt
+                  Brandenburgische Universität Cottbus
+                                  Institut für Informatik
+     Lehrstuhl für Datenbank- und Informationssysteme
+
+
+
+     Information Retrieval 1: 5 Das Vektorraummodell           06.07.2011
+                                                                    06.07.2011
+
+
+
+
+Überblick
+
+ am häufigsten eingesetztes Modell
+ Dokumente und Anfrage repräsentiert durch
+  t-dimensionale Vektoren
+ t ist Termanzahl des Indexierungsvokabulars
+ i-te Vektorkomponente ist Termgewicht (reelle Zahl)
+ Hohes Gewicht  entsprechender Term repräsentiert
+  Dokument/Anfrage gut
+
+
+
+
+                  Information Retrieval 1: 5 Das Vektorraummodell
+                                                                             06.07.2011
+
+
+
+
+    5.1 Grundidee
+       N sei Anzahl Dokumente
+       nk sei Anzahl Dokumente, die Term k enthalten
+       tfdk sei Vorkommenshäufigkeit von Term k in Dokument D
+       Dokument D wird durch Vektor VD=(wd1;...;wdt) repräsentiert
+       Analog Anfrage Q durch VQ=(wq1;...;wqt)
+       wqk bzw. wdk sind Relevanz von Dokument D bzw. Anfrage Q für
+        Term k
+       Ähnlichkeitsberechnung mittels Skalarprodukt: <VQ,VD>
+                                                           t
+        similarity(VQ ,VD ) =< VQ ,VD >= ∑ w qk w dk
+                                                          k=1
+
+
+
+                           Information Retrieval 1: 5 Das Vektorraummodell
+
+
+€
+                                                                 06.07.2011
+
+
+
+
+Grundannahme
+
+ Vektordimensionen sind von einander
+ unabhängig
+ Cluster-Hypothese
+  Dokumente und Anfrage liegen kompakt in einem
+   hochdimensionalen Vektorraum zusammen
+
+
+
+
+               Information Retrieval 1: 5 Das Vektorraummodell
+                                                                          06.07.2011
+
+
+
+
+Beispiel
+   Gewählte Indexterme: „Häuser“, „Italien“, „Gärten“, „Frankreich“
+   Grober Ansatz: wdk=tfdk
+    (keine Berücksichtigung der Dokumentlängen)
+   D1=„Häuser in Italien“  VD1=(1;1;0;0)
+   D2=„Häuser in Italien und um Italien“  VD2=(1;2;0;0)
+   D3=„Gärten und Häuser in Italien“  VD3=(1;1;1;0)
+   D4=„Gärten in Italien“  VD4=(0;1;1;0)
+   D5=„Gärten und Häuser in Frankreich“  VD5=(1;0;1;1)
+   Q=„Häuser in Italien“  VQ=(1;1;0;0)
+   Similarity(VQ,VD1)=2, Similarity(VQ,VD2)=3, Similarity(VQ,VD3)=2,
+    Similarity(VQ,VD4)=1, Similarity(VQ,VD5)=1
+
+
+                        Information Retrieval 1: 5 Das Vektorraummodell
+                                                                      06.07.2011
+
+
+
+
+5.2 Die Basisformeln zum
+Vektorraummodell
+Berechnung der Termgewichte wdk
+ Viele sehr ähnliche Formeln vorgeschlagen – hier die
+  gebräuchlichste Formel
+ 2 Faktoren
+  1.   Vorkommenshäufigkeit des Terms im Dokument
+  2.   Trennschärfe des Terms bezogen auf Dokumentkollektion
+
+
+
+
+                    Information Retrieval 1: 5 Das Vektorraummodell
+                                                                     06.07.2011
+
+
+
+
+Vorkommenshäufigkeit des Terms im
+Dokument
+ Je höher die Vorkommenshäufigkeit tfdk, desto besser
+  beschreibt Term Dokument
+ Achtung: absolute Vorkommenshäufigkeit bei langen
+  Dokumenten tendenziell höher
+ Konsequenz: lange Dokumente werden bei der Suche
+  bevorzugt
+ Beispiel: VD1=(50;5;0;0), VD2=(0;2;2;0), VQ=(0;1;1;0)
+   VD1 wird ungerechterweise bevorzugt:
+  <VQ,VD1>=5 und <VQ,VD2>=4
+
+                   Information Retrieval 1: 5 Das Vektorraummodell
+                                                                06.07.2011
+
+
+
+
+Vorkommenshäufigkeit des Terms im
+Dokument
+Unabhängigkeit von Dokumentlänge durch
+ Normierung der Dokumentvektoren:
+
+                             tf dk
+            w dk =            t
+
+                            ∑ tf        2
+                                       di
+                             i=1
+
+
+
+
+   €
+              Information Retrieval 1: 5 Das Vektorraummodell
+                                                                     06.07.2011
+
+
+
+
+Beispiel
+
+ Absolute Häufigkeit: VD1=(50;5;0;0), VD2=(0;2;2;0), VQ=
+  (0;1;1;0)
+ Relative Häufigkeit durch Vektornormierung: VD1=
+  (0,995;0,0995;0;0), VD2=(0;0,707;0,707;0)
+ Anfragevektor unverändert: VQ=(0;1;1;0)
+   <VQ,VD1>=0,0995 und <VQ,VD2>=1,41
+
+ davor: <VQ,VD1>=5 und <VQ,VD2>=4
+
+
+
+
+                   Information Retrieval 1: 5 Das Vektorraummodell
+                                                                    06.07.2011
+
+
+
+
+Trennschärfe des Terms
+
+ Wenn Term in weniger Dokumenten auftritt, ist er
+  spezifischer
+ Spezifischere Terme haben höhere Trennschärfe und
+  sollten höher gewichtet werden
+ Ansatz: Trennschärfe als Quotient: N/ni
+
+                                           N
+                                     tf dk
+                                           nk
+                 w dk =
+                                 t " N %2
+                               ∑$# tf di n '&
+                               i=1        i
+
+
+
+                  Information Retrieval 1: 5 Das Vektorraummodell
+                                                                       06.07.2011
+
+
+
+
+Trennschärfe als Quotient
+
+Problem mit N/ni: sehr seltene Terme dominieren Vektoren
+Beispiel: N=100000, ni=5 und nj=50
+
+
+
+
+                     Information Retrieval 1: 5 Das Vektorraummodell
+                                                                   06.07.2011
+
+
+
+
+Trennschärfe mittels Logarithmus
+
+ Natürlicher Logarithmus mildert Effekt ab
+ log(N/nk) statt N/nk
+
+
+
+
+                 Information Retrieval 1: 5 Das Vektorraummodell
+                                                                   06.07.2011
+
+
+
+
+Die tf∙idf-Formel
+                                          N
+                              tf dk log
+                                          nk
+             w dk =                        2
+                          t "         N  %
+                        ∑$# tf di log n '&
+                        i=1            i
+
+
+
+
+ tf steht
+      €    für term frequency
+ idf steht für inverse document frequency
+ tf∙idf-Formel ist heuristische Formel
+
+                 Information Retrieval 1: 5 Das Vektorraummodell
+                                                                                 06.07.2011
+
+
+
+
+    Repräsentation der Anfrage
+
+     Anfrage Q repräsentiert durch VQ=(wq1;...;wqt)
+
+     Wqk-Werte nicht mittels tf∙idf-Formel ermitteln, da
+         Jeder Term in Anfrage hat eigenes Grundgewicht 0,5
+         Normierung nicht nötig, da Faktor für alle Dokumente gleich
+     Vorschlag von Salton und Buckley:
+
+                 *$                    '
+                 ,& 0,5 + 0,5  ⋅ tf qk )       N
+                                         ⋅ log                 falls tf qk > 0
+          w qk = +&       max    tf    )       nk
+                 ,%       1≤i≤ t
+                                    qi (
+                 -               0                             falls tf qk = 0
+
+
+                              Information Retrieval 1: 5 Das Vektorraummodell
+
+€
+                                                                                 06.07.2011
+
+
+
+
+    Repräsentation der Anfrage
+                   Wie häufig kommt der Term
+                   in der Anfrage vor?
+                                                              Trennschärfe
+
+
+                 *$                    '
+                 ,& 0,5 + 0,5  ⋅ tf qk )       N
+                                         ⋅ log                 falls tf qk > 0
+          w qk = +&       max    tf    )       nk
+                 ,%       1≤i≤ t
+                                    qi (
+                 -               0                             falls tf qk = 0
+
+    Grundgewicht, da Term
+    explizit durch Nutzer gewählt wurde
+€
+
+
+                              Information Retrieval 1: 5 Das Vektorraummodell
+                                                                                    06.07.2011
+
+
+
+
+    Ähnlichkeit zwischen Dokumenten und
+    Anfrage
+       Berechnung über Skalarprodukt:                          t
+            similarity(VQ ,VD ) =< VQ ,VD >= ∑ w qk w dk
+       Gesetz aus linearer Algebra:                           k=1
+
+
+             VQ ,VD =   VQ ,VQ ⋅      VD ,VD ⋅ cosα
+       Cosinusmaß ist Cosinus des von VQ und VD eingeschlossenen
+€       Winkels:                                t
+
+                                              ∑ wqk ⋅ wdk
+    €                     simcos (VQ ,VD ) = t k=1
+                                                       t
+
+                                                        ∑w ⋅ ∑w     2
+                                                                    qi
+                                                                               2
+                                                                               dj
+                                                         i=1             j=1
+
+       Erzeugte Dokumentreihenfolge bei Cosinusmaß und
+        Skalarprodukt ist gleich
+                 €
+                           Information Retrieval 1: 5 Das Vektorraummodell
+                                                                        06.07.2011
+
+
+
+
+5.3 Eine Variante der tf∙idf-Formel
+
+   Viele Verbesserungen der tf∙idf-Formel vorgeschlagen
+   Im Folgenden exemplarisch eine Variante
+
+
+   Normierung der Vektoren soll Nachteil kurzer Dokumente
+    vermeiden
+   Nebeneffekt: kurze Dokumente haben wenige Komponenten mit
+    wdk>0
+   Normierung weniger Komponenten erzeugt relativ hohe Werte
+   Konsequenz für kurze Anfragen: Bevorzugung kurzer Dokumente
+   Normierung ist also „zu viel des Guten“  Kompensierung
+
+
+                      Information Retrieval 1: 5 Das Vektorraummodell
+                                                                      06.07.2011
+
+
+
+
+Test an konkretem Datenbestand
+
+CDs 1 und 2 der TREC-Kollektion mit 741856 Dokumenten und Topics
+  151 bis 200
+
+
+
+                    kurze Dokumente
+                    kommen zu häufig
+                    vor
+
+
+
+
+                    Information Retrieval 1: 5 Das Vektorraummodell
+                                                                            06.07.2011
+
+
+
+
+Anpassung der Normierung
+                                                          2
+                                   t  #          N&
+                                                                      t
+
+Normierungsfaktor                 ∑% tf di ⋅ log n ( =               ∑ di
+                                                                        2
+                                                                      w
+                                  i=1 $           i'                 i=1
+
+ Abschwächen langer Dokumente
+ Verschärfen kurzer Dokumente
+               €
+
+
+ Verwenden von kfdwdk statt wdk bei Normierung:
+
+
+                                 old _ normalization
+ kf d = (1 − slope) + slope⋅
+                             average _ old _ normalization
+
+                   Information Retrieval 1: 5 Das Vektorraummodell
+                                                                                       06.07.2011
+
+
+
+
+Beispiel
+
+ slope = 0,75 und
+  average_old_normalization = 40
+
+  Dokument       Old                 kfd            New                  Vektorlänge
+             normalization                      normalization
+
+     D1           20               0,625                 32                 0,625
+
+     D2           40                 1,0                 40                  1,0
+
+     D3           80                1,75               45,71                1,75
+
+
+
+
+                       Information Retrieval 1: 5 Das Vektorraummodell
+                                                                    06.07.2011
+
+
+
+
+Bestimmung des slope-Wertes
+ Muss empirisch bestimmt werden
+ Beispiel CDs 1 und 2 von TREC:
+  average_old_normalization = 13,36
+ Optimal ist slope = 0,75
+
+
+
+
+                  Information Retrieval 1: 5 Das Vektorraummodell
+                                                                    06.07.2011
+
+
+
+
+Zusammenfassung Variante
+der tf-idf-Formel
+ Durch modifizierte Normalisierung Annäherung
+  zwischen Relevanz- und Retrieval-Wahrscheinlichkeit
+   höhere Precision
+ Achtung: wdf ≤ 1 gilt nicht mehr immer
+   Anpassung der Algorithmen, welche auf Normierung
+  vertrauten
+ Slope-Wert muss empirisch ermittelt werden
+
+
+
+
+                  Information Retrieval 1: 5 Das Vektorraummodell
+                                                                     06.07.2011
+
+
+
+
+5.4 Relevance Feedback
+
+ Vektorraummodell erwartet vom Nutzer
+  Informationswunsch als Anfrage
+ Ziel: Nutzerinteraktionen als weitere
+  Informationsquellen zur Präzisierung nutzen
+ Nutzer bewertet nach erstem Durchlauf die einzelnen
+  Ergebnisse (relevant, nicht relevant)
+ Relevance Feedback nutzt Bewertung zur
+  Reformulierung neuer Anfrage
+ Bewertungen führen zur Verschiebung des
+  Anfragevektors
+                   Information Retrieval 1: 5 Das Vektorraummodell
+                                                                        06.07.2011
+
+
+
+
+Verschiebung des Anfragevektors
+
+   2 Terme
+   Ändern des „Suchwinkels“ in Richtung als relevant bewertetes
+    Dokument
+
+
+
+
+                      Information Retrieval 1: 5 Das Vektorraummodell
+                                                                         06.07.2011
+
+
+
+
+Methoden zur Anfrageverschiebung
+
+ Ausgangspunkt ist Zerlegung Feedback-Menge in
+     F+ (als relevant erachtete Dokumente) und
+     F- (als irrelevant erachtete Dokumente)
+     Evtl. auch F? (weder als relevant noch als irrelevant erachtet)
+ Methoden
+     Ide (dec hi)
+     Ide (regulär)
+     Rocchio
+
+
+
+
+                       Information Retrieval 1: 5 Das Vektorraummodell
+                                                                        06.07.2011
+
+
+
+
+    Ide (dec hi)
+
+     Dokumente aus F+ werden addiert
+     D-rel aus F-, welches den höchsten Rank im Ergebnis
+      hatte, wird abgezogen
+
+                       $        '
+            VQ = VQ + & ∑ D) − D
+              neu  alt            −rel
+
+                       % D ∈F + (
+
+
+
+€                     Information Retrieval 1: 5 Das Vektorraummodell
+                                                                      06.07.2011
+
+
+
+
+    Ide (regulär)
+
+     Dokumente auf F+ werden addiert
+     Dokumente auf F- werden abgezogen
+
+
+
+
+                    $        ' $        '
+         VQ = VQ + & ∑ D) − & ∑ D)
+           neu  alt
+
+                    % D ∈F + ( % D ∈F − (
+
+
+
+€                   Information Retrieval 1: 5 Das Vektorraummodell
+                                                                         06.07.2011
+
+
+
+
+    Rocchio
+
+     Dokumente auf F+ werden gemittelt und addiert
+     Dokumente auf F- werden gemittelt und abgezogen
+     Einfluss F+ und F- wird mit α bzw. β (α+β=1 ) gewichtet
+     Typische Belegung: α=0,25 und β=0,75
+
+
+
+                              &          )    &          )
+                                       D               D
+         VQneu = VQalt + β ⋅ (( ∑ + ++ − α ⋅ (( ∑ − ++
+                              ' D ∈F + F *    ' D ∈F − F *
+
+
+                       Information Retrieval 1: 5 Das Vektorraummodell
+
+€
+                                                                    06.07.2011
+
+
+
+
+Experimentelle Ergebnisse
+ Precision-Werte als Mittelwerte über Recall-Stufen
+  0,25;0,5 und 0,75
+ Ergebnisse unter Ausgewählte Terme: nur Terme in
+  vielen relevanten Dokumenten berücksichtigt
+  Vorteil: beschleunigte Anfragebearbeitung
+ Erhebliche Verbesserungen der Precision-Werte werden
+  erreicht
+ Ide (dec hi) schneidet am besten ab
+ Begründung: heterogene Menge F-, welche zusammen
+  keine klare Richtung angeben
+
+
+                  Information Retrieval 1: 5 Das Vektorraummodell
+                                                              06.07.2011
+
+
+
+
+Experimentelle Ergebnisse
+
+
+
+
+            Information Retrieval 1: 5 Das Vektorraummodell
+                                                                  06.07.2011
+
+
+
+
+Pseudo-Relevance-Feedback
+
+ Erste Elemente des Rankings werden zum
+ Relevance Feedback verwendet
+  Anfrageerweiterung, damit mehr Recall
+  Funktioniert nur gut, wenn Top-n Precision bereits
+   gut ist
+
+
+
+
+                Information Retrieval 1: 5 Das Vektorraummodell
+                                                                    06.07.2011
+
+
+
+
+5.5 Implementierung des
+Vektorraummodells
+
+Varianten:
+ Invertierte Listen (Standardansatz)
+ Mehrdimensionale Zugriffsstrukturen
+  (Problem der hohen Dimensionalität)
+ Signaturen
+
+
+
+
+                  Information Retrieval 1: 5 Das Vektorraummodell
+                                                                            06.07.2011
+
+
+
+
+Basisalgorithmen mit invertierten Listen
+
+        Anfragender will meist nur die γ besten Ergebnisse
+         sehen
+        Schritte:
+    1.    Betrachte die invertierten Listen zu den Anfragetermen in der
+          Reihenfolge fallender Anfragetermgewichte wqk
+    2.    Für jedes Paar (D,wdk) in der gerade betrachteten invertierten
+          Liste addiere wdk* wqk zum bisherigen Gewicht von D
+    3.    nach vollständiger Betrachtung einer invertierten Liste, prüfe,
+          ob Dokument mit Rang γ+1 noch Rang γ erreichen kann. Wenn
+          nicht, dann Abbruch
+
+
+                          Information Retrieval 1: 5 Das Vektorraummodell
+                                                                      06.07.2011
+
+
+
+
+Beispiel
+
+ Vokabular {Auto, Fahrrad, Kosten, Motorrad,
+  Produktion,Qualität}
+ Anfragevektor (0; 0; 8; 1; 10; 0)
+ γ+1 momentan besten Dokumente werden im
+  sortierten Array TopDocs gehalten
+ Zusätzlich jedes gelesene Dokument in
+  Hilfsdatenstruktur
+     wächst unter Umständen enorm!
+
+
+
+
+                    Information Retrieval 1: 5 Das Vektorraummodell
+                                                                06.07.2011
+
+
+
+
+Beispiel II
+
+
+
+
+              Information Retrieval 1: 5 Das Vektorraummodell
+                                                                 06.07.2011
+
+
+
+
+Beispiel III
+
+
+
+
+               Information Retrieval 1: 5 Das Vektorraummodell
+                                                                        06.07.2011
+
+
+
+
+Realisierung der Hilfsdatenstruktur
+
+ Verwaltung der Paare (D,g), also Dokument-Id und
+  Gewicht
+ Operationen
+     IsInDS(D) testet, ob D enthalten
+     InsertIntoDS(D,g) fügt neues Paar ein
+     AddToDSEntry(D,σ) fügt Gewicht σ dem Dokument hinzu
+     GetWeightFromDS(D) ermittelt Gewicht
+
+
+
+
+                      Information Retrieval 1: 5 Das Vektorraummodell
+                                                                      06.07.2011
+
+
+
+
+Notwendige Operationen auf
+invertierter Liste
+Operationen bzgl. Term k:
+ InitList(k) initialisiert Liste für sequentiellen Durchlauf
+ GetNextElementOfList(k) liefert aktuelles Paar (D,wdk)
+ NotAtEndOfList(k) testet, ob Ende noch nicht erreicht ist
+
+
+
+
+                    Information Retrieval 1: 5 Das Vektorraummodell
+                                                                   06.07.2011
+
+
+
+
+Realisierung des Array TopDocs
+
+
+ Enthält γ+1 Dokumente
+ Betrachtetes Dokument wird immer richtig einsortiert
+
+
+
+
+                 Information Retrieval 1: 5 Das Vektorraummodell
+                                                                 06.07.2011
+
+
+
+
+Die Operation MaxRemainingWeight()
+
+ Ermittelt maximal möglichen Gewichtszuwachs
+ Geht von wdk ≤ 1 aus
+
+
+
+
+               Information Retrieval 1: 5 Das Vektorraummodell
+                                                                        06.07.2011
+
+
+
+
+Algorithmus nach Buckley & Lewit
+
+   Liefert γ relevantesten Dokumente (aber nicht unbedingt in
+    richtiger Reihenfolge)
+
+
+
+
+                      Information Retrieval 1: 5 Das Vektorraummodell
+                                                                 06.07.2011
+
+
+
+
+Steigerung der Performance
+
+ Idee: Algorithmus früher abbrechen lassen und
+  Ungenauigkeit in Kauf nehmen
+ Buckley & Lewitt: Abbruch wenn n ≤ γ
+  Dokumente sicher erkannt wurden
+
+
+
+
+               Information Retrieval 1: 5 Das Vektorraummodell
+                                                                06.07.2011
+
+
+
+
+Experimente mit γ=10
+
+
+                                                             Besseres
+                                                             Ergebnis
+                                                             trotz frühen
+                                                             Abbruchs
+
+
+
+
+                             Baseline
+
+
+
+           Information Retrieval 1: 5 Das Vektorraummodell
+                                                                       06.07.2011
+
+
+
+
+Auswertung der Experimente
+
+ Je kleiner n desto besser der Recall-Wert
+ Möglicher Grund:
+     Hochgewichtete Terme (hohe Trennschärfe) werden
+      berücksichtigt, während bei langen Anfragen die restlichen
+      Term das Ergebnis „verwässern“
+
+
+ Fazit: exakte Berechnung führt nicht unbedingt zu
+  besseren Ergebnissen
+
+
+
+                     Information Retrieval 1: 5 Das Vektorraummodell
+                                                                        06.07.2011
+
+
+
+
+Bewertung Vektorraummodell
+ Vorteile des Modells:
+     Einfachheit
+     Im Gegensatz zum probabilistischen Modell unmittelbar auf
+      Dokumentkollektion anwendbar
+     Sehr gute empirische Retrieval-Qualität
+     Effiziente Implementierung durch invertierte Listen
+     Relevance Feedback verbessert Ergebnisqualität
+ Nachteile:
+     Geht von Unabhängigkeit der Dimensionen aus
+     Keine theoretische Fundierung des Modells
+     Anpassung an strukturierte Dokumente nur schwer möglich
+
+
+                      Information Retrieval 1: 5 Das Vektorraummodell
+                                                                        06.07.2011
+
+
+
+
+Bewertung Vektorraummodell
+ Vorteile des Modells:
+     Einfachheit
+     Im Gegensatz zum probabilistischen Modell unmittelbar auf
+      Dokumentkollektion anwendbar
+     Sehr gute empirische Retrieval-Qualität
+     Effiziente Implementierung durch invertierte Listen
+     Relevance Feedback verbessert Ergebnisqualität
+ Nachteile:
+     Geht von Unabhängigkeit der Dimensionen aus
+     Keine theoretische Fundierung des Modells
+     Anpassung an strukturierte Dokumente nur schwer möglich
+
+
+                      Information Retrieval 1: 5 Das Vektorraummodell
+                                                                        06.07.2011
+
+
+
+
+Bewertung Vektorraummodell
+ Vorteile des Modells:
+     Einfachheit
+     Im Gegensatz zum probabilistischen Modell unmittelbar auf
+      Dokumentkollektion anwendbar
+     Sehr gute empirische Retrieval-Qualität
+     Effiziente Implementierung durch invertierte Listen
+     Relevance Feedback verbessert Ergebnisqualität
+ Nachteile:
+     Geht von Unabhängigkeit der Dimensionen aus
+     Keine theoretische Fundierung des Modells
+     Anpassung an strukturierte Dokumente nur schwer möglich
+
+
+                      Information Retrieval 1: 5 Das Vektorraummodell
+

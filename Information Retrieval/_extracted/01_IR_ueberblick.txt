@@ -1,0 +1,1092 @@
+  Information Retrieval:
+Einführung und Überblick
+          (Skript nach Andreas Henrich)
+
+
+  Prof. Dr. Ingo Schmitt
+  Brandenburgische Universität Cottbus
+  Institut für Informatik
+  Lehrstuhl für Datenbank- und Informationssysteme
+
+
+
+
+           Information Retrieval: Einführung und Überblick   April 3, 2018
+  Information Retrieval:
+Einführung und Überblick
+          (Skript nach Andreas Henrich)
+
+
+  Prof. Dr. Ingo Schmitt
+  Brandenburgische Universität Cottbus
+  Institut für Informatik
+  Lehrstuhl für Datenbank- und Informationssysteme
+
+
+
+
+           Information Retrieval: Einführung und Überblick   April 3, 2018
+                                                                             April 3, 2018
+
+
+
+
+Lehrkonzept des Moduls
+
+n   Kurstext
+    n   http://www.b-tu.de/elearning/btu
+
+
+
+n Selbsttestaufgaben im Kurs
+n Applets im Kurs
+n Übung
+
+
+
+
+                           Information Retrieval: Einführung und Überblick
+                                                                      April 3, 2018
+
+
+
+
+Gliederung
+
+1. Motivation und Einführung
+2. Evaluierung und Beurteilung von IR-Systemen
+3. Berücksichtigung der Vagheit in Sprache
+4. Einfache IR-Modelle und ihre Implementierung
+5. Das Vektorraummodell
+6. Alternativen zur globalen Suche
+7. Weitere IR-Modelle
+8. Multimedia Information Retrieval
+9. Information Retrieval und das World Wide Web
+10. Ausblick
+
+                    Information Retrieval: Einführung und Überblick
+                                                                             April 3, 2018
+
+
+
+
+Motivation und Einführung: Gliederung
+n   Der Begriff Information Retrieval (IR)
+    n   Begriffserklärungen
+    n   Beispielszenarium für den Einsatz eines IR-Systems
+    n   Die historische Sicht und neuere Entwicklungen
+n   Aufgabenstellungen für IR-Systeme
+n   Abgrenzung von IR und Fakten Retrieval
+n   Das grundsätzliche Vorgehen beim Information Retrieval
+    n   Boolesches Retrieval
+    n   Das Vektorraummodell
+    n   Probabilistisches Information Retrieval
+n   Formulierung eines Informationswunsches
+n   Darstellung und Beurteilung von Suchergebnissen
+n   Zusammenfassung und Aufbau des Kurses
+
+                           Information Retrieval: Einführung und Überblick
+                                                                  April 3, 2018
+
+
+
+
+Motivation und Einführung
+
+n Gegenstand des Information Retrieval ist die
+  Suche nach Dokumenten
+n Die konkrete Ausprägung der Suche kann
+  dabei variieren:
+  n In welchem Datenbestand wird gesucht?
+  n Welche Typen von Dokumenten werden gesucht?
+  n Wie genau kann der Informationswunsch
+   beschrieben werden?
+
+
+                Information Retrieval: Einführung und Überblick
+                                                                        April 3, 2018
+
+
+
+
+Beispiele für IR-Anwendungen
+
+n   Suche nach Textinhalten im World Wide Web
+n   Suche nach Bildern im World Wide Web oder in speziellen
+    Angeboten
+n   Suche innerhalb eines Webauftrittes
+n   Suche in weiteren Medientypen (Video, Audio, …)
+n   Spezielle Dienste (Google Alerts, ….)
+n   Suche in einer Bibliothek (eine der Wurzeln des IR)
+
+
+
+
+                      Information Retrieval: Einführung und Überblick
+                                                  April 3, 2018
+
+
+
+
+Information Retrieval: Einführung und Überblick
+                                                  April 3, 2018
+
+
+
+
+Information Retrieval: Einführung und Überblick
+                                                  April 3, 2018
+
+
+
+
+Information Retrieval: Einführung und Überblick
+                                                  April 3, 2018
+
+
+
+
+Information Retrieval: Einführung und Überblick
+                                                                    April 3, 2018
+
+
+
+
+Wichtige Aspekte des IR
+
+n die Formulierung des Informationswunsches,
+n die Interpretation des Inhalts textueller und auch
+  multimedialer Dokumente,
+n die hinter IR-Systemen stehenden Modelle,
+n Fragen der Implementierung von IR-Systemen (wie
+  die verwendeten Algorithmen und Datenstrukturen)
+  sowie
+n Fragen zur Beurteilung von IR-Systemen.
+
+
+
+
+                  Information Retrieval: Einführung und Überblick
+                                                                   April 3, 2018
+
+
+
+Abgrenzung der Begriffe Daten, Wissen und Information
+nach Kuhlen
+
+
+
+
+                 Information Retrieval: Einführung und Überblick
+                                                                  April 3, 2018
+
+
+
+
+Zum Begriff Retrieval bietet z.B.
+Langenscheidts Wörterbuch:
+n wiederfinden, wiederbekommen
+n (sich etwas) zurückholen
+n herausholen, herausfischen
+n wiedergewinnen, wiedererlangen
+n etwas der Vergangenheit entreißen
+n apportieren
+
+
+
+
+                Information Retrieval: Einführung und Überblick
+                                                                     April 3, 2018
+
+
+
+
+Aufgabenstellungen für IR-Systeme
+
+n Klassifikation
+n Anfragebearbeitung
+n Browsing
+n Information Filtering
+n…
+
+
+
+
+                   Information Retrieval: Einführung und Überblick
+                                                             April 3, 2018
+
+
+
+
+Abgrenzung von Information Retrieval
+und Fakten/Daten Retrieval
+
+
+
+
+           Information Retrieval: Einführung und Überblick
+                                                              April 3, 2018
+
+
+
+
+Funktionalität von Suchmaschinen
+
+n Suche
+n Katalog
+n…
+
+
+
+
+            Information Retrieval: Einführung und Überblick
+                                                                                            April 3, 2018
+
+
+
+
+Was steckt dahinter?                                            Hier werden Informationen zu
+                                                                den bekannten Dokumenten
+                                                                verwaltet, um eine schnelle
+       Bearbeitung der Anfragen                                 Suche zu ermöglichen.
+       auf Basis des Index.
+
+
+
+
+    Portalseite zur
+    Suchmaschine.                                                       Durchsuchen des Netzes
+                                                                        nach Dokumenten und
+                                                                        Eintragen der Indexdaten in
+                                                                        den Index.
+
+
+
+                      Information Retrieval: Einführung und Überblick
+                                                                                                           April 3, 2018
+
+
+
+
+Information Retrieval als Grundlage
+n   Information Retrieval (IR) betrachtet Informationssysteme in Bezug
+    auf ihre Rolle im Prozess des Wissenstransfers vom menschlichen
+    Wissensproduzenten zum Informations-Nachfragenden.
+                                                 Ergebnis-
+                                                                                          Im Falle einer
+                                                    liste
+                                                                                          Suchmaschine das WWW.
+
+                                                Ähnlichkeits-
+     Anfrage als Repräsentation des               suche                  Features der           Dokumenten-
+        Informationsbedürfnisses                                         Dokumente                 Pool
+
+    Informations-
+      bedürfnis
+                                                                               Dokument         Dokument
+
+
+                                                                  Idee                  Idee
+
+                                                                                                           …
+
+       Anfrage                                                                      Dokumente
+
+
+                                      Information Retrieval: Einführung und Überblick
+                                                                          April 3, 2018
+
+
+
+
+Gliederung
+n Modelle des Information Retrieval
+  n   Boolesches Retrieval
+  n   Vektorraummodell
+  n   Qualitätskriterien für IR-Modelle
+  n   Berücksichtigung von Inhalt und Qualität
+  n   Übertragung auf andere Medien
+n Nutzung von Kontextwissen
+
+n Ganz andere Ansätze
+  n   der Markt regelt fast alles!
+
+
+
+
+                        Information Retrieval: Einführung und Überblick
+                                                                            April 3, 2018
+
+
+
+
+1. Modelle des Information Retrieval
+
+n   Aspekte:
+    n   Repräsentation des Informationswunsches
+    n   Repräsentation der Dokumente
+    n   Matching
+    n   Implementierung
+
+
+
+
+                          Information Retrieval: Einführung und Überblick
+                                                                                    April 3, 2018
+
+
+
+
+1.1 Das Boolesche IR-Modell
+
+
+
+
+ „Wirtschaft und Gesellschaft     {Wirtschaft, Gesellschaft,
+befinden sich derzeit im größten Umbruch, Industrialisierung,
+        Umbruch seit der                     …}
+     Industrialisierung. …“
+
+
+
+                                  Information Retrieval: Einführung und Überblick
+                                                                           April 3, 2018
+
+
+
+
+Implementierung: Invertierte Listen
+
+n   Grundidee:
+    n   Die normale Darstellung ist:
+               Das Dokument wird mit allen in ihm vorkommenden
+                                                           :
+
+
+
+                    Wörtern gemeinsam abgespeichert.
+    n   Die Suche geht aber nicht von den Dokumenten, sondern von
+        den Wörtern aus!
+    n   Also invertiert man die Verwaltung:
+                Man speichert zu jedem Wort alle Dokumente ab,
+                          die dieses Wort enthalten.
+    n   Dazu wird zu jedem Wort eine Liste der Dokumente verwaltet, die
+        dieses Wort enthalten:
+                               die invertierte Liste
+
+                         Information Retrieval: Einführung und Überblick
+                                                              April 3, 2018
+
+
+
+
+Beispiel: Invertierte Listen
+
+
+
+
+            Information Retrieval: Einführung und Überblick
+                                                                           April 3, 2018
+
+
+
+
+Bearbeitung von Anfragen
+
+n   Motorrad AND Qualität:
+    n   paralleles Durchlaufen der zugehörigen Listen
+    n   Übernahme der Dokumentreferenzen, die in beiden Listen
+        vorhanden sind, in die Ergebnisliste
+    n   durch Sortierung der Listen hohe Effizienz
+
+
+
+
+                         Information Retrieval: Einführung und Überblick
+                                                                                                           April 3, 2018
+
+
+
+
+Nachteile des Booleschen Retrieval
+
+n   keine Rückführung der Wörter auf eine Grundform
+n   keine Gewichtung der Wörter
+    n   nach dem Ort des Vorkommens
+    n   nach der Häufigkeit des Vorkommens
+n   keine Zerlegung von Mehrwortgruppen
+n   relativ aufwendige Formulierung der Anfrage                                    A       →
+                                                                                                    103 Bohunk
+n   kaum vorhersehbare Ergebnisgröße                                     A   and       B   M       102         bohunk
+n   kein Ranking der Dokumente                                 A   and   B and         C   M       O
+                                                                                                           Dohuuceuf
+                                                                                                   102
+                                                                   A     and       c
+                                                                                                       ?     Doer
+
+                                                                                           :
+                                                                                               r
+
+
+
+                       Information Retrieval: Einführung und Überblick
+                                                                                 April 3, 2018
+
+
+
+
+1.2 Das Vektorraummodell nach Salton
+
+
+
+
+„Wirtschaft und Gesellschaft
+  befinden sich derzeit im
+ größten Umbruch seit der
+  Industrialisierung. …“
+
+
+
+                               Information Retrieval: Einführung und Überblick
+                                                                                 April 3, 2018
+
+
+
+
+Beschreibungsvektor für Text
+                 1. Stoppworteliminierung:
+„Dies ist ein       n    entferne Wörter, die allein keine Bedeutung                  ⎛0⎞
+Text über                tragen und in fast allen Texten vorkommen                    ⎜ ⎟
+Frankreich und           (und, oder, der, die, …)                                     ⎜1⎟
+Napoleon. Er     2. Stammformreduktion:                                               ⎜ 2⎟
+handelt von              Rückführen aller auftretenden Wortformen
+                    n                                                                 ⎜ ⎟
+                                                                                      ⎜ M⎟
+Revolutionen,            auf den Wortstamm (Kaisern → Kaiser, …)
+Kaisern,
+Kriegen und
+                 3. Synonym-/Homonymbehandlung:                                       ⎜0⎟
+auch von            n    Ersetze Synonyme ggf. durch eine                             ⎜ ⎟
+Waterloo. Er
+bezieht sich
+                         Vorzugsbenennung
+                                                                                      ⎜1⎟
+                 4. Mehrwortgruppenbetrachtung:
+auf Frankreich
+                                                                                      ⎜0⎟
+                    n    Zerlege Mehrwortgruppen und/oder fasse
+und Europa …“            Wörter zu Mehrwortgruppen zusammen
+                                                                                      ⎜⎜ ⎟⎟
+                 5. Bildung eines Vektors:                                             ⎝1⎠
+                    n    die einzelnen Komponenten stehen für die
+                         Vorkommenshäufigkeiten der Begriffe
+                         (z.B. 1 = Geschichte, 2 = Napoleon, 3 = Frankreich …)
+
+
+                     Information Retrieval: Einführung und Überblick
+                                                                                                     April 3, 2018
+
+
+
+
+  Bearbeitung einer Anfrage
+                                     Napoleon
+
+    Anfrage
+
+"Geschichte                              Anfragevektor
+ Napoleon"
+
+
+                                                       Geschichte
+
+                        Frankreich
+
+             Napoleon                                            Napoleon
+
+              Beschreibungsvektor
+               eines Dokumentes
+                                                                                                  kleines α
+                                                                   α                                  =
+                                                                                               hohe Ähnlichkeit
+
+                        Geschichte                                                Geschichte
+
+Frankreich                                       Frankreich
+
+
+                                Information Retrieval: Einführung und Überblick
+                                                                                                  April 3, 2018
+                                                                          r
+
+
+
+
+    Bestimmung der Vektorkomponenten:                                                                         s
+
+
+
+
+           Die tf⋅idf-Formel nach Salton
+n   t     = Anzahl der Terme im Vokabular
+n   N     = Anzahl der Dokumente in der Kollektion
+n   nk    = Anzahl der Dokumente, die Term k enthalten
+n   tfdk = Vorkommenshäufigkeit von Term k in Dokument D
+          Berücksichtigung der
+                                                                                  Berücksichtigung der
+         Vorkommenshäufigkeit                                N                     Trennschärfe des
+                                                 tf dk ⋅ log                          Begriffs (idf)
+Gewicht des Terms k                                          nk
+  für Dokument D           wdk =
+                                                                              2
+                                             t
+                                                ⎛             N⎞
+Normierung, um den Einfluss                ∑    ⎜⎜ tf di ⋅ log ⎟⎟
+  der Dokumentlänge zu                     i =1 ⎝             ni ⎠
+        eliminieren
+
+
+                            Information Retrieval: Einführung und Überblick
+                                                                                       April 3, 2018
+
+
+
+
+1.3 Qualitätskriterien für IR-Systeme
+
+n Welche Aspekte sind von Bedeutung für die
+  Beurteilung eines IR-Systems?
+
+                       IR-Systeme                                  Datenbanksysteme
+Laufzeitverhalten      wichtig                                     wichtig
+Speicherplatzbedarf    wichtig                                     wichtig
+Korrektheit            ???                                         unabdingbar
+Ergebnisqualität       sehr wichtig                                durch Korrektheit
+                                                                   abgedeckt
+
+
+
+
+                      Information Retrieval: Einführung und Überblick
+                                                                                 April 3, 2018
+
+
+
+
+Evaluierung von IR-Systemen
+n   Wie kann man die Qualität des Ergebnisses messen?
+n   Annahme:
+    n   Für eine gegebene Anfrage kann für jedes Objekt eindeutig entschieden
+        werden ob es relevant oder nicht relevant ist.
+n   Qualität des Ergebnisses
+    n   Wie vollständig ist das Ergebnis?
+        n   Anteil der gefundenen relevanten Dokumente an der Gesamtzahl der
+            relevanten Dokumente
+        n   50 relevante gefunden; 100 relevante insgesamt ⇒ Recall = 50 %
+    n   Wie genau ist das Ergebnis? Enthält es nur relevante Einträge?
+        n   Anteil der relevanten Dokumente im Ergebnis
+        n   50 relevante gefunden; 75 insgesamt im Ergebnis ⇒ Precision = 67 %
+
+
+                             Information Retrieval: Einführung und Überblick
+                                                                          April 3, 2018
+
+
+
+
+1.4 Ist inhaltliche Relevanz alles?
+
+n Weitere Kriterien:
+  n   „Qualität“ des Beitrags
+  n   Art des Beitrags (Überblicksartikel, Spezialartikel, …)
+  n   …
+
+
+n Wie kann man die Qualität messen?
+  n   Idee:
+      n   Viele Links, die auf eine Seite verweisen deuten Qualität an!
+      n   Eine Umsetzung: PageRank-Verfahren von Google
+
+
+
+                        Information Retrieval: Einführung und Überblick
+                                                                        April 3, 2018
+
+
+
+
+Berechnung der Qualität
+                                               R(q)                          -
+
+
+
+
+             R( p) = ε + (1 − ε )⋅ ∑
+                                  ( q , p ) outlinks ( q )
+
+
+
+n R(p) = PageRank der Seite p
+
+n ε = Parameter zwischen 0,1 und 0,2
+
+n (q,p) = Seiten q mit Link zu Seite p
+
+n outlinks(q) = Zahl der ausgehenden Links von Seite q
+
+
+
+n Werte werden in einem iterativen Verfahren mit 5 bis 50
+  Iterationen berechnet
+
+                      Information Retrieval: Einführung und Überblick
+                                                                             April 3, 2018
+
+
+
+
+Probleme von PageRank
+n   Es erfolgt keine thematische Gewichtung der Links
+    n   eigentlich könnten Links nach der thematischen Relevanz der
+        verweisenden Seite gewichtet werden
+n   Die Zahl der Links ist auch vom „Alter“ einer Seite abhängig
+n   Es gibt zahlreiche weitere Kriterien für Qualität. Z.B.:
+    n   Aktualität (z.B. über Änderungsdatum)
+    n   Verfügbarkeit
+    n   Informationsgehalt (Anzahl der Fachbegriffe / Wörter im Text)
+    n   Popularität (z.B. über PageRank)
+    n   Autorität (z.B. über manuelle Bewertungen)
+    n   Kohäsion (inhaltliche Dichte à Nähe der verwendeten Begriffe)
+n   Wie verrechnet man „Qualität“ und inhaltliche Relevanz?
+
+
+                           Information Retrieval: Einführung und Überblick
+                                                                     April 3, 2018
+
+
+
+
+Verrechnung von Qualität und Relevanz
+
+n Addition
+n Multiplikation
+n…
+
+
+
+
+                   Information Retrieval: Einführung und Überblick
+                                                                            April 3, 2018
+
+
+
+
+Ansatz zur „Durchmischung“ des Ergebnisses
+                                            Wenn dieses Dokument ins Ergebnis
+                                            aufgenommen wird, bekommen Dokumente
+   inhaltliche                              in der „Nähe“ einen Malus, damit im
+                                            Ergebnis Dokumente mit unterschiedlichem
+    Relevanz                                Charakter aufeinander folgen.
+
+
+
+
+                                                           Qualität
+
+
+                 Information Retrieval: Einführung und Überblick
+                                                                                                       April 3, 2018
+
+
+
+
+1.5 Inhaltsbasierte Suche auf Bildern
+ Anfragebild   Anfragezkizze
+                                                                                  Kollektion
+                                …                                                von Bildern
+
+                                                                                        Extraktion
+                                                                                        charakteristischer
+                                    Feature-Extraktion                                  Eigenschaften
+                                                                                        (Features)
+                  ⎛ 15 ⎞
+                  ⎜    ⎟
+                  ⎜ 0 ⎟
+                  ⎜ 28 ⎟ Anfrage-                                                 Feature-
+                  ⎜    ⎟
+                  ⎜ 12 ⎟ vektor                                                   vektoren
+                  ⎜ 6 ⎟
+                  ⎜    ⎟
+                  ⎜ 7 ⎟
+                  ⎝    ⎠
+
+
+
+                                             Ähnlichkeits-
+                                               suche
+
+
+
+                           Anfrageergebnis (Rangordnung)
+
+                               Information Retrieval: Einführung und Überblick
+                                                                                                    April 3, 2018
+
+
+
+
+Beschreibungsvektor für Bilder
+
+n   Eigenschaften:
+                                                    Aufteilung des
+    n   Farbe
+                                                    RGB-Farbraums
+    n   Textur
+    n   Form
+
+                                                                                   Farbhistogramm
+                                                                         Anzahl
+
+
+
+                 1   2   3    4      5     6
+
+            zählen der Pixel mit einem                                         1    2   3   4   5   6    Topf
+        Farbwert im jeweiligen Teilbereich
+
+                             Information Retrieval: Einführung und Überblick
+                                                                                                          April 3, 2018
+
+
+
+
+  Bearbeitung einer Anfrage
+                            Farbhistogramm des Anfragebildes
+  Anfragebild
+                                 Anzahl
+
+
+
+
+                                     1     2    3     4     5     6    Topf
+
+
+Farbhistogramm eines Dokumentes
+                                                             Anzahl
+    Anzahl
+
+
+
+
+                                                                                                                    Ähnlichkeit
+                                                                   1     2    3        4   5   6   Topf
+        1       2   3   4    5   6   Topf
+
+
+                                     Information Retrieval: Einführung und Überblick
+                                                                                                   April 3, 2018
+
+
+
+
+Übertragung auf strukturierte MM-Dokumente
+Ein Beispieldokument:                   Thesis : document
+
+
+      Einleitung : chunk                 Hauptteil : chunk                       Schluss : chunk
+
+
+
+In dieser    Ferner                                                                    Am          In
+Arbeit …     …                                                                         Ende …      Zukunft
+                                       HT1 : chunk                HT2 : chunk                      …
+
+
+
+
+                      Hier …                Außer                                         Wir
+                                            …                                             sehen
+                                                                                          …
+
+
+
+
+                               Information Retrieval: Einführung und Überblick
+                                                                                                                   April 3, 2018
+
+
+                                                                                 chunk
+Anfragebearbeitung/                                                                   transfer ranking
+                                                                                  5. with RSV-Transfer
+
+Optimierung                                                                                                   ∅-Semantik
+
+                                                                      image                     text
+  Anfrage: Suche alle Bilder, die                                               combine                     ranking
+                                                                      6.      streams (e.g.     4. according to the
+  ein bestimmtes Logo enthalten und                                            with Quick               VSM (e.g. from
+  deren Text in der „Umgebung“                                                  Combine)                 inverted files)
+
+  inhaltlich einem gegebenen
+  Beispieltext ähnelt.                                                3.    transfer ranking      Maximumsemantik
+                                                                           with RSV-Transfer
+
+                      Chunk                                   image segment
+                                                                     2.     combine streams
+                                                                            (e.g. with Quick
+                                                                               Combine)
+            Image             Text1         Text2              1.
+                                                               ranking with ranking with ranking with
+                                                                 respect to   respect to   respect to
+                                                                    color       texture      shape
+                                                                 similarity   similarity   similarity
+  Image      Image       Image                                   (e.g. from   (e.g. from   (e.g. from
+Segment1   Segment2    Segment3                                 LSDh-tree)   LSDh-tree)   LSDh-tree)
+
+
+
+
+                                      Information Retrieval: Einführung und Überblick
+                                                                                     April 3, 2018
+
+
+
+
+2. Kontextunterstütztes Information Retrieval
+
+
+n   Idee:
+    n   Eine weitere Quelle zur
+                                                                Anfrage als
+        Konkretisierung des                                  Repräsentation des
+        Informationswunsches                              Informationsbedürfnisses
+        nutzen!
+    n   Rückgriff auf Wissen über                     Informations-
+        den Kontext des Benutzers                       bedürfnis
+
+    n   Dieses Wissen wird
+        verwendet, um eine
+        gezieltere
+                                                                             Kontext des
+        Anfragerepräsentation
+                                                                              Benutzers
+        abzuleiten.
+                                                            Anfrage
+
+                         Information Retrieval: Einführung und Überblick
+                                                                                                                        April 3, 2018
+
+
+                       Interaktionskontext             Arbeitskontext
+
+                                                              strukturierte         unstrukturierte           vergangene
+                                                               Aufgaben               Aufgaben                     Daten
+
+
+
+
+Kontextinformationen
+                            Ereignisse                                                                              aktuelle
+                             Aktionen                        Workflow              Aufgaben
+                           Aktionsfolgen                     Aufgaben               Aktionen
+                                                                                                             Snapshots
+Nutzermodell für
+
+                            Interaktion                                 Tätigkeit                          Dimensionen
+
+
+
+
+                                                     Nutzer-
+                                                     modell
+
+
+
+
+                                                  organi-
+                         physisch                                                          Profile
+                                                 satorisch
+
+
+
+
+                       geographisch               Stelle                       Wissen                   Wissen
+                          zeitlich                 Rolle                  Fähigkeiten                 Fähigkeiten
+                                                                              Interessen            aufgaben-
+                                                                                                 spezifisches Profil
+                                                                          persönliches
+                                                                             Profil
+                       Benutzerkontext
+
+
+
+
+                         Information Retrieval: Einführung und Überblick
+                                                                                                                                  April 3, 2018
+
+                                       Portalsystem
+                                                         empfohlene Dokumente / Informationen
+        Interaktion                    Ergebnis-
+                                       liste
+
+                                                                         System-      Benutzer-    Informations-
+                                                          System-       ereignisse    aktionen      bedürfnisse
+                                                         ereignisse
+                                       Applikation1
+                                                         Benutzer-
+                                                         aktionen
+Architekturrahmen                           Plug-In
+                                                        Informations-
+                                                         bedürfnisse
+                                       Applikation2
+
+                                            Plug-In                                                                   Retrieval
+                                                                                                                      System
+                                                                   schrittweise Erhöhung
+                                       Applikation3
+                                                                  der semantischen Ebene
+                                            Plug-In
+Generischer
+
+
+
+                                             Transformations-
+                                                      schicht
+
+
+                                                                      Einheitliches Nutzermodell                    automatische
+                                                                                                                    Generierung und
+                                                   Connector          Connector       Connector       Connector     Präzisierung von
+                                                                                                                    Anfragen
+                                                Verzeichnis-
+                                                   dienst
+
+
+                                                                  Preferenzen        Workflow- & Transformations-
+                                                                                      Aufgaben-       regeln
+                                                                                     information
+                                             organisatorische
+                                              Informationen
+                                                                                     Profile                       Tätigkeit
+                    organisatorisch
+                                Information Retrieval: Einführung und Überblick
+                                                                                                           April 3, 2018
+
+
+
+
+Anwendungsbeispiel: SW-Entwicklung
+            Running Process                                 Finished or Proceeding Process
+
+
+                                                                                             Requirements
+                                                                                             document(s)
+ Process
+Progress                                  Similarity
+                                                                                             specified by
+                                           Search
+
+                                                                                             Analysis
+                                                                                             document(s)
+
+                                                                                             realized by
+
+                                               scope of
+                                                                                             Design
+                                                search
+                                                                                             document(s)
+
+
+            works on                           scope of                                      implemented by
+                                               retrieved
+                               refines
+                                                artifacts                                    Implementation
+                   Context                                                                   document(s)
+Software
+Architect        Information
+
+
+
+
+                                Information Retrieval: Einführung und Überblick
+                                                                   April 3, 2018
+
+
+
+
+3. Suche und der Markt
+
+n Idee:
+  n Wer gefunden werden will soll dafür zahlen!
+
+
+
+n Probleme:
+  n Wer nicht zahlen kann/will wird nicht gefunden
+
+
+
+
+                 Information Retrieval: Einführung und Überblick
+                                                               April 3, 2018
+
+
+
+
+Es war einmal: offenes Bezahlen pro Click
+
+
+
+
+             Information Retrieval: Einführung und Überblick
+                                                  April 3, 2018
+
+
+
+
+Information Retrieval: Einführung und Überblick
+                                                               April 3, 2018
+
+
+
+
+Man findet die Infos immer noch
+
+
+
+
+             Information Retrieval: Einführung und Überblick
+                                                              April 3, 2018
+
+
+
+
+Suche nach „ERP“
+
+
+
+
+            Information Retrieval: Einführung und Überblick
+                                                                April 3, 2018
+
+
+
+
+Wer bezahlt wie viel?
+
+
+
+
+              Information Retrieval: Einführung und Überblick
+                                                               April 3, 2018
+
+
+
+
+Das Analoge bei Google:
+
+
+
+
+             Information Retrieval: Einführung und Überblick
+

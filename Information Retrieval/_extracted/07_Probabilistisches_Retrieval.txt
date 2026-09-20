@@ -1,0 +1,764 @@
+  Information Retrieval: !
+Probabilistisches Retrieval"
+
+                                                       Ingo Schmitt
+                   Brandenburgische Universität Cottbus
+                                   Institut für Informatik
+      Lehrstuhl für Datenbank- und Informationssysteme
+
+
+
+       Information Retrieval 1: 5 Probalistisches IR           06.07.2011
+                                                                   06.07.2011
+
+
+
+
+Überblick
+
+ Bisher: keine theoretisch fundierten Modelle, aber
+  trotzdem gute Ergebnisse
+ Ziel: Theoretisches Fundament für das Retrieval
+ Binary Independence Retrieval-Modell (BIR)
+
+
+ Der aktuelle Standard: Okapi BM 25
+
+
+
+
+                   Information Retrieval 1: 5 Probalistisches IR
+                                                                      06.07.2011
+
+
+
+
+Was soll berechnet werden?
+
+ Wahrscheinlichkeit, dass ein Dokument D relevant
+  bezüglich einer Anfrage Q ist
+ Chance:
+       Wahrscheinlichkeit für Relevanz/Wahrscheinlichkeit für
+        Irrelevanz
+
+
+
+
+                      Information Retrieval 1: 5 Probalistisches IR
+                                                                   06.07.2011
+
+
+
+
+Binary Independence Retrieval
+
+ Robertson/Sparck Jones [1976]
+ Grundannahmen:
+   Binäre Termgewichte, d.h. wdk  {0,1}
+   vgl. [0,1] beim Vektorraummodell
+
+
+   Unabhängigkeitsannahme der einzelnen
+    Dimensionen des Repräsentationsvektors
+   wie beim Vektorraummodell
+
+
+                   Information Retrieval 1: 5 Probalistisches IR
+                                                                  06.07.2011
+
+
+
+
+Definitionen
+
+ Dokument: D
+ Anfrage: Q
+ Menge der relevanten Dokumente: R+(Q)
+ Wahrscheinlichkeit, dass D zu Q relevant ist
+                       P(D  R+(Q))
+ Repräsentation eines Dokument: β(D)
+ Dimensionalität (#Terme): t
+
+
+
+                  Information Retrieval 1: 5 Probalistisches IR
+                                                                 06.07.2011
+
+
+
+
+Kernidee
+
+ Bedingte Wahrscheinlichkeit, dass Dokument D‘,
+  welches die gleiche Repräsentation wie D hat
+  relevant für die Anfrage Q ist
+
+
+
+ eigentlich: Wahrscheinlichkeit der Relevanz für
+  alle Dokumente gleicher Repräsentation
+
+
+                 Information Retrieval 1: 5 Probalistisches IR
+                                                                                   06.07.2011
+
+
+
+
+Beispiel
+
+           D1   D2    D3          D4             D5         D6       D7   D8   D9
+wd1        1    1     1           0              0          0        1    1    0
+wd2        1    0     1           0              1          0        1    0    0
+Relevanz ✔      ✔     ✔           ✗              ✗          ✗        ✗    ✗    ✗
+
+
+
+
+       x                                   P(...)
+       (1,1)                               2/3, da (1,1) 3x vorkommt
+                                           und 2x relevant ist
+       (1,0)                               1/2
+       ...                                 ...
+
+
+                     Information Retrieval 1: 5 Probalistisches IR
+                                                                                     06.07.2011
+
+
+
+
+Beispiel – Ein neues Dokument
+
+           D1   D2    D3          D4          D5          D6          D7   D8   D9   D10
+wd1        1    1     1           0           0           0           1    1    0    1
+wd2        1    0     1           0           1           0           1    0    0    0
+Relevanz   ✔    ✔     ✔           ✗           ✗           ✗           ✗    ✗    ✗    ?
+
+
+
+
+  Relevanzwahrscheinlichkeit für D10 ist ½, da in Klasse (1,0)
+
+
+
+
+                          Information Retrieval 1: 5 Probalistisches IR
+                                                                06.07.2011
+
+
+
+
+Offenes Problem
+
+ Wie ermittelt man die
+  Relevanzwahrscheinlichkeiten empirisch?
+ 2t mögliche Repräsentationen
+ Zur Bewertung benötigt man weit mehr als 2t
+  Dokumente!
+
+
+
+
+                Information Retrieval 1: 5 Probalistisches IR
+                                                                  06.07.2011
+
+
+
+
+Die ideale Antwort
+
+ Annahme, dass es eine ideale Antwort gibt, die
+  sämtliche relevante Dokumente bzgl. Q enthält
+ Gesucht: Repräsentation dieser Antwort
+ Problem: Wir kennen sie nicht!
+ Annäherung per Relevance Feedback an die
+  Repräsentation der idealen Antwort
+   Repräsentation der idealen Antwort enthält pro
+    Dimension entweder 1 oder 0
+
+                  Information Retrieval 1: 5 Probalistisches IR
+                                                                         06.07.2011
+
+
+
+
+Eigenschaften der idealen Antwort
+
+
+  Initiales                      Relevance                    Ideales
+
+
+
+              Zwischenergebnis
+  Ergebnis                       Feedback zur                 Ergebnis
+                                 Annäherung ...
+
+
+
+
+              Information Retrieval 1: 5 Probalistisches IR
+                                                                 06.07.2011
+
+
+
+
+Weitere Annahmen
+
+ Wahrscheinlichkeit, dass D für Q relevant ist
+  hängt nur von Anfragerepräsentation und
+  Dokumentenrepräsentation ab
+ Es existiert eine ideale Antwort R+(Q)
+ Chance, dass D relevant bzgl. Q ist:
+
+
+
+
+                 Information Retrieval 1: 5 Probalistisches IR
+                                                                   06.07.2011
+
+
+
+
+Chance
+
+ Wenn Wahrscheinlichkeit für Relevanz 0 wird,
+  dann ist Chance auch 0
+ Für Relevanzwahrscheinlichkeit von 1 strebt
+  Chance gegen unendlich
+ Chance wächst monoton
+   d.h. es ist egal ob nach Chance
+  oder Wahrscheinlichkeit sortiert
+  wird
+
+                   Information Retrieval 1: 5 Probalistisches IR
+                                                                   06.07.2011
+
+
+
+
+Weitere Definitionen
+
+ Komplement zu R+(Q) ist R-(Q): binäres
+  Relevanzurteil
+   d.h. Vereinigung sind alle Dokumente
+
+ Gewichte der Repräsentationssvektoren sind
+  binär, d.h. wdk  {0, 1}
+   gilt für Dokumente und Anfrage
+
+
+
+
+                   Information Retrieval 1: 5 Probalistisches IR
+                                                                 06.07.2011
+
+
+
+
+Rankingkriterium
+
+ Ähnlichkeit zwischen D und Q
+
+
+
+
+ Chance, dass D‘ relevant ist, wenn es die gleiche
+  Repräsentation wie D hat
+
+
+                 Information Retrieval 1: 5 Probalistisches IR
+                                                                06.07.2011
+
+
+
+
+Exkurs: Bayes‘ Theorem
+
+ Beschäftigt sich mit bedingten
+  Wahrscheinlichkeiten, z.B. a unter Bedingung b
+
+
+
+
+                Information Retrieval 1: 5 Probalistisches IR
+                                                                06.07.2011
+
+
+
+
+Beispiel zu Bayes‘ Theorem
+
+ P(b) = 10%
+ P(ab) = 5%
+ P(a|b)=0,05/0,1=0,5 => 50%
+
+
+
+
+                Information Retrieval 1: 5 Probalistisches IR
+                                                                06.07.2011
+
+
+
+
+Umformungen bei Bayes
+
+ Manchmal kann es günstiger sein, über leicht zu
+  bestimmende Wahrscheinlichkeiten auf andere
+  zu schließen
+
+
+
+
+                Information Retrieval 1: 5 Probalistisches IR
+                                                           06.07.2011
+
+
+
+
+Umformungen bei Bayes
+
+
+
+
+           Information Retrieval 1: 5 Probalistisches IR
+                                                            06.07.2011
+
+
+
+
+Einsetzen in Chance
+
+                          a                             b
+
+
+
+
+            Information Retrieval 1: 5 Probalistisches IR
+                                                                  06.07.2011
+
+
+
+
+Weitere Vereinfachung
+
+ Wahrscheinlichkeit, dass beliebiges Dokument
+  (ir)relevant ist, bleibt pro Anfrage konstant
+
+
+
+
+                  Information Retrieval 1: 5 Probalistisches IR
+                                                                   06.07.2011
+
+
+
+
+Vorläufiges Endergebnis
+
+
+
+ Zähler:
+   Wahrscheinlichkeit, dass Repräsentation gegeben,
+    wenn das Dokument relevant ist
+ Nenner:
+   Wahrscheinlichkeit, dass Repräsentation gegeben,
+    wenn es irrelevant ist
+
+                   Information Retrieval 1: 5 Probalistisches IR
+                                                                                     06.07.2011
+
+
+
+
+Beispiel
+
+         D1    D2     D3          D4           D5           D6       D7     D8   D9
+wd1      1     1      1           0            0            0        1      1    0
+wd2      1     0      1           0            1            0        1      0    0
+Relevanz ✔     ✔      ✔           ✗            ✗            ✗        ✗      ✗    ✗
+
+Neues Dokument D11=(1,1), sim(D11,Q)=4
+
+                                                                          2/3
+                                                                          1/6
+
+
+
+
+                     Information Retrieval 1: 5 Probalistisches IR
+                                                                                     06.07.2011
+
+
+
+
+Beispiel
+
+          D1     D2     D3          D4           D5           D6       D7   D8   D9
+wd1       1      1      1           0            0            0        1    1    0
+                                                   e m :
+                                                  l
+                                               0b 1
+                                               o           0 iten
+wd2       1      0     1       0
+                                      e
+                                       1
+                                         P   r        c h k  e  0
+Relevanz ✔       ✔     ✔
+                              o✗ffe ✗n              l
+                                               ✗ ög ✗i     ✗    ✗
+                     d  a  s           i 2 t  M
+              o  c h            n  b e
+Neuesm  e r n D11=(1,1),
+      Dokument
+                     m t   m  a
+                             sim(D11,Q)=4
+                                      e  n?
+  I m        s t im            p r ob
+      ie be          S t ic h
+    W        e n   d                                     2/3
+        nü  g                                            1/6
+    ge
+
+
+
+                       Information Retrieval 1: 5 Probalistisches IR
+                                                                06.07.2011
+
+
+
+
+Komponentenweise Bewertung
+
+ Man bestimmt Wahrscheinlichkeiten nicht mehr
+  pro Beschreibungsvektor, sondern je
+  Vektorkomponente
+ Wir ersetzen β(D‘)=β(D) durch
+  komponentenweise Gleichheit
+
+
+
+
+                Information Retrieval 1: 5 Probalistisches IR
+                                                               06.07.2011
+
+
+
+
+Die „Independence“ im BIR-Modell
+
+
+
+ Annahme, dass alle Komponenten voneinander
+ unabhängig sind, dann gilt:
+
+
+
+
+               Information Retrieval 1: 5 Probalistisches IR
+                                                                   06.07.2011
+
+
+
+
+Weitere Umformungen
+
+ Ziel: Vermeidung der Produktbildung über alle
+  Terme
+ Wir wissen:
+   log(a1*a2*a3)=log(a1)+log(a2)+log(a3)
+   wenn a1>a2>a3, dann gilt das auch für deren
+    Logarithmen
+
+
+
+
+                   Information Retrieval 1: 5 Probalistisches IR
+                                                                  06.07.2011
+
+
+
+
+Endgültige Formel
+ Unter folgenden Annahmen gilt dann:
+  Binäres Relevanzurteil (P(R+)+P(R-)=1)
+  Wir betrachten nur Anfrageterme = 1
+  Wir können alle Faktoren weglassen, die für alle
+   Dokumente bzgl. der Anfrage gleich sind oder so
+   angenommen werden
+
+
+
+
+                  Information Retrieval 1: 5 Probalistisches IR
+                                                                    06.07.2011
+
+
+
+
+Bestimmung des initialen Ergebnisses
+
+ Gesucht: Schätzung, dass P(wd‘i = 1|D‘ R+(Q))
+  bzw. P(wd‘i = 1|D‘ R-(Q))
+ Annahme: gleich häufig, d.h.:
+    P(wd‘i = 1|D‘ R+(Q)) =0,5
+   P(wd‘i = 1|D‘ R-(Q)) =ni/N
+
+
+
+
+                    Information Retrieval 1: 5 Probalistisches IR
+                                                                 06.07.2011
+
+
+
+
+Bestimmung des initialen Ergebnisses
+
+
+
+
+ Starke Ähnlichkeit zur tf*idf-Formel
+   Idf: N-ni ≈ N für großes N
+   Tf: wegen Summenindex und binären Werten
+
+
+                 Information Retrieval 1: 5 Probalistisches IR
+                                                                 06.07.2011
+
+
+
+
+Beispiel
+
+ Indexvokabular t=8
+ Anfragevektor Q=(1,0,0,1,1,0,0,0)
+ Anzahl der Dokumente N=500
+ n1=87; n4=23; n5=100
+ Dokument D=(1,0,0,0,1,1,0,0)
+
+
+
+
+                 Information Retrieval 1: 5 Probalistisches IR
+                                                                      06.07.2011
+
+
+
+
+Anpassung des initialen Ergebnisses
+
+ Idee des Relevance Feedbacks
+   Pseudo-Relevance
+       Feedback benötigt keine Nutzerinteraktion
+       V sei die Menge der r höchsten gerankten Dokumente
+   Echtes Relevanz Feedback
+       V* sei die Menge der positiv bewerteten Dokumente
+
+
+
+
+                      Information Retrieval 1: 5 Probalistisches IR
+                                                            06.07.2011
+
+
+
+
+Anpassung nach Relevanz Feedback
+
+
+
+
+            Information Retrieval 1: 5 Probalistisches IR
+                                                             06.07.2011
+
+
+
+
+Varianten bei sehr kleinen Mengen V
+
+
+
+
+ oder
+
+
+
+
+             Information Retrieval 1: 5 Probalistisches IR
+                                                                   06.07.2011
+
+
+
+
+Kritik am BIR-Modell
+
+ Unabhängigkeitsannahme der einzelnen
+  Komponenten (wie beim Vektorraummodell)
+ Initiales Ergebnis wird sehr grob geschätzt,
+  Relevance Feedback wird notwendig
+   Verbesserung nur für eine Anfrage gültig, kein Lernen
+
+ Binäre Gewichtung löst gröber auf als das
+  Vektorraummodell
+
+
+
+                   Information Retrieval 1: 5 Probalistisches IR
+                                                              06.07.2011
+
+
+
+
+Experimente
+
+
+
+
+              Information Retrieval 1: 5 Probalistisches IR
+                                                                 06.07.2011
+
+
+
+
+Okapi BM25
+
+ von Robertson/Sparck Jones entwickelt
+ erstmals im Okapi-System der City University
+  (London) eingesetzt
+ erfolgreich bei TREC eingesetzt
+ basiert auf probabilistischem Retrieval
+ Kombiniert TF-IDF-Variante mit
+  probabilistischem Retrieval
+
+
+                 Information Retrieval 1: 5 Probalistisches IR
+                                                                 06.07.2011
+
+
+
+
+BM25
+
+
+
+ k1 (zwischen 1, 0 und 2, 0), b (normalerweise 0,
+  75) und k3 (zwischen 0 und 1000) sind
+  Konstanten
+ dl: Länge des Dokuments in Worten
+ avdl: Durchschnittliche Länge der Dokumente
+
+
+
+                 Information Retrieval 1: 5 Probalistisches IR
+                                                                     06.07.2011
+
+
+
+
+BM25 vs. Vektorraummodell
+
+              I
+
+
+
+
+Achtung! Bei ni>N/2 kann IDF negativ werden:
+ z.B. Null setzen
+                                                 N
+                                       tf dk log
+                                                 nk
+                  w dk =                           2
+                                   t"         N  %
+                                ∑$# tf di log n '&
+                                i=1            i
+
+
+
+                     Information Retrieval 1: 5 Probalistisches IR
+
+
+       €
+                                                                06.07.2011
+
+
+
+
+Exkurs: Slope
+
+ Beim Vektorraummodell sollte durch
+ Normierung die Benachteiligung kurzer
+ Dokumente behoben werden
+ Problem: kurze Dokumente enthalten wenig
+ Terme, d.h. deren Beschreibungsvektoren
+ haben wenige Komponenten mit wdk>0
+
+
+
+                Information Retrieval 1: 5 Probalistisches IR
+                                                                06.07.2011
+
+
+
+
+Exkurs: Slope
+
+ Ergebnis:
+  kurze Dokumente haben nach Normierung große
+   Komponentenwerte, da normierte Länge 1 auf
+   wenig Komponenten „aufgeteilt“ wird
+  lange Dokumente haben kleine
+   Komponentenwerte
+  bei wenigen Anfragetermen werden Dokumente
+  mit hohen wdk-Werten bevorteilt (kurze
+  Dokumente)
+
+                Information Retrieval 1: 5 Probalistisches IR
+                                                                                   06.07.2011
+
+
+
+
+    Exkurs: Slope
+                                                                2
+                                       t #          N&
+                                                                         t
+
+     Alte Normierung                ∑% tf di ⋅ log n ( =               ∑w    2
+                                                                              di
+                                     i=1 $           i'                 i=1
+
+    wird ersetzt durch:
+                                     old _ normalization
+      kf d = (1 − slope)
+                      € + slope⋅
+                                 average _ old _ normalization
+
+     Slope meist im Bereich 0,65-0,75 (empirisch
+      bestimmen)
+€
+     Neuer wdk=kfd*wdk
+
+
+                        Information Retrieval 1: 5 Probalistisches IR
+                                                                        06.07.2011
+
+
+
+
+    Slope bei BM25
+
+
+
+     b und k1 steuern die Slope vgl.
+      Vektorraummodell
+                                      old _ normalization
+      kf d = (1 − slope) + slope⋅
+                                  average _ old _ normalization
+
+
+
+€
+                        Information Retrieval 1: 5 Probalistisches IR
+

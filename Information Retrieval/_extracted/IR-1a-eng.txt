@@ -1,0 +1,110 @@
+                                      Information Retrieval
+
+                                      Prof. Dr.-Ing. Ingo Schmitt
+
+                      Brandenburg University of Technology Cottbus–Senftenberg
+                                        Institute of Computer Science
+
+
+                                      Lecture in summer semester
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)        Lecture Information Retrieval   Lecture in summer semester   1 / 543
+                                Introduction and Overview
+
+
+
+
+                         1. Introduction and Overview
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   2 / 543
+                                Introduction and Overview
+
+
+
+Teaching concept of the module
+
+
+
+
+        Course text
+           ▶   https://www.b-tu.de/elearning/btu/
+           ▶   script is based on material from Andreas
+               Henrich
+
+
+        Exercises
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   3 / 543
+                                Introduction and Overview
+
+
+
+Requirements
+
+
+
+        Attendance of “Databases”
+        Algorithms and data structures
+        Basic knowledge of English grammar
+        Boolean logic
+        Linear algebra
+        Probability theory
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   4 / 543
+                                Introduction and Overview
+
+
+
+Outline
+
+1    Introduction and Overview
+
+2    Evaluation and Assessment of IR Systems
+
+3    Vagueness in Language
+
+4    Simple IR Models and their Implementation
+
+5    Vector Space Model
+
+6    Language Modelling
+
+7    Alternatives to the Global Search
+
+8    Probabilistic Retrieval
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   5 / 543
+                                Introduction and Overview
+
+
+
+Further literature I
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   6 / 543
+                                Introduction and Overview
+
+
+
+Further literature II
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)          Lecture Information Retrieval   Lecture in summer semester   7 / 543
+

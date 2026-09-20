@@ -1,0 +1,854 @@
+                                      Vector Space Model
+
+
+
+
+                                5. Vector Space Model
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval   Lecture in summer semester 300 / 543
+                                      Vector Space Model
+
+
+
+Outline
+
+
+
+
+    1   The Basic Idea
+    2   The Basic Formulas of the Vector Space Model
+    3   A Variant of the tf · idf Formula
+    4   Relevance Feedback
+    5   Implementation of the Vector Space Model
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval   Lecture in summer semester 301 / 543
+                                      Vector Space Model
+
+
+
+Overview
+
+
+
+
+        Most frequently used model
+        Documents and query represented by t-dimensional vectors
+        t is number of terms of the indexing vocabulary
+        i-th vector component is term weight (non-negative real number)
+        High weight ⇒ corresponding term represents document/query well
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval   Lecture in summer semester 302 / 543
+                                      Vector Space Model    The Basic Idea
+
+
+
+5.1 The Basic Idea
+
+        Let N be number of documents
+        Let nk be the number of documents containing term k
+        Let tfdk be the frequency of occurrence of term k in document D
+        Document D is represented by vector VD = (wd1 ; ...; wdt )
+        Analog: query Q by VQ = (wq1 ; ...; wqt )
+        wqk and wdk are relevance of document D and query Q for term k,
+        respectively
+        Similarity calculation using scalar product: ⟨VQ , VD ⟩
+                                                        t
+                                                        X
+                   similarity (VQ , VD ) = ⟨VQ , VD ⟩ =   wqk wdk
+                                                                             k=1
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 303 / 543
+                                      Vector Space Model    The Basic Idea
+
+
+
+Basic assumption
+
+
+
+
+        Vector dimensions are independent of each other
+        Cluster hypothesis
+           ▶   documents and query lie compactly together in a high-dimensional
+               vector space (similar documents show similar directions)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval    Lecture in summer semester 304 / 543
+                                      Vector Space Model    The Basic Idea
+
+
+
+Example
+
+        Selected index terms: ‘Houses’, ‘Italy’, ‘Gardens’, ‘France’
+        First approach: wdk = tfdk
+        (no consideration of document lengths)
+        D1 = ‘Houses in Italy’ ⇒ VD1 = (1; 1; 0; 0)
+        D2 = ‘Houses in Italy and around Italy’ ⇒ VD2 = (1; 2; 0; 0)
+        D3 = ‘Gardens and Houses in Italy’ ⇒ VD3 = (1; 1; 1; 0)
+        D4 = ‘Gardens in Italy’ ⇒ VD4 = (0; 1; 1; 0)
+        D5 = ‘Gardens and Houses in France’ ⇒ VD5 = (1; 0; 1; 1)
+        Q = ‘Houses in Italy’ ⇒ VQ = (1; 1; 0; 0)
+        Similarity(VQ , VD1 )=2, Similarity(VQ , VD2 )=3,
+        Similarity(VQ , VD3 )=2, Similarity(VQ , VD4 )=1,
+        Similarity(VQ , VD5 )=1
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval    Lecture in summer semester 305 / 543
+                                      Vector Space Model    The Basic Formulas of the Vector Space Model
+
+
+
+5.2 The Basic Formulas of the Vector Space Model
+
+
+
+
+Calculation of term weights wdk
+        Many very similar formulas available - here the most common formula
+        2 factors
+           1   frequency of occurrence of a term in the document
+           2   discriminatory power of a term related to document collection
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 306 / 543
+                                      Vector Space Model    The Basic Formulas of the Vector Space Model
+
+
+
+Frequency of occurrence of a term in a document
+
+
+
+        The higher the frequency of occurrence tfdk , the better the term
+        describes the document
+        Problem: absolute frequency of occurrence tends to be higher for long
+        documents
+        Consequence: long documents are preferred during search
+        Example: VD1 = (50; 5; 0; 0), VD2 = (0; 2; 2; 0), VQ = (0; 1; 1; 0)
+        ⇒ VD1 is unfairly preferred:
+        ⟨VQ , VD1 ⟩ = 5 and ⟨VQ , VD2 ⟩ = 4
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 307 / 543
+                                      Vector Space Model    The Basic Formulas of the Vector Space Model
+
+
+
+Frequency of occurrence of a term in a document
+
+
+
+
+Independence from document length by normalization of document
+vectors:
+                                    tfdk
+                         wdk = v u t
+                                 uX
+                                         tfdi2
+                                 u
+                                 u
+                                 t
+                                                            i=1
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 308 / 543
+                                      Vector Space Model    The Basic Formulas of the Vector Space Model
+
+
+
+Example
+
+
+
+        Absolute frequency:
+        VD1 = (50; 5; 0; 0), VD2 = (0; 2; 2; 0), VQ = (0; 1; 1; 0)
+        Relative frequency by vector normalization:
+        VD1 = (0.995; 0.0995; 0; 0), VD2 = (0; 0.707; 0.707; 0)
+        Query vector unchanged: VQ = (0; 1; 1; 0)
+        ⇒ ⟨VQ , VD1 ⟩ = 0.0995 and ⟨VQ , VD2 ⟩ = 1.41
+
+        Before: ⟨VQ , VD1 ⟩ = 5 and ⟨VQ , VD2 ⟩ = 4
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 309 / 543
+                                      Vector Space Model    The Basic Formulas of the Vector Space Model
+
+
+
+Discriminatory power of a term
+
+
+
+        If term occurs in fewer documents, it is more specific
+        More specific terms have higher discriminatory power and should be
+        weighted higher
+        Approach: discriminatory power as quotient: nNi
+                                                           tfdk · nN
+                                         wdk = v                   k
+                                               u       t
+                                                    uX
+                                                               N
+                                                          (tfdi )2
+                                                    u
+                                                    u
+                                                               ni
+                                                    t
+                                                      i=1
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 310 / 543
+                                      Vector Space Model    The Basic Formulas of the Vector Space Model
+
+
+
+Discriminatory power as a quotient
+        Problem with nNi : very rare terms dominate vectors
+        Example: N = 100000, ni = 5 and nj = 50
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 311 / 543
+                                      Vector Space Model    The Basic Formulas of the Vector Space Model
+
+
+
+Discriminatory power using logarithm
+
+        Natural logarithm mitigates effect
+        log ( nNk ) instead of nNk
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 312 / 543
+                                      Vector Space Model     The Basic Formulas of the Vector Space Model
+
+
+
+The tf · idf formula
+
+
+                                                           tfdk ·log nN
+                                      wdk = v                         k
+                                            u      t
+                                                uX
+                                                                 N
+                                                      (tfdi · log )2
+                                                u
+                                                u
+                                                                 ni
+                                                t
+                                                  i=1
+
+
+        tf stands for term frequency
+        idf stands for inverse document frequency
+        tf · idf formula is a heuristic formula
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval           Lecture in summer semester 313 / 543
+                                      Vector Space Model    The Basic Formulas of the Vector Space Model
+
+
+
+Query representation
+
+
+        Query Q represented by VQ = (wq1 ; ...; wqt )
+        Do not determine Wqk values using tf · idf formula, since
+           ▶   each term in query has its own base weight 0.5
+           ▶   normalization not necessary, since factor is the same for all documents
+        Proposal by Salton and Buckley:
+                                 
+                                         0.5·tfqk          N
+                                              tfqi ) · log nk
+                                 (0.5 + max                                  if tfqk > 0
+                      wqk =                   1≤i≤t
+                                 0                                           if tfqk = 0
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 314 / 543
+                                      Vector Space Model    The Basic Formulas of the Vector Space Model
+
+
+
+Query representation
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 315 / 543
+                                      Vector Space Model    The Basic Formulas of the Vector Space Model
+
+
+
+Similarity between documents and query
+        Calculation via scalar product:
+                                                                            t
+                                                                            X
+                       similarity (VQ , VD ) = ⟨VQ , VD ⟩ =                       wqk wdk
+                                                                            k=1
+        Law from linear algebra:p         p
+                 ⟨VQ , VD ⟩ = ⟨VQ , VQ ⟩ · ⟨VD , VD ⟩ · cosα
+        Cosine measure is cosine of the angle enclosed by VQ and VD :
+                                           Xt
+                                               wqk · wdk
+                                                   k=1
+                             simcos (VQ , VD ) = v
+                                                 u t      v
+                                                          u t
+                                                 uX       uX
+                                                       2
+                                                              wdj2
+                                                 u
+                                                     wqi ·u
+                                                          u
+                                                 u
+                                                 t        t
+                                                              i=1           j=1
+        Generated document order for cosine measure and scalar product is
+        the same
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 316 / 543
+                                      Vector Space Model    A Variant of the tf · idf Formula
+
+
+
+5.3 A Variant of the tf · idf Formula
+
+
+        Many improvements of the tf · idf formula are proposed
+        The following is one example of many variants
+
+        Normalization of vectors should avoid disadvantage of short
+        documents
+        Side effect: short documents have few components with wdk > 0
+        Normalization of a few components generates relatively high values
+        Consequence for short queries: preference for short documents
+        Normalization is therefore “too much of a good thing”
+        ⇒ compensation
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval           Lecture in summer semester 317 / 543
+                                      Vector Space Model    A Variant of the tf · idf Formula
+
+
+
+Test on concrete data set
+CDs 1 and 2 of the TREC collection with 741856 documents and Topics
+151 to 200
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval           Lecture in summer semester 318 / 543
+                                      Vector Space Model    A Variant of the tf · idf Formula
+
+
+
+Normalization adjustment
+
+Normalization factor
+                                 v                 v
+                                 u t               u t
+                                 uX           N  2
+                                                   uX 2
+                                 t (tfdi · log ) = t   wdi
+                                              ni
+                                      i=1                                   i=1
+        Long documents should become stronger
+        Short documents should become weaker
+
+        Use kfd · wdk instead of wdk when normalizing:
+                                                     old normalization
+                     kfd = (1 − slope) + slope · average old normalization
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval           Lecture in summer semester 319 / 543
+                                      Vector Space Model    A Variant of the tf · idf Formula
+
+
+
+Example
+
+
+        slope = 0.75 and average old normalization = 40
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval           Lecture in summer semester 320 / 543
+                                      Vector Space Model    A Variant of the tf · idf Formula
+
+
+
+Determination of the slope value
+
+        Must be determined empirically
+        Example CDs 1 and 2 of TREC:
+        average old normalization = 13.36
+        Optimal is slope = 0.75
+
+                          tf ·                                modified approach
+                          idf
+  slope                   -           0.60          0.65             0.70              0.75            0.80
+  found                   6526        6342          6458             6574              6629            6671
+  precision               0.284       0.302         0.310            0.314             0.317           0.316
+  improvement             -           +6.5%         +9.0%            +10.7%            +11.7%          +11.3%
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval           Lecture in summer semester 321 / 543
+                                      Vector Space Model    A Variant of the tf · idf Formula
+
+
+
+Summary: variant of tf · idf formula
+
+
+
+
+        Modified normalization: relevance and retrieval probability get closer
+        ⇒ higher precision
+        Attention: wdf ≤ 1 does no longer hold
+        ⇒ adaptation of algorithms that rely on normalization
+        Slope value must be determined empirically
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval           Lecture in summer semester 322 / 543
+                                      Vector Space Model    Relevance Feedback
+
+
+
+5.4 Relevance Feedback
+
+
+
+        Vector space model expects information need from user as query
+        Goal: user interactions as additional sources of information for
+        clarification
+        User evaluates individual results after first run (relevant, not relevant)
+        Relevance feedback uses evaluation to reformulate new query
+        Evaluations lead to shift of the query vector
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval        Lecture in summer semester 323 / 543
+                                      Vector Space Model    Relevance Feedback
+
+
+
+Shifting the query vector
+        2 terms
+        Changing the ‘search angle’ in the direction of the document
+        evaluated as relevant
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval        Lecture in summer semester 324 / 543
+                                      Vector Space Model    Relevance Feedback
+
+
+
+Query shifting methods
+
+
+
+        Starting point is decomposition of the feedback set into
+           ▶ F + (documents considered relevant) and
+           ▶ F − (documents considered irrelevant)
+           ▶ Possibly also F ? (neither considered relevant nor irrelevant)
+
+        Methods
+           ▶ Ide (dec hi)
+           ▶ Ide (regular)
+           ▶ Rocchio
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval        Lecture in summer semester 325 / 543
+                                      Vector Space Model    Relevance Feedback
+
+
+
+Ide (dec hi)
+
+
+
+
+        Documents from F + are added
+        D −rel from F − with highest rank in result is subtracted
+                                                            X
+                                VQnew = VQold + (                   D) − D −rel
+                                                           D∈F +
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval        Lecture in summer semester 326 / 543
+                                      Vector Space Model    Relevance Feedback
+
+
+
+Ide (regular)
+
+
+
+
+        Documents from F + are added
+        Documents from F − are subtracted
+                                                           X                X
+                             VQnew = VQold + (                  D) − (              D)
+                                                       D∈F +                D∈F −
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval           Lecture in summer semester 327 / 543
+                                      Vector Space Model    Relevance Feedback
+
+
+
+Rocchio
+
+
+
+        Documents from F + are averaged and added
+        Documents from F − are averaged and subtracted
+        Influence of F + and F − is weighted by α and β (α + β = 1),
+        respectively
+        Typical assignment: α = 0.25 and β = 0.75
+
+               VQnew = VQold + β · |F1+ |                              1
+                                                  P                           P
+                                                       D∈F + D − α · |F − | ·  D∈F − D
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval        Lecture in summer semester 328 / 543
+                                      Vector Space Model    Relevance Feedback
+
+
+
+Experimental results
+
+
+
+        Precision values as mean values over recall levels 0.25, 0.5 and 0.75
+        Results under selected terms: only terms in many relevant documents
+        are considered
+        → advantage: accelerated query processing
+        Significant improvements in precision values are achieved
+        Ide (dec hi) performs best
+        Reason: heterogeneous set F − does not give a clear direction
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval        Lecture in summer semester 329 / 543
+                                      Vector Space Model    Relevance Feedback
+
+
+
+Experimental results
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval        Lecture in summer semester 330 / 543
+                                      Vector Space Model    Relevance Feedback
+
+
+
+Pseudo relevance feedback
+
+
+
+
+        First elements of the ranking are used for relevance feedback
+           ▶   query expansion improves recall
+           ▶   works well only if top n precision is already good
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval        Lecture in summer semester 331 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+5.5 Implementation of the Vector Space Model
+
+
+
+
+Variants:
+        Inverted lists (standard approach)
+        Multidimensional access structures (high dimensionality problem)
+        Signatures
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 332 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+Basic algorithms with inverted lists
+
+
+
+        Querier usually wants to see only the γ best results
+        Steps:
+           1   run through the inverted lists of the query terms in order of falling
+               query term weights wqk
+           2   for each pair (D, wdk ) in the inverted list just considered, add wdk · wqk
+               to the previous weight of D
+           3   after fully considering an inverted list, check if document with rank
+               γ + 1 can still reach rank γ
+               if not, then abort
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 333 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+Example
+
+
+
+
+        Vocabulary {Car, Bike, Cost, Motorcycle, Production, Quality}
+        Query vector (0; 0; 8; 1; 10; 0)
+        γ + 1 currently best documents are kept in the sorted array TopDocs
+        Additionally, each read document in auxiliary data structure
+           ▶   grows enormously under certain circumstances!
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 334 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+Example II
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 335 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+Example III
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 336 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+Realization of the auxiliary data structure
+
+
+
+
+        Management of pairs (D, w ), i.e. document ID and weight
+        Operations
+           ▶ IsInDS(D) tests whether D is contained
+           ▶ InsertIntoDS(D, w ) inserts new pair
+           ▶ AddToDSEntry (D, w ) adds weight w to the document
+
+           ▶ GetWeightFromDS(D) determines weight
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 337 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+Necessary operations on inverted list
+
+
+
+
+Operations on term k:
+        InitList(k) initializes list for sequential iteration
+        GetNextElementOfList(k) returns current pair (D, wdk )
+        NotAtEndOfList(k) tests if end is not reached yet
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 338 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+Realization of the TopDocs array
+
+
+
+
+        Contains γ + 1 documents
+        Seen document is inserted at correct position (in sorted list)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 339 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+The MaxRemainingWeight() operation
+
+
+
+
+        Determines maximum possible gain of weight
+        Assumes wdk ≤ 1
+                                                                            X
+                 MaxRemainingWeight() =                                                      wqk ′
+                                                           all remaining query terms k ′
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 340 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+Algorithm according to Buckley & Lewit
+
+        Returns γ most relevant documents
+        (but not necessarily in correct order)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 341 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+Performance increase
+
+
+
+
+        Idea: let algorithm terminate earlier and accept inaccuracy
+        Buckley & Lewit: termination when n ≤ γ documents have been
+        reliably detected
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 342 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+Experiments with γ = 10
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 343 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+Evaluation of the experiments
+
+
+
+        The smaller n the better the recall value
+        Possible reason:
+           ▶   highly weighted terms (high discriminatory power) are taken into
+               account whereas for long queries the remaining terms ‘dilute’ the result
+
+
+        Conclusion: exact calculation does not necessarily lead to better
+        results
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 344 / 543
+                                      Vector Space Model    Implementation of the Vector Space Model
+
+
+
+Evaluation vector space model
+
+
+        Advantages:
+           ▶ simplicity
+           ▶ directly applicable to document collection in contrast to probabilistic
+             model
+           ▶ very good empirical retrieval quality
+           ▶ efficient implementation as inverted lists
+
+           ▶ relevance feedback improves quality of results
+
+        Disadvantages:
+           ▶ assumes independence of dimensions
+           ▶ no theoretical foundation of the model
+           ▶ adaptation to structured documents only possible with difficulty
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 345 / 543
+

@@ -1,0 +1,1553 @@
+ Information Retrieval: !
+Einfache IR-Modelle und ihre
+      Implementierung"
+                                                                        Ingo Schmitt
+                          Brandenburgische Universität Cottbus
+                                          Institut für Informatik
+             Lehrstuhl für Datenbank- und Informationssysteme
+
+
+
+  Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung       06.07.2011
+                                                                                     06.07.2011
+
+
+
+
+Gliederung
+
+4.1 Pattern-Matching
+4.2 Wortsuche
+4.3 Boolesches Retrieval
+4.4 Coordination Level Match
+4.5 Extended Boolean
+4.6 Fuzzy-Mengen-Modell
+
+
+
+           Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+IR-Modell
+implizite wie auch explizite Aspekte:
+   Annahmen
+     etwa: egal, ob Wort einmal oder zehnmal im Dokument
+      vorkommt
+     Unabhängigkeit der einzelnen Indexworte
+
+
+   Repräsentation von Dokumenten und Anfragen
+
+   Retrieval-Funktion
+     Berechnung Relevanzkennzahl für ein Paar aus Anfrage und
+      Dokument
+     Näherung der Relevanzwahrscheinlichkeit
+
+
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                            06.07.2011
+
+
+
+
+4.1 Pattern-Matching
+   Sehr einfaches IR-Modell
+   in einigen IR-Modellen als Teilmodell
+   Aufgabenstellung: Suche einer Zeichenkette (Such-Pattern,
+    Suchmuster) in längerem Text
+ Realisierung:
+     Suchmuster der Länge m von links nach rechts sequenziell mit dem
+      zu durchsuchenden Text der Länge n vergleichen
+       O(m*n)
+     Bessere Algorithmen: Boyer-Moore-Horspool-Sunday-Algorithmus,
+      Knuth-Morris-Pratt-Algorithmus
+       O(n)
+
+
+
+
+                  Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+4.2 Wortsuche
+   Sehr einfaches IR-Modell
+   Aufgabenstellung:
+         Gegeben: Wort W
+         Gesucht: alle Dokumente, die W enthalten
+   mögliche Erweiterung: Verwendung Stamm- oder
+    Grundformreduktion
+
+
+
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                        06.07.2011
+
+
+
+
+Wortmenge
+Ausweitung auf Wortmenge {W1, …, Wk}
+ Suche nach Dokumenten, die alle gegebenen Worte
+  enthalten
+ implizite UND-Verknüpfung über die gesuchten Worte
+ erster Schritt zum Booleschen Retrieval
+
+
+
+
+              Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                         06.07.2011
+
+
+
+
+Unterschied zum Pattern-Matching
+
+
+   Kein Test, ob gegebenes Pattern bzw. Suchwort in einem Text
+    enthalten ist, sondern Ermittlung Menge von Suchwort
+    enthaltenden Dokumenten
+     Erweiterung zu Wortmengen möglich
+   Suchwort muss im Dokument als eigenständiges Wort auftreten
+
+
+
+
+               Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                         06.07.2011
+
+
+
+
+Implementierungsansätze für die Wortsuche
+
+
+
+ Pattern-Matching-Algorithmus auf jedem Dokument
+  und anschließender Test auf eigenständiges Wort
+     Problem: Suchaufwand wächst linear mit Umfang der
+      Dokumentkollekton
+ Indexstruktur vorab erstellen
+     Invertierte Listen
+     Signaturen
+
+
+
+
+               Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                        06.07.2011
+
+
+
+
+Invertierte Listen
+zu jedem Wort wird eine sortierte Liste der Dokumente verwaltet,
+   welche dieses Wort enthalten
+
+
+
+
+              Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                         06.07.2011
+
+
+
+
+Wortsuche: Suchwort
+Suche nach allen Dokumenten, die exakt das Suchwort enthalten
+
+
+   Durchlauf der invertierten Liste zum vorgegebenen Suchwort
+
+
+
+
+               Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                            06.07.2011
+
+
+
+
+    Wortsuche: Gleicher Wortstamm
+   Suche nach Vorkommen mit gleichen Wortstamm:
+      1.   Wortstamm zu Suchwort bilden
+      2.   Temporäre Listenmenge erstellen: alle Listen zu Wörtern, deren
+           Wortstamm identisch zum Wortstamm des Suchworts ist
+      3.   Vereinigungsmenge der Dokumenten-Ids der Listen der
+           Listenmenge bilden
+      4.   Dokumente der Vereinigungsmenge bilden Ergebnis der
+           Anfrage
+
+
+
+
+                  Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                           06.07.2011
+
+
+
+
+Wortsuche: Gleicher Wortstamm
+
+   Effiziente Bestimmung der Vereinigungsmenge über mehrere
+    Listen mittels Sortierung der Listen nach Dokument-Ids
+         Listen werden parallel durchlaufen
+         Ausnutzung Sortierung:
+           1.  Initialisieren aller Listen auf jeweils erstes Element
+           2.  kleinstes aktuelles Element kommt in Ergebnisliste
+           3.  Listen mit kleinstem aktuellen Element werden auf
+               nächstes Element gesetzt
+           4.  wenn insgesamt noch Elemente vorhanden sind
+                Schritt 2
+
+
+
+
+                 Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+Wortsuche: nach Wortmenge
+
+  Schnittmengenbildung über betroffene Listen
+  Listen werden parallel durchlaufen
+  Ausnutzung der Sortierung der Listen
+   1.   Initialisieren aller Listen auf jeweils erstes Element
+   2.   Alle aktuellen Elemente gleich
+         Übernahme in Ergebnisliste
+   3.   Alle aktuellen Elemente nicht gleich
+         Listen mit kleinstem Element auf nächstes Element
+   4.   wenn insgesamt noch Elemente vorhanden sind
+         Schritt 2
+
+
+
+             Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                        06.07.2011
+
+
+
+
+Implementierung invertierter Listen
+Erforderlicher Speicherplatz:
+ Beispiel TREC-Kollektion
+   enthält Artikel aus Financial Times
+   Umfang der Dokumentenkollektion beträgt 564 MByte
+   Kollektion enthält 210.158 Artikel, die im Mittel ca. jeweils 150
+    unterschiedliche Wörter haben
+   Annahme: 4 Bytes pro Dokument-ID
+     210.158 · 150 · 4 Byte = 126.094.800 Byte = 120 MByte
+   Unberücksichtigt: Begriffe selbst, Verwaltungsdaten,
+    Vorkommenshäufigkeit, -ort
+   Fazit: Index kann schnell 20% der Dokumentkollektion
+    erreichen ⇒ Speicherung auf Hintergrundspeicher
+
+              Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+Zipf‘s Law
+Beobachtung beim Betrachten von Texten:
+ einige wenige Wörter kommen sehr häufig vor
+ englische Texte:
+   die beiden am häufigsten vorkommenden Wörter stellen
+    10 % aller Vorkommen
+   die sechs häufigsten Wörter stellen 20 % aller Vorkommen
+   die fünfzig häufigsten Wörter stellen 50 % aller Vorkommen
+
+ Sehr viele Worte kommen sehr selten vor
+
+
+
+
+             Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                  06.07.2011
+
+
+
+
+Zipf‘s Law: Brown und Lob
+
+
+
+
+        Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                              06.07.2011
+
+
+
+
+Zipf‘s Law
+   Sortierung der Wörter nach Vorkommenshäufigkeit
+     Produkt aus Rangzahl und Vorkommenshäufigkeit ist konstant
+    (Zipf‘s Law)
+       Häufigste Wort ca. 7 Millionen oft
+       Zweithäufigste Wort ca. 3,5 Millionen oft
+       Dritthäufigste Wort ca. 2,3 Millionen oft
+   Formal:
+       repräsentativer Textcorpus C
+       W(C) ist Menge der Wörter, die in C vorkommen
+       h(w) ist Häufigkeit, mit der ein Wort w  W (C) im Korpus vorkommt
+       r(w) bezeichne den Rangplatz von w  W (C), wenn die Wörter nach
+        abfallender Häufigkeit sortiert werden
+       Dann gilt: r (w) · h(w) ≈ c (konstant), ∀w  W(C)
+
+
+                    Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                      06.07.2011
+
+
+
+
+Zipf‘s Law
+
+
+
+
+   Beispiel aus Wikipedia (27.05.2009)
+
+            Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+Zipf‘s Law und invertierte Listen
+
+Schlussfolgerung:
+   Wenige lange Listen
+    trotz Entfernung von Stoppwörtern
+   Viele kurze Listen
+    trotz Entfernung sehr seltener Wörter (Crouch)
+   Suchstruktur zur Abbildung Wörter auf entspr. Liste nötig
+     z.B. B-Baum oder Digitalbäume
+
+
+
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                     06.07.2011
+
+
+
+
+Exkurs: B-Baum
+
+ Bekannt aus VL Datenbanktechnologie
+   Anwendung in Datenbanken und Dateisystemen
+
+ Balancierter Baum
+ Speicherung der Daten sortiert nach Schlüsseln
+ Blattknoten mit Daten
+
+
+
+
+           Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+Verwaltung invertierter Listen
+
+ Persistente Verwaltung auf Hintergrundspeicher
+ Verwaltung in Blöcken/Seiten
+      1:1-Zuordnung zwischen Listen und Seiten wegen Variabilität
+       der Listenlängen nicht sinnvoll
+      Mehrere kleine Listen auf eine Seite
+      Große Listen über mehrere Seiten hinweg
+ Mehrstufige Adressierung einer Liste
+  1.   Dateikennung
+  2.   Blocknummer in Datei
+  3.   Anfangsadresse im Block (zusätzlich auch Länge)
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                 06.07.2011
+
+
+
+
+Verwaltung invertierter Listen
+
+
+
+
+       Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+Signaturen
+
+ Alternative zu invertierten Listen
+ Hash-Abbildung l-stelliges Wort w1w2..wl auf Signatur
+  (Bitstring fester Länge F)
+ Effiziente Vergleichsoperationen auf Signaturen
+ Beispiel Hash-Abbildung:
+
+
+
+
+             Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+Eigenschaften von Signaturen
+
+ Hashfunktion h bildet üblicherweise großen Urbildraum
+  auf kleinen Bildraum ab (Filter)
+ h(wort1)=h(wort2) mit wort1≠wort2 (Kollision) möglich,
+  d.h. unterschiedliche Worte erhalten gleichen Hash-
+  Wert
+ Operationen auf Signaturen daher nicht exakt
+
+
+
+
+             Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+Idee der Signaturdatei
+
+ Signaturdatei als inexakter Filter
+ Überprüfung notwendiger Bedingung, damit
+  Dokument Wort enthält
+ Inexakt  trotz Erfüllung der Bedingung muss
+  Dokument Wort nicht erhalten (false drop)
+ False drops müssen im Nachhinein herausgefiltert
+  werden
+ Aber: Nachfilter auf relativ wenigen Dokumenten
+
+
+
+
+             Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                   06.07.2011
+
+
+
+
+Signaturdatei: Architektur
+
+
+
+
+                                                   wegen False Drops
+
+
+
+
+         Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                     06.07.2011
+
+
+
+
+Motivation für Signaturen
+
+ Pattern-Matching
+  Alle Dokumente müssen immer durchlaufen werden
+
+ Signaturen
+  Signaturvergleich schneller als Pattern-Matching
+  Kandidatenauswahl
+  Pattern-Matching auf kleinerer Menge von
+   Dokumenten
+
+
+
+           Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+Überlagernde Signaturen
+
+Superimposed Coding:
+ Abbildung 1 Wort auf 1 Signatur bestehend aus F Bits
+   mit m (Signaturgewicht) gesetzten Bits
+       "F %
+      $ ' verschiedene Signaturen möglich
+       # m&
+ Signaturen mehrerer Wörter werden bitweise
+   ODER-verknüpft  Blocksignatur
+€
+  Weniger Signaturen pro Dokument
+
+
+
+
+             Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                      06.07.2011
+
+
+
+
+Blocksignatur: Beispiel
+
+F=12, m=4
+
+
+
+
+            Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+Hash-Funktion
+
+Problem: Hash-Wert soll pro Wort m gesetzte Bits im
+  Bitcode der Länge F erzeugen
+   Verwendung von mehr als m Hash-Funktionen mit Abbildung auf
+    [1..F]
+   Ergebnisse geben Position der gesetzten Bits an
+   Gleiche Positionen möglich
+     Nutzung der m ersten verschiedenen Positionen
+
+
+
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+Hash-Funktion
+
+ i-te Hash-Funktion mit Abbildung auf [0..F-1]
+ Argument: l-stelliges Wort w1w2..wl
+ i-te Primzahl pi
+
+
+
+
+             Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                    06.07.2011
+
+
+
+
+Parameter für Superimposed Coding
+
+
+ Signaturlänge F
+ Signaturgewicht m
+ Überlagerungsfaktor D:
+  Anzahl Wortsignaturen pro Blocksignatur
+
+
+
+
+          Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                     06.07.2011
+
+
+
+
+Logische Blöcke
+
+ Dokumente werden in logische Blöcke zerlegt
+ Ein logischer Block enthält genau D
+  verschiedene zu indexierende Wörte
+ jeder logische Block eine Blocksignatur
+ Ergebnis: mehrere Blocksignaturen für ein
+  Dokument
+
+
+
+
+           Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+Suche nach Dokumenten
+
+Suche nach Dokumenten, die Wort w enthalten
+   Berechnung Wortsignatur Sw für Wort w
+   Bitweise UND-Verknüpfung von Sw mit jeder Blocksignatur Sbi der
+    Signaturdatei
+   Falls Sw = Sw  Sbi, dann entsprechendes Dokument in
+    Kandidatenmenge
+   Entfernen von False Drops aus Kandidatenmenge mittels Pattern-
+    Matching
+
+
+
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                         06.07.2011
+
+
+
+
+Konjunktive Anfrage
+ mehrere mit UND verknüpfte Suchwörter
+  ODER-Verknüpfung der Signaturen der Suchwörter
+  der Anfrage
+  nur Dokumente gefunden, bei denen alle
+  Anfragewörter innerhalb eines Blocks liegen
+       Block                       Suchwort                       Signatur
+       1                           Information                    001
+       2                           Retrieval                      100
+
+
+ Anfrage „Information Retrieval“ (101) würde das
+  Dokument nicht finden
+
+
+               Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+Konjunktive Anfrage
+ Alternative:
+   für jedes Anfragewort Kandidatenmenge bestimmen
+   Vor Pattern-Matching  Berechnung der
+    Schnittmenge
+ Vorteil: Verfahren funktioniert immer
+   Wie geht man bei ODER-Verknüpfung vor?
+
+
+
+
+             Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                        06.07.2011
+
+
+
+
+False Drops
+
+ können bei Signaturdateien auftreten
+ dies bedeutet:
+      Block bzw. dessen Blocksignatur erfüllt notwendige
+        Bedingung
+      das zu suchende Muster muss aber nicht im Block bzw. dem
+        dadurch repräsentierten Dokument enthalten sein
+ Entstehung:
+      Hash-Funktion kann verschiedene Wörter auf identische
+        Signatur abbilden
+      durch Überlagerung der Signaturen
+
+
+
+
+              Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+ False Drops
+False Drops = notwendige Bedingung erfüllt – Block enthält Muster
+
+
+
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+False Drops: Beispiel
+
+ Beispiel:
+
+     Es gelte: F = 12, m = 3 und D = 3
+
+     Wortsignaturen:
+
+
+     Anfrage „text“ UND „search“
+
+
+
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+False Drops: Beispiel
+
+
+
+
+                                                                 Kandidaten sind die
+                                                                 ersten 3 Textblöcke
+
+                                                                 2. Block ist False Drop
+
+
+
+         Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                      06.07.2011
+
+
+
+
+Minimierung der Anzahl von False
+Drops
+ Geeignete Wahl der Entwurfsparameter F, m und D
+ Ziele:
+   Möglichst geringer Speicherplatz der Signaturen
+   Möglichst geringe Fehlerwahrscheinlichkeit für False
+    Drops
+ Zielkonflikt
+
+
+
+
+            Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                        06.07.2011
+
+
+
+
+Fehlerwahrscheinlichkeit Fd
+
+ Wahrscheinlichkeit, dass Signatur oder Blocksignatur Bedingung
+  erfüllt, aber repräsentierte Dokumente das zu suchende Muster
+  nicht enthält
+ Formale Definition mittels Wahrscheinlichkeit:
+      Fd = P (Suchmuster nicht im Block enthalten  Signatur
+         erfüllt Bedingung)
+ Annahmen:
+      Anfrage besteht aus einem Wort
+      Gleichverteilung der Signaturen
+
+
+
+
+              Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                           06.07.2011
+
+
+
+
+Berechnung Fehlerwahrscheinlichkeit
+
+   m/F: Wahrscheinlichkeit mit der ein Bit einer Wort-Signatur gesetzt ist
+                D
+   ( 1 – m/F) : Wahrscheinlichkeit, dass Bit in Block-Signatur nicht gesetzt
+    ist (Überlagerung wg. D)
+                    D
+   1 – ( 1 – m/F) : Wahrscheinlichkeit, dass Bit in Block-Signatur gesetzt ist
+                      D m
+   ( 1 – ( 1 – m/F) ) : Wahrscheinlichkeit, dass Blocksignatur zur Anfrage
+    passt (m gesetzte Bits müssen stimmen; Kandidatenmenge)
+   Wenn alle Kandidaten False Drops sind (sehr pessimistisch), dann
+                          D m
+    Fd = ( 1 – ( 1 – m/F) )
+   F steigt ⇒ Fd fällt monoton
+   D steigt ⇒ Fd steigt monoton
+   m steigt ⇒ Fd kann fallen oder steigen
+    ⇒ Minimierung findet bestes m für vorgegebene Werte F und D
+
+
+
+                 Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+Optimierung für m
+
+      für große D kann Formel für Fd (Binomialverteilung) durch
+       Exponentialverteilung angenähert werden:
+                                                            m
+                               Fd= ( 1 – e – mD/F)
+      daraus ergibt sich durch Ableitung und Umformung der
+       optimale Wert für m als:
+                                 mopt = F · ln2/D
+      Einsetzen in die Formel zur Berechnung der
+       Fehlerwahrscheinlichkeit:
+                                  Fd = (1/2)F · ln2/D
+      Verwendung von mopt ⇒ Anzahl der Einsen ist 50%
+
+
+
+             Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                           06.07.2011
+
+
+
+
+Praktische Anwendung der
+Fehlerwahrscheinlichkeit
+   Speicherplatzberechnung:
+       Wort besteht im Durchschnitt aus cw Zeichen
+       Zeichen benötigt 8 Bit
+       Y sei Gesamtzahl der Wörter in allen Dokumenten
+       Speicherplatzbedarf für Dokumente: SD = Y*cw*8 Bit
+       Speicherplatzbedarf für Signaturen: SS = Y*F/D Bit
+       Wir setzen beide Werte in ein Verhältnis α: SS = α*SD
+       Damit gilt: F/D = α*cw*8
+
+
+
+                 Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                      06.07.2011
+
+
+
+
+Praktische Anwendung der
+Fehlerwahrscheinlichkeit
+
+ Beispiel α = 0,1 und cw=10
+   F/D = 8, etwa F = 80 und D = 10
+   Fd = 2,14%
+
+
+ Beispiel α = 0,2 und cw=10
+   F/D = 16, etwa F = 80 und D = 5
+   Fd = 0,0459%
+
+
+
+            Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                           06.07.2011
+
+
+
+
+Speicherstrukturen für Signaturdateien
+
+
+   drei Alternativen:
+
+         Sequentielle Signaturdateien
+         Bitscheibenorganisation
+         S-Baum
+
+
+
+
+                 Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                         06.07.2011
+
+
+
+
+Sequentielle Signaturdateien
+ Signaturdatei für N Blöcke ist Bitmatrix mit F Spalten und N Zeilen
+ Einfachste Speicherung: sequentielle Speicherung der einzelnen
+  Zeilen der Matrix
+   SSF (Sequential Signature File)
+ Hinter jede Signatur Verweis auf Dokument
+ Alternative: alle Verweise in separate Datei
+  sinnvoll, da nur einige Verweise gelesen werden müssen
+
+
+
+ Suchaufwand wächst linear mit Größe Dokumentkollektion
+ u.U. passen Dateien in Hauptspeicher
+
+
+
+
+               Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                  06.07.2011
+
+
+
+
+Sequentielle Signaturdateien
+
+
+
+
+        Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                         06.07.2011
+
+
+
+
+Bitscheibenorganisation
+
+ SSF: Blocksignaturen werden komplett gelesen
+ Eigentlich nur Spalten nötig, bei denen
+  Anfragesignaturbits gesetzt sind
+ Idee BSSF (Bit-Sliced Signature Files):
+        Jede Spalte in separate Datei  F Dateien (Bitscheibe)
+        Pro Anfrage (ein Suchwort) müssen m Bitscheiben gelesen
+         werden
+
+
+
+
+               Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                  06.07.2011
+
+
+
+
+Bitscheibenorganisation: Aufbau
+
+
+
+
+        Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+Bitscheibenorganisation: Beispiel
+
+
+
+
+                                                                     Block ist false drop
+
+                                                                     Block kein Kandidat
+
+        Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                      06.07.2011
+
+
+
+
+Bitscheibenorganisation: Bewertung
+
+ Vorteil gegenüber SSF: nicht alle Bits müssen überprüft
+  werden
+ Nachteil: Änderungsoperationen benötigen immer F
+  Festplattenzugriffe
+
+
+
+
+            Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                         06.07.2011
+
+
+
+
+S-Baum
+
+ Horizontale Aufteilung der N×F-Bitmatrix
+ Verwandter des B-Baums
+ Aufbau:
+     Jeder Knoten hat maximal k Einträge
+     Eintrag: Signatur und Adresse
+     Innere Knoten: Adresse verweist auf Kind im Baum
+     Blatt: Adresse verweist auf Dokument/Block
+
+
+
+
+               Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                     06.07.2011
+
+
+
+
+S-Baum: Überlagerung
+
+ Signatur eines inneren Knotens ist ODER-
+  Verknüpfung der Kind-Signaturen
+ Problem: Knoten nahe der Wurzel können sehr
+  viele Einsen enthalten
+
+
+
+
+           Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                 06.07.2011
+
+
+
+
+S-Baum: Aufbau
+
+
+
+                                                          ODER
+
+
+
+
+       Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                     06.07.2011
+
+
+
+
+Suche im S-Baum
+
+ Start bei der Wurzel
+ Durchlauf aller Kinder, bei denen UND-Match
+  mit Anfragesignatur erfolgreich
+ Mehrere Suchpfade möglich
+
+
+ Beispiel: Anfragesignatur 01000 00000 erzeugt
+  Durchlauf von N1, N2, N3, N6, N8, D12, D27, D31,
+  D07
+
+           Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+Einfügen im S-Baum
+
+ Navigieren zum Blatt über Knoten, die minimal
+  erweitert werden müssten
+ Überlauf:
+     Splitten des Blatts
+     Erzeugen zweier „Saatsignaturen“, welche maximal
+      verschieden sein sollten (Aufwand O(k2))
+     Schnelle Heuristik zum Finden von Saatsignaturen:
+      Suchen der Signaturen, deren Bits am weitesten links bzw.
+      rechts liegen
+     Anschließend abwechselnd jeder Saatsignatur ähnlichste
+      Signatur zuweisen
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                 06.07.2011
+
+
+
+
+Einfügen im S-Baum
+
+
+                                                    Keine neue 1
+
+
+
+
+       Freier Platz
+
+
+       Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                     06.07.2011
+
+
+
+
+S-Baum: Fazit
+
+ Vorteil: Suchaufwand wächst nur sublinear zur
+  Größe der Dokumentkollektion
+ Nachteil: Knoten nahe der Wurzel haben häufig
+  sehr viele gesetzte Bits
+   wenige Knoten können von Suche
+  ausgespart werden
+
+
+
+
+           Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                         06.07.2011
+
+
+
+
+Vergleich der Signatur-
+Speicherstrukturen
+
+Profil gibt Wichtigkeit von Operationen an
+
+
+
+
+               Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                     06.07.2011
+
+
+
+
+4.3 Boolesches Retrieval
+ Boolesche Ausdrücke über Suchwörtern
+
+
+
+
+           Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+Dokumentenrepräsentation
+ Dokument als Wortmenge (evtl. nach Stoppwort-
+  eliminierung und/oder Stammformreduktion)
+ Varianten:
+     Multimenge statt Menge
+       Speicherung der Vorkommenshäufigkeit
+     Menge von (Wort, Vorkommensort)-Paaren
+     Vorkommensort:
+         etwa im Titel, Überschrift oder Text
+         alternativ Wortposition im Text (Satznummer, Wortnummer)
+           sinnvoll für NEAR-Anfragen
+
+
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                         06.07.2011
+
+
+
+
+Anfragerepräsentation
+
+ Informationswunsch wird als Boolescher Ausdruck
+  formuliert
+ Wörter einer Wortmenge werden implizit ODER- oder
+  UND-verknüpft
+ Beispiele:
+       „Adler Bär“  „Adler“ UND „Bär“
+       „Adler AND (Bär OR Löwe)
+       „Adler AND NOT Löwe
+       BUT-Operator anstelle von AND NOT
+
+
+               Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+Implementierung
+
+Varianten:
+   Pattern Matching
+    sehr ineffizient bei größeren Dokumentkollektionen
+   Signaturen
+    gut geeignet für UND-Verknüpfungen (aber nur blockweise)
+   Invertierte Liste
+    vielseitigste Möglichkeit
+
+
+
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                        06.07.2011
+
+
+
+
+Implementierung mit invertierten
+Listen
+Einfache (ein Suchwort) Anfrage
+
+
+
+
+              Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+Verknüpfte Anfragen
+
+ UND-Verknüpfung
+     Schnittmengenberechnung der Listen
+      effizient unter Ausnutzung der Sortierung
+ ODER-Verknüpfung
+     Vereinigung
+ Unäre Negation q = NOT q2
+     i.d.R. sehr großes Ergebnis, besser ist binäre Variante
+ Binäre Negation q = q1 AND NOT q2
+     Komplementärmenge
+
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+Weitere Operationen
+
+ ti NEAR[k] tj
+   Term ti darf nicht weiter als k Worte von Term tj
+    entfernt sein
+   Benötigt Vorkommensposition in invertierter Liste
+   Listen parallel durchlaufen und mögliche Paare
+    testen
+ IN_TITLE
+   Wort darf nur im Titel auftauchen
+
+
+
+             Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                         06.07.2011
+
+
+
+
+Boolesches Retrieval:
+Zusammenfassung
+Probleme:
+   In einfachster Form keine Reduzierung auf Grund- und
+    Stammform
+   Keine Gewichtung der Wörter nach Ort oder Häufigkeit möglich
+   Keine Zerlegung von Mehrwortgruppen
+   Kaum vorhersehbare Größe der Ergebnismenge
+   Kein Ranking der Ergebnisse
+   Anwender muss Boolesche Logik beherrschen
+
+
+
+
+               Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                        06.07.2011
+
+
+
+
+4.4 Coordination Level Match
+
+Motivation:
+ Beispielanfrage Boolesches Retrieval:
+  „Haus AND Garten AND Italien“
+ Problem: Dokumente mit 2 Worttreffern erscheinen
+  ebenso nicht wie Dokumente mit 0 oder 1 Treffer
+ Ziel: wenn kein Dokument mit 3 Worttreffern
+   Dokumente mit 2 Treffern als Ergebnis
+
+
+
+
+              Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+Coordination Level Match
+
+Anfrage besteht aus
+ Termen, die vorkommen sollen und
+ Termen, die nicht vorkommen sollen
+Beispiel: „Haus, Garten, NOT Frankreich“
+
+
+Retrieval-Funktion addiert Werte auf (Ranking):
+ Gewünschter Term im Dokument: +1
+ Ungewünschter Term im Dokument: -1
+Beispieldokument: „Garten in Frankreich“  0
+
+             Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                       06.07.2011
+
+
+
+
+Implementierung
+
+ Einfach mittels invertierter Listen
+ Ausnutzung sortierter Listen
+ Paralleler Durchlauf der Listen und Addition der Werte
+ Ignorieren der Dokumente mit Werten kleiner oder
+  gleich 0
+ Anzeige der Ergebnisdokumente sortiert nach Wert
+ Aufwand: O(n*m) mit n für Dokumentanzahl und m für
+  Anzahl zu durchlaufender Listen
+
+
+             Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                           06.07.2011
+
+
+
+
+Invertierte Listen
+Anfrage: „Kosten, Motorrad, NOT Produktion“
+
+
+
+
+                 Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                     06.07.2011
+
+
+
+
+Extended Boolean Retrieval
+
+ Boolesches Retrieval führt zu niedriger
+  Nutzerzufriedenheit
+ „Aufweichung“ der strikten Mengensemantik
+  durch Partial Matching
+ Gewichtung des Vorkommens einzelner Terme
+  und der Anfrageterme
+
+
+
+
+           Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                      06.07.2011
+
+
+
+
+Extended Boolean Retrieval
+
+ z.B. Waller/Kraft (1979)
+   Parametrisierter Junktor
+
+
+
+
+   Konjunktions-Charakteristik: 0≤γ≤0,5
+   Disjunktions-Charakteristik:                       0,5≤γ≤1
+
+
+
+            Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                     06.07.2011
+
+
+
+
+Extended Boolean mit Gewichten
+
+ z.B. p-Norm-Modell (Salton et al.; 1983)
+
+
+
+
+           Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                  06.07.2011
+
+
+
+
+Eigenschaften p-Norm
+
+ p=1
+
+
+
+
+ p=∞
+
+
+
+
+        Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                      06.07.2011
+
+
+
+
+4.5 Fuzzy-Mengen-Modell
+
+ Idee: Anwendung Fuzzy-Mengen-Theorie (Zadeh) als
+  Retrieval-Modell
+ Boolesches Retrieval: Term in Dokument enthalten oder
+  nicht
+ Problem: Boolesche Werte sind zu scharf
+ Beispiel: Dokument mit Term „SQL“ hat semantisch
+  etwas zu tun mit Term „Datenbank“
+ Ansatz: Zugehörigkeit Term zu Dokument als
+  Zugehörigkeitswert aus [0,1], wobei 1 bzw. 0 maximale
+  bzw. minimale Zugehörigkeit bedeutet
+            Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                           06.07.2011
+
+
+
+
+Fuzzy-Menge
+
+Ein Fuzzy-Menge S über einer Grundgesamtheit G wird durch
+   Funktion μS : G  [0,1] beschrieben, die für jedes Element aus G
+   den Grad der Zugehörigkeit zu S angibt.
+
+
+Verknüpfungen (von Zadeh vorgeschlagene Operationen):
+   Negation: μ¬S(u) = 1- μS(u)
+   Disjunktion: μAB(u) = max(μA(u), μB(u))
+   Konjunktion: μAB(u) = min(μA(u), μB(u))
+
+
+
+
+                 Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                     06.07.2011
+
+
+
+
+Repräsentation der Anfrage/
+Dokumente
+
+
+ Anfrage analog zu Booleschem Retrieval
+
+
+ Dokument Dj: μi(Dj) für alle Terme ti des
+  Vokabulars
+
+
+ Retrieval-Funktion: Zadeh-Operationen
+
+
+           Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                             06.07.2011
+
+
+
+
+Repräsentation der Anfrage/
+Dokumente: Beispiel
+   Vokabular: t1=„Haus“, t2=„Garten“, t3=„Italien“, t4=„Frankreich“
+   Anfrage: „Haus AND (Italien OR Frankreich) AND NOT GARTEN“
+   Retrieval-Funktion: min(min(μ1(Dj), max(μ3(Dj), μ4(Dj))), 1-μ2(Dj))
+
+
+
+
+                   Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                              06.07.2011
+
+
+
+
+    Bestimmung der Zugehörigkeitswerte
+
+    Ansatz von Ogawa, Morita, Kobayashi [OMK91]
+     Berechnung über Term-zu-Term-Matrix [ci,l]
+     ci,l ist Korrelation zwischen Termen ti und tl
+                     n i,l
+       c i,l =
+               n i + n l − n i,l
+     nl ist Anzahl Dokumente, die tl enthalten
+     ni,l ist Anzahl Dokumente, die ti und tl enthalten
+
+€    Es gilt ci,l=1 für i = l
+
+                    Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+Bestimmung der Zugehörigkeitswerte
+
+Beispiel
+
+
+ Term „Haus“ in 7 Dokumenten
+ Term „Dach“ in 6 Dokumenten
+ Beide zusammen in 5 Dokumenten
+ ni = 7, nl = 6, ni,l = 5           ci,l = 5/8
+
+
+
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+    Bestimmung der Zugehörigkeitswerte
+
+    Berechnung Zugehörigkeit Term zu Dokument aus Term-
+      zu-Term-Matrix
+
+        µi (D j ) = 1− Π (1− c i,l )
+                          t l ∈D j
+
+
+     ersetze 1-x durch ¬x und x*y durch xy und wende
+      deMorgan und Regel der doppelten Negation an
+       µi (D j ) = ∨ c i,l
+€                      t l ∈D j
+     Term-zu-Term-Werte des Dokuments werden faktisch
+      disjunktiv verknüpft
+
+€               Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                     06.07.2011
+
+
+
+
+Implementierung
+
+Nutzung invertierter Listen
+ Liste zu Term ti enthält Dokumente Dj mit μi(Dj)
+  >0
+ Weiteres Problem: lange Listen
+  Abmildung mittels Grenzwert
+
+
+
+
+           Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                          06.07.2011
+
+
+
+
+Bewertung Fuzzy-Set Modell
+ Positiv
+     Unterstützung der Vagheit der Sprache mittels Term-
+      Korrelationen
+     Ranking
+ Negativ
+     Dominanz der Zadeh-Operationen min/max
+     Komplexe Boolesche Anfrageformulierung
+     Performance-Nachteile wegen langer Listen
+     Term-zu-Term-Matrix auf dynamischer Dokumentkollektion
+      (besser auf repräsentativem Datenbestand)
+     Alternative: Term-Korrelation aus Thesaurus
+
+
+                Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+                                                                                     06.07.2011
+
+
+
+
+Dominanzproblem der
+Zadeh-Operationen
+ Anfrage: „Haus AND Italien“
+
+
+
+
+ System hält D1 relevanter als D2
+
+           Information Retrieval 1: 4 Einfache IR-Modelle und ihre Implementierung
+

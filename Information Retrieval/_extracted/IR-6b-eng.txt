@@ -1,0 +1,887 @@
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Deep Learning and neural networks
+
+
+
+Word representation by word embeddings
+        Without manual feature engineering
+        Allows generalizations (’ideal’ and ’colorless’ are adjectives, ’cat’ and
+        ’kitten’ are felines, ’sunny’ and ’sleet’ are weather terms, ’awesome’ is
+        opposite to ’cringeworthy’)
+        Encode a word as input vector for neural network
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 385 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Word / Phrase as a vector
+
+    1   One-hot vector
+           ↭   i-th word in dictionary → bit 1 and bit 0 for remaining ones
+           ↭   Problem: no similarity between words
+    2   N-gram counts (on words)
+           ↭   Word in phrases
+                                                    ! "5
+           ↭   For 100,000 words and 5-gram requires 105 = 1025 grams
+               (dimensions)
+    3   Word embedding
+           ↭ A few hundred dimensions
+           ↭ Automatically trained from data
+           ↭ Vector of numbers, e.g. ’abacus’ → [+0.7, ↑3.2, . . .]
+           ↭ No discernible meanings
+           ↭ Similar words have similar vectors
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 386 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Word embeddings: example
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 387 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Word embeddings: properties
+
+
+        Proximity of similar words
+        Relationships
+           ↭ Let A stand for ’Athens’ and B for ’Greece’, then B ↑ A stands for
+             country/capital relationship
+           ↭ Same di!erence vector for France/Paris, Germany/Berlin,
+
+             Zambia/Lusaka
+           ↭ Let C stand for ’Oslo’ then B ↑ A + C returns a vector near to ’Norway’
+           ↭ However: no guarantee for every relationship!
+
+
+        Word embeddings helpful for all applications of deep learning to NLP
+        tasks
+        Pretrained vectors are often generic (WORD2VEC, GloVe,FASTTEXT)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 388 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Word embeddings and di!erence vectors
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 389 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+POS: Part of speech I
+Task of POS-tagging: Predict correct part of speech for each word in a
+sentence
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 390 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+POS: Part of speech II
+
+
+
+
+POS-tagging is not trivial!
+        One word can be tagged in di!erent ways
+        Example: cut → present-tense-verb, past-tense-verb, infinitive verb,
+        past participle, adjective, noun
+        Contextual words are essential
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 391 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+POS: Part of speech III
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 392 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+POS: Part of speech IV
+
+
+
+Steps:
+    1   Choose window width w (typically w = 5 for 2 words left and right)
+        and split every sentence of training corpus into overlapping windows
+        with corresponding POS category of the middle word
+    2   Create vocabulary of all frequent words, total number is v
+    3   Sort vocabulary in any arbitrary order
+    4   Choose value d as size of embedding vector
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 393 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+POS: Part of speech V
+
+
+    5   Create v -by-d weight matrix E : word embedding matrix initialized
+        randomly or from pretrained vectors
+    6   Set up neural network (see slide)
+           ↭ First layer are w copies of E
+           ↭ Two hidden layers z1 , z2 with weight matrices W1 , W2 , respectively
+           ↭ Output layer: softmax layer yielding probabilities over POS categories
+
+             for middle word
+    7   Encode sequence of w words: concatenate corresponding embedding
+        vectors
+    8   Train E , W1 , W2 , Wout using gradient descent
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 394 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Recurrent Neural Networks for NLP I
+
+
+
+        Language consists of ordered sequences of words
+        Context is extremely important
+        For complex NLP task 5 words are not enough: dozens of words
+        required
+        Example “Eduardo told me that Miguel was very sick so I took him to
+        the hospital” → “him” refers to “Miguel” and not to “Eduardo”
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 395 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Recurrent Neural Networks for NLP II
+
+
+
+NLP task: create a language model
+        Probability distribution over sequences of words
+        Predicts next word given previous words
+        Feedforward network:
+           ↭ Fixed window width is not appropriate: too small or too many
+             parameters
+           ↭ Problem: weights for ‘him’ must be learnt for di!erent word positions
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 396 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Recurrent Neural Networks for NLP III
+
+One word at a time
+
+
+
+
+        Hidden layer z has recurrent connection, ” means delay, x is input
+        word embedding vector for next word in sentence
+        Right figure: unrolled network for three timesteps (weights are shared)
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 397 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Recurrent Neural Networks for NLP IV
+
+Architecture
+        Each word input is word embedding vector x
+        Hidden layer z as input for the next time step
+        Target: multiclass classification where classes are words from
+        vocabulary
+        Output y is softmax probability distribution over next word in
+        sentence
+        RNN solves the problem of too many parameters: size of
+        Wx,z , Wz,z , Wz,y is constant regardless of number of words
+        In theory: regarding the whole history, but in practice restriction by
+        limited memory for Wx,z , Wz,z , Wz,y
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 398 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Recurrent Neural Networks for NLP V
+
+
+
+Training of the RNN
+        Input words xt of training corpus
+        Output word xt+1
+        Di!erence between required and actual output back-propagated
+        through time (same weights for all time steps)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 399 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Recurrent Neural Networks for NLP VI
+
+
+
+
+Run the trained RNN
+        Start with initial word x1
+        y1 is probability distribution over words
+        Sample word from probability distribution and feed it back as x2 and
+        so on
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 400 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Recurrent Neural Networks for Classification I
+
+
+Classification tasks
+        Output is probability distribution over POS tags or coreference
+        resolution
+        Example for coreference resolution: Given ‘Eduardo told me that
+        Miguel was very sick so I took him to the hospital’, input ‘him’ yields
+        ‘Miguel’
+        Training is done analogously as with language model
+        However, for POS it is essential to look backward and forward
+        ! bidirectional RNN
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 401 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Recurrent Neural Networks for Classification II
+
+Bidirectional RNN
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 402 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+LSTMs for NLP task
+
+
+        Problem with RNN: solves limited context problem
+        Information gets distorted or lost after a long number of steps (see
+        game of telephone)
+        Problem is similar to problem of vanishing gradients of many layers
+        Solution: Long short-term memory (LSTM) model
+           ↭   RNN with gating units
+           ↭   LSTM can remember, copy and forget parts of input
+        Example: ‘The athletes, who all won their local qualifiers and
+        advanced to the finals in Tokyo, now . . .’
+        what is more probable, ‘compete’ or ‘competes’ ?
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 403 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Sequence-to-Sequence Models I
+
+
+
+NLP: natural language processing
+        NLP task machine translation (MT): translate sentence from source
+        language to target language
+        Train MT with large corpus of source/target sentence pairs
+        Goal: translate new sentence that is not in training data
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 404 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Sequence-to-Sequence Models II
+RNN for MT task
+        If correspondence between source words and target words were
+        one-to-one correspondence
+        ! simple tagging task
+        However: no one-to-one correspondence, see
+           ↭ Many-to-one: Spanish ‘caballo de mar’ ↓ ‘seahorse’
+           ↭ Reversed order: Spanish ‘perro grande’ ↓ ‘big dog’
+           ↭ Extreme word reordering: in English subject at start and in Fijian at
+
+             the end
+        Therefore:
+           ↭ Generate one word at time but remember source parts not translated
+             yet and remember parts already translated
+           ↭ Sometimes process entire source sentence before generate target
+
+           ↭ General: Each target word is conditional on entire source sentence and
+
+             on all generated target words
+             ! use RNN
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 405 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Sequence-to-Sequence Models III
+
+
+Simple translation from source language to target language
+        RNN for source language as input for another RNN for target
+        language ! sequence-to-sequence model
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 406 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Sequence-to-Sequence Models IV
+
+
+Drawbacks of sequence-to-sequence models
+        Nearby context bias: nearby context is stronger than far-away context
+        but far-away context can be crucial as well
+        Fixed context limit: entire source sentence stored in single
+        fixed-dimensional hidden state vector (↔ 1024 dimensions)
+        ! increase vector size → slow training and overfitting
+        Slow sequential processing: processing one word at time (no batch
+        processing)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 407 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Attentional sequence-to-sequence model I
+
+
+Idea: hidden vectors of source RNN as input for target RNN
+        Mitigates shortcomings of sequence-to-sequence models (which uses
+        only previous vector)
+        Concatenate all source RNN hidden vectors
+        ! huge increase in number of weights
+        ! high computation costs and risk of overfitting
+        However: only small part of source is relevant to each target word
+        Di!erent source parts for every target word
+        Part ! attention
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 408 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Attentional sequence-to-sequence model II
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 409 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Attentional sequence-to-sequence model III
+
+
+
+Formalization:
+        Standard target RNN:
+        hi = RNN(hi→1 , xi ) where hi is target word vector at time stamp i
+        and xi is input word vector (bold font for vector!)
+        Target RNN for attentional sequence-to-sequence model:
+        hi = RNN(hi→1 , [xi ; ci ]) where ci is context vector and [·; ·] is
+        concatenation
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 410 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Attentional sequence-to-sequence model IV
+
+
+Definition of context vector ci
+        raw attention score (attention matrix): rij = hi→1 · sj
+        scalar product with source RNN word vector sj
+        (remember word embeddings!)
+                                               #
+        Normalizing by softmax: aij = e rij / ( k e rik )
+        ! probabilities
+        Weighted
+            # average of source RNN vectors as context vector:
+        ci = j aij · sj
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 411 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Decoding I
+
+
+Decoding means generation of target sentence word by word from
+probability distribution
+        Simplest form: select word with highest probability
+        ! greedy decoding
+        Goal of decoding: maximize probability of entire target sentence
+        Problem: greedy decoding may not achieve goal
+           ↭   ‘The front’ → ‘La entrada’
+           ↭   ‘The front door’ → ‘La puerta de entrada’
+        Attention cannot solve the problem because sometimes you must see
+        the end before you can start the target sentence
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 412 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Decoding II
+
+
+
+Better approach: beam search
+        Keep top k hypotheses at each stage
+        Extend each by one word and and choose the best k from the k 2 new
+        hypotheses and so on
+        At the end: take highest scoring hypothesis
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 413 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+Decoding III
+
+Example translation:
+‘The front door is open’ → ‘La puerta de entrada es roja’
+but ‘front’ → ‘entrada’
+
+
+k=2
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 414 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+The Transformer Architecture I
+see paper ”Attention is all you need” (Vaswani et al., 2018) and youtube
+video (Hedu AI)
+Self-attention
+        Attention on words from source sequence (encoder)
+        Attention captures long-distance and nearby context
+        Source words against source words
+        Result is attention filter
+        Input: source word vectors in positional embedding (capturing word
+        order)
+        Three linear mappings (matrices) on input:
+           ↭ Query: projecting one word (d dimensions): qi = Wq xi
+           ↭ Key: against projected other word (d dimensions): ki = Wk xi
+           ↭ Value: further representation of word (d dimensions): vi = Wv xi
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 415 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+The Transformer Architecture II
+
+
+
+Attention filter
+        Similarity between↗ projected word vectors:
+        rij = (qi · kj ) / d
+        Asymmetry: rij ↘= rji
+                                                                                          #
+        Softmax scaling provides attention filter: aij = e rij / (                              ke
+                                                                                                     rik )
+                                   #
+        Context as attention: ci = j aij · vj
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 416 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+The Transformer Architecture III
+
+Attention filter Query/Key on Value
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 417 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+The Transformer Architecture IV
+
+Encoder:
+Multiheaded attention
+        Many attentions for capturing of sentence semantics
+        Several attention filters (for example 8) on copied inputs
+
+Residual connection
+        Problem of vanishing gradients and loss of information over many
+        network layers
+        Solution: Residual connection: direct path between far away layers
+
+Feedforward with several nn layers and ReLU
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 418 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+The Transformer Architecture V
+Encoder
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 419 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+The Transformer Architecture VI
+Transformer with encoder (left) and decoder (right) for translation
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 420 / 543
+                                      Language Modelling    Deep Learning and neural networks
+
+
+
+The Transformer Architecture VII
+
+Transformer architectur for POS tagging
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 421 / 543
+                                      Language Modelling    Large Language Models and Information Retrieval
+
+
+
+Problems of LLMs
+
+Some problems
+        Huge number of neurons needs to be trained
+        Training needs
+           ↭ huge document collection
+           ↭ huge computation power
+           ↭ Controlled semantic of document collection (de-biasing, integrity,
+
+             compliance, ...)
+        No real world understanding
+        ! hallucinating, probabilistic parrot
+        ! not reliable
+        LLMs lack interpretability/explainability (black-box)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 422 / 543
+                                      Language Modelling    Large Language Models and Information Retrieval
+
+
+
+LLM and IR
+
+Potential benefits of LLMs for Information Retrieval
+! LLM-driven IR
+        Training of word embedding for vector space model
+        Query expansion and reformulation
+        Interactions with humans (for query and retrieval result)
+           ↭ Multimodal
+           ↭ Multilingual
+           ↭ Personalization
+
+
+        Evaluation of IR systems
+        Ranking of result documents
+        RAG
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 423 / 543
+                                      Language Modelling    Large Language Models and Information Retrieval
+
+
+
+LLM and RAG I
+
+
+
+Application of LLM in specific application domain, for example a chatbot
+        1st Problem: LLM often hallucinates
+        ! big problem for question answering (QA)
+        2nd Problem: how to tailor it to domain specific knowledge
+        ! Fine tuning an LLM is often unfeasible due to ressource restrictions
+Solution: RAG (Retrieval Augmented Generation) and LLM
+! RA-LLM
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 424 / 543
+                                      Language Modelling    Large Language Models and Information Retrieval
+
+
+
+LLM and RAG II
+
+Main concepts
+        Combine LLM with information retrieval system
+        LLM query/prompt is sent to IR system
+        retrieved relevant documents are sent to the LLM
+        LLM uses context (original query/prompt and relevant documents)
+        for computing response
+
+
+        Solution of 1st problem: LLM uses knowledge from query specific
+        documents
+        Solution of 2nd problem: IR system uses contextual documents
+        (without the need of retraining)
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 425 / 543
+                                      Language Modelling    Large Language Models and Information Retrieval
+
+
+
+LLM and RAG III
+
+
+
+         Query / Prompt                               LLM (Generator)                                 Response
+
+
+
+
+                                                 Retrieved Documents
+      Document Store
+
+                         Information Retrieval System
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 426 / 543
+                                      Language Modelling    Large Language Models and Information Retrieval
+
+
+
+Retrieval, Augmentation and Generation I
+                       Retrieval
+                                                     Indexing                 Chunking
+
+
+                                                                             Document
+                            Embedding               Searching
+                                                                               Store
+
+
+                       Augmentation
+                                                    Retrieved
+                                                   Documents
+
+
+                            Input Layer        Intermediate Layer           Output Layer
+    Input                   Integration            Integration               Integration                 Output
+
+
+
+                                                 Large Language
+                                                     Model
+                       Generation
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 427 / 543
+                                      Language Modelling    Large Language Models and Information Retrieval
+
+
+
+Retrieval, Augmentation and Generation II
+
+
+
+Retrieval granularity
+        Documents are split into chunks (text fragments) of size less than a
+        threshold
+        Size has e!ect on e#ciency and e!ectiveness of RA-LLM
+        Chunks are overlapping retrieval units
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 428 / 543
+                                      Language Modelling    Large Language Models and Information Retrieval
+
+
+
+Retrieval, Augmentation and Generation III
+
+
+
+Two types of retrieval
+   Sparse retrieval: classical IR models like TF-IDF, BM25
+           ↭   No training
+           ↭   Fixed evaluation of relevance
+        Dense retrieval: learnt embedding into vector space
+           ↭   Trainable ! more flexible
+           ↭   Embedding layer of LLM can be used
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 429 / 543
+                                      Language Modelling    Large Language Models and Information Retrieval
+
+
+
+Retrieval, Augmentation and Generation IV
+
+Augmentation integrates retrieval and generation, three main designs:
+   Input-Layer Integration for black-box LLMs (intermediate and output
+   layer are not accessible)
+           ↭ Combination of retrieved chunks and query
+             ! context
+           ↭ Concatenated input can be too long
+
+        Output-Layer Integration
+           ↭ Joins retrieval and generation result: linear integration
+           ↭ LLM remains unchanged
+           ↭ No reasoning about the text
+
+             ! post-hoc answer refinement mechanism performs reasoning
+        Intermediate-Layer Integration
+           ↭   Additional complexity needs special model training
+           ↭   Requires high access to generation model
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 430 / 543
+                                      Language Modelling    Large Language Models and Information Retrieval
+
+
+
+Retrieval, Augmentation and Generation V
+
+
+Generation by an LLM
+        Training-free RAG-method
+        ! Input-layer integration
+           ↭   Prompt engineering-based method
+           ↭   Retrieval-guided token generation method
+        Training-based RAG-method: training of IR system and LLM
+           ↭ Independent training
+           ↭ Sequential training
+           ↭ Joint training
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)         Lecture Information Retrieval          Lecture in summer semester 431 / 543
+

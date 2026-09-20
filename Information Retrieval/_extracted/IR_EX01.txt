@@ -1,0 +1,27 @@
+                                               Database and Information Systems Group
+                                               Module: Information Retrieval
+
+
+
+
+                                Task Sheet 1
+                            Basics and Motivation
+
+1. Briefly explain the term information retrieval!
+2. Differentiate between the terms data, knowledge and information in the context of information
+   retrieval! Describe their relationship to one another!
+3. Describe the typical tasks in the field of information retrieval! Use examples!
+4. Repetition: What is a database system? Which properties should it have?
+5. Differentiate between the terms information retrieval and fact retrieval and explain the
+   differences briefly!
+6. Explain the main aspects of a retrieval model and sketch the basic search process in IR!
+7. Explain the main differences between a boolean retrieval model, a vector space model and a
+   probabilistic model!
+8. Explain the idea behind inverted lists and the query procession of a AND and an OR query.
+   Why does sorting increase the efficiency of the inverted list?
+
+
+
+
+                                              1
+

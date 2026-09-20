@@ -1,0 +1,1072 @@
+                   Evaluation and Assessment of IR Systems
+
+
+
+
+        2. Evaluation and Assessment of IR Systems
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester   61 / 543
+                   Evaluation and Assessment of IR Systems
+
+
+
+Outline
+
+
+
+
+    1   Motivation
+    2   Precision, Recall and MAP
+    3   Discounted Cumulative Gain
+    4   TREC and Further Evaluation Initiatives
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester   62 / 543
+                   Evaluation and Assessment of IR Systems
+
+
+
+Which system is better?
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester   63 / 543
+                   Evaluation and Assessment of IR Systems
+
+
+
+Which variant brings the better result?
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester   64 / 543
+                   Evaluation and Assessment of IR Systems    Motivation
+
+
+
+2.1 Motivation
+
+
+
+        IR system evaluation goals:
+           ▶   comparison between several IR systems
+           ▶   IR system design and configuration
+
+        Evaluation of database systems:
+           ▶   functionality (partly standardized: e.g. SQL)
+           ▶   runtime efficiency and storage space efficiency
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester   65 / 543
+                   Evaluation and Assessment of IR Systems    Motivation
+
+
+
+Efficiency vs. Effectiveness
+
+
+        Efficiency → using resources as sparingly as possible
+           ▶ typical in computer science: runtime and memory efficiency
+           ▶ “Is that what is being done being done correctly (efficiently)?”
+           ▶ comparative consideration of different systems only makes sense in case
+
+             of equivalent or identical results
+        Effectiveness → effectiveness means quality of a result in relation to
+        the effort expended
+           ▶   “Are the right things being executed?”
+        Effectiveness thus always aims at a technical solution in which effort
+        and benefit are in a favorable relationship to each other.
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester   66 / 543
+                   Evaluation and Assessment of IR Systems    Motivation
+
+
+
+Relevance
+
+
+
+        When evaluating IR systems, one assumes that, with respect to a
+        query q, the document collection falls into two parts:
+           ▶   Rq the set of documents relevant to the query
+           ▶   and Rq the set of documents not relevant to the query
+        This assumption leads to the consequence that an IR system should
+        provide exactly Rq .
+        One can thus describe the quality of a query result by its deviation
+        from Rq .
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester   67 / 543
+                   Evaluation and Assessment of IR Systems    Motivation
+
+
+
+Problems of the binary definition of relevance
+
+        The relevance depends on the prior knowledge of the querier!
+           ▶ The relevance of certain documents may only be recognized with prior
+             knowledge!
+           ▶ On the other hand, if necessary, introductory overview articles are only
+
+             interesting for the layman!
+        The relevance of documents can depend on each other.
+           ▶ For example, the relevance of a document B may become evident only
+             after reading document A.
+           ▶ Consequence: if A is in the result, B is relevant, otherwise not!
+
+        A binary relevance scale seems to be too simplistic.
+           ▶   A multilevel or even a continuous scale would be more realistic.
+           ▶   But: It becomes even more difficult to find a generally accepted
+               ranking of documents regarding a query!
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval   Lecture in summer semester   68 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+2.2 Precision, Recall and MAP
+
+                                                                                          P
+                                            relevant              not relevant
+              in the result                 a (hits)              b (noise)               a+b
+              P in the result
+              not                           c (misses)            d (rejected)            c+d
+                                            a+c                   b+d                     a+b+c+d
+
+        Recall answers the question: How complete is the answer?
+                             a
+                  Recall = a+c  = Number   of relevant documents in the result
+                                      Total number of relevant documents
+
+
+
+        Precision answers the question: How accurate is the answer?
+                               a
+                  Precision = a+b = Number   of relevant documents in the result
+                                      Total number of documents in the result
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   69 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+Another representation
+
+
+
+
+                                                                              Rq ∩Res
+                                                             Recall =            Rq
+
+                                                                                 Rq ∩Res
+                                                             Precision =           Res
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   70 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+The F-Measure
+
+
+
+
+        Combines the two classic measures recall and precision
+        Defines weighted harmonic mean of recall and precision
+        Often the unweighted variant with α = 0.5 is applied
+
+                                                Precision·Recall
+                               F -Measure = (1−α)·Recall+α·Precision
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   71 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+F-Measure
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   72 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+Comparison of multiple systems
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   73 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+Determination of Recall I
+
+
+
+Variants:
+  1 Complete relevance assessment of a representative sample
+
+           ▶   problem: proportion of relevant documents is generally very low
+           ▶   ⇒ the sample should be very large, which leads to a large effort
+
+                           a
+                 Recall = a+c = Number  of relevant documents in the result
+                                   Total number of relevant documents
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   74 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+Determination of Recall II
+
+
+
+    2   Document Source Method
+           ▶ choose a random document from the database
+           ▶ formulate a question to which this document is relevant
+           ▶ check whether the document is actually in the answer
+
+           ▶ average over several documents and queries, the result is a value for
+
+             the recall
+           ▶ problem: questions are not “real” user questions
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   75 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+Determination of Recall III
+
+
+
+    3   Query extension
+           ▶ expand the query so that a superset of the original answer set is found
+           ▶ e.g. several question formulations from different editors
+           ▶ problem: generally, you still only get a subset of the relevant
+
+             documents!
+           ▶ consequence: recall estimate will generally be too high!
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   76 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+Determination of Recall IV
+
+
+
+
+    4   Exploiting external sources
+           ▶ try to determine relevant documents in parallel by using independent
+             methods
+           ▶ ask the questioner or other professionals what relevant documents they
+
+             know
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   77 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+Pooling method
+
+
+
+
+topics represent queries
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   78 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+Procedure
+        Intellectual evaluation
+           ▶   relevant or not relevant
+        Statistical evaluation
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   79 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   80 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   81 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   82 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+Averaging over multiple queries
+
+
+
+Average over m experiments → 2 possibilities:
+
+        1. Macro Assessment (user-oriented approach)
+                                 m                              m
+                                      ai                    1 P ai
+                Recallϕ,u = m1 ·
+                                 P
+                                   ai +ci   Precision ϕ,u = m ·   ai +bi
+                                                i=1                                               i=1
+           ▶   all experiments regardless of result size
+           ▶   problem occurs when individual queries return empty results
+                                                   ai + bi = 0
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   83 / 543
+                   Evaluation and Assessment of IR Systems      Precision, Recall and MAP
+
+
+
+Averaging over multiple queries
+
+
+
+        2. Micro Assessment (system-oriented approach)
+           ▶   queries with a larger result set have more weight
+           ▶   sum of all queries considered as “one big query”
+                                           m
+                                           P                                                m
+                                                                                            P
+                                                 ai                                             ai
+                                   i=1                                          i=1
+                     Recallϕ,s = P
+                                 m                             Precisionϕ,s = P
+                                                                              m
+                                              (ai +ci )                                     (ai +bi )
+                                        i=1                                            i=1
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)             Lecture Information Retrieval          Lecture in summer semester   84 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+Example
+
+
+
+
+        Macro Assessment:                                           Micro Assessment:
+           ▶ Recall : 41 · (0.14 + 0.15 +                               ▶     Recall : 125/167 = 0.75
+             0.87 + 0.22) = 0.35                                        ▶     Precision : 125/226 = 0.55
+           ▶ Precision :
+             1                                                      “big” query 3 dominates
+             4 ·(0.1+0.17+0.6+0.5) = 0.34
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   85 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+Recall/Precision for systems with ranking
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   86 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   87 / 543
+                   Evaluation and Assessment of IR Systems    Precision, Recall and MAP
+
+
+
+Important: user viewpoints and actually used metrics
+
+
+        MAP → system-oriented approach
+        But not directly interpretable as user viewpoint
+
+        Check the documents only on the first page:
+           ▶   → P@10 or P@5
+        Check the documents until the first irrelevant one:
+           ▶   good first hits are important
+        Discounted Cumulative Gain
+           ▶   using the gradual relevance assessment by the user to measure the
+               relevance gain caused by a document at a certain position
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval          Lecture in summer semester   88 / 543
+                   Evaluation and Assessment of IR Systems    Discounted Cumulative Gain
+
+
+
+2.3 Discounted Cumulative Gain
+
+
+        Basis: graded relevance from the user, e.g. {0, 1, 2, 3} where 0 means
+        irrelevant
+        Assumption: highly relevant documents are most useful in terms of
+        information gain when they reach a front position
+                                                 p
+                                                 P   reli
+                                 DCGp = rel1 +      log2 i
+                                                                              i=2
+
+
+        reli is user relevance of i-th result document
+        log2 1 = 0: avoid division by zero
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval         Lecture in summer semester   89 / 543
+                   Evaluation and Assessment of IR Systems    Discounted Cumulative Gain
+
+
+
+Normalized DCG
+
+
+
+
+        DCGp of different runs only comparable after normalization → nDCGp
+        Idea: ratio to ideal DCG → IDCGp
+        IDCGp: DCGp sorted in descending order of user relevance
+                                             DCG
+                                  nDCGp = IDCGpp
+        Calculate average of nDCGp from different experiments
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval         Lecture in summer semester   90 / 543
+                   Evaluation and Assessment of IR Systems    Discounted Cumulative Gain
+
+
+
+Important: Query types
+
+
+        Navigational
+           ▶   search for homepage of company X
+        Informational
+           ▶ yellow pages requests
+           ▶ fact questions (question answering)
+           ▶ ad-hoc (search everything on topic X)
+
+
+
+
+        Consequence: different evaluation requirements, especially for
+        relevance feedback
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval         Lecture in summer semester   91 / 543
+                   Evaluation and Assessment of IR Systems    Discounted Cumulative Gain
+
+
+
+Cranfield Experiment [CMK66]:
+6 criteria for the evaluation of IR systems
+    1   Recall → ability of the system to find all relevant objects
+    2   Precision → ability of the system to present only objects that are
+        relevant
+    3   Time lag → the time between submitting the query and providing the
+        response
+    4   Effort → the intellectual and physical effort required by the user to
+        obtain the answer (e.g. complex input, queries from the system, ...)
+    5   Form of presentation → the quality of the result presentation, which
+        influences the usefulness for the user
+    6   Coverage of the collection → the degree to which the system contains
+        relevant objects (more a question of the documents than the retrieval
+        system)
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval         Lecture in summer semester   92 / 543
+                   Evaluation and Assessment of IR Systems    Discounted Cumulative Gain
+
+
+
+Vickery describes 6 criteria, which he divides into two
+groups [Vic70]:
+
+        Criteria related to availability of information:
+           ▶ Coverage → proportion of potentially useful literature that was
+             considered (e.g., if multiple collections were available: were all
+             collections considered together with potentially relevant documents)
+           ▶ Recall → proportion of potentially useful documents included in the
+
+             result of the query
+           ▶ Response time → average response time
+
+        Criteria related to the selectivity of the response:
+           ▶ Precision → ability of the system to suppress useless documents
+           ▶ Usability → value of the determined documents for the user (reliability,
+             comprehensibility, ...)
+           ▶ Presentation → form in which the results are presented
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval         Lecture in summer semester   93 / 543
+                   Evaluation and Assessment of IR Systems    Discounted Cumulative Gain
+
+
+
+Usability
+
+        Special focus in IR due to user focus
+        http://www.searchuserinterfaces.com/
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval         Lecture in summer semester   94 / 543
+                   Evaluation and Assessment of IR Systems    Discounted Cumulative Gain
+
+
+
+Goals of evaluation initiatives
+
+
+
+
+        Uniform evaluation standards for retrieval systems (standardization)
+        Enable comparison between systems
+        Drive further development of IR systems
+        Take up requirements from the community and improve methodology
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval         Lecture in summer semester   95 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+2.4 TREC and Further Evaluation Initiatives
+
+
+        TREC: Text REtrieval Conference
+        “TREC is a new ballgame for IR research and development” (Sparck
+        Jones 1994)
+        Evaluation initiative of the National Institute of Standards and
+        Technology (NIST) in the USA
+        1992: TREC-1 (Proceedings 1993)
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester   96 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester   97 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Procedure
+
+
+
+        Test base
+           ▶   objects (documents, ...) with clarified copyright
+           ▶   queries (Topics)
+                   ⋆   relevant information needs for potential users
+           ▶   uniform relevance assessment
+        Time frame (approx. 4 months in total)
+           ▶ query output
+           ▶ submitting results
+           ▶ announcement of the results
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester   98 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+2008 TREC tracks
+
+
+
+
+        Blog track
+        Enterprise track
+        Legal track
+        Million query track
+        Relevance feedback track
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester   99 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Further TREC tracks
+        Cross-language track
+        Filtering track
+        Genomics track
+        HARD track (high accuracy retrieval from documents)
+        Interactive track
+        Novelty track
+        Question answering track
+        Robust retrieval track
+        SPAM track
+        Terabyte track
+        Video track
+        Web track
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 100 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Question answering
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 101 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Sample topic
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 102 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Sample document: Wall Street Journal
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 103 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Relevance evaluation
+
+
+
+
+        Abstraction from the individual user and his context
+        Uniform evaluation
+        Objective jurors who are not in a use situation
+        Objective statement about content relation between topic and
+        document
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 104 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Cross-language evaluation forum
+
+
+
+Research on cross- and multi-lingual
+Information Retrieval systems
+
+
+
+
+EU funding: DELOS NoE for digital
+libraries
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 105 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+GeoCLEF Monolingual English
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 106 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Variability
+
+
+
+
+        OBSERVATION: the difference in performance between the systems
+        is much smaller than between the topics
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 107 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Example GeoCLEF 2006 (boxplots) I
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 108 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Example GeoCLEF 2006 (boxplots) II
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 109 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Aggregation of multiple queries
+
+
+
+
+        Usually simple arithmetic average
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 110 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Which system is better?
+
+
+
+
+                                           2 systems, 3 queries
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 111 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+“IR Psychology” I
+
+
+
+The unhappy customer, on average, will tell 27 other people ...
+
+Dissatisfied customers tell an average of ten other people about their
+bad experience. Twelve percent tell up to twenty people.
+
+                                      → Bad news travels fast.
+
+                                                                    Credit to Jacques Savoy for slide
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 112 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+“IR Psychology” II
+
+On the other hand, satisfied customers will tell an average of five people
+about their positive experience.
+
+                        → Good news travels somewhat slower.
+
+
+A site search should work robustly
+; bad outliers must be avoided!
+     for each query
+     for each evaluation criterion
+
+                                                                    Credit to Jacques Savoy for slide
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 113 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+“IR Psychology” III
+
+
+
+
+        Very good results, poor interaction → dissatisfied user
+        Very good interaction, poor results → dissatisfied user
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 114 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+GMAP
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 115 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Robustness
+
+
+
+
+        Stable performance over all queries instead of high average
+        performance
+        “Difficult” queries should have greater weight in the evaluation
+        process
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 116 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+NTCIR
+
+
+        Multilingual retrieval for Asian languages
+        Performed in Tokyo
+           ▶   National Institute for Informatics
+        Tasks
+           ▶   cross-lingual
+                   ⋆   Chinese, Japanese, Korean → English
+           ▶ patent retrieval
+           ▶ web retrieval
+           ▶ question answering
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 117 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+FIRE
+
+
+
+        Evaluation Initiative for Indian Languages
+           ▶ Hindi and Bengali (among the 10 most spoken languages in the world)
+           ▶ Marathi, Tamil, Telugu, Punjabi, Malayalam
+           ▶ English
+
+
+
+
+        Newspaper texts
+        Running since 2008
+        https://www.isical.ac.in/~clia/
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 118 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+INEX
+
+
+
+
+        INitiative for the Evaluation of XML Retrieval
+           ▶ evaluation of retrieval with structured documents
+           ▶ goal: find the smallest relevant section rather than the entire document
+           ▶ exploiting the structure
+           ▶ test collection 2005: travel guide
+
+                   ⋆   https://www.is.inf.uni-due.de/projects/inex/index.html
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 119 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+IMIRSEL
+
+
+
+
+        International Music Information Retrieval Systems Evaluation
+        Laboratory Project
+           ▶   answering questions about pieces of music
+        https://www.music-ir.org/mirex/wiki/MIREX_HOME
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 120 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+User?
+
+
+
+
+        The user is never in the role of the evaluator
+        Does improving systems in terms of traditional metrics also lead to
+        higher user satisfaction?
+        Does a good ranking also lead to higher user satisfaction?
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 121 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Problems with user satisfaction I
+
+
+
+
+        No correlation between preference and quality could be detected in
+        several image retrieval systems
+           ▶   two tasks
+           ▶   eleven test subjects
+
+                                                                                         Maskari et al. 2006
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 122 / 543
+                   Evaluation and Assessment of IR Systems    TREC and Further Evaluation Initiatives
+
+
+
+Problems with user satisfaction II
+
+
+        For simple search tasks and controlled retrieval quality, there was no
+        effect on user performance for a system
+           ▶ artificially created systems of different quality (different MAP)
+           ▶ as many relevant documents as possible should be found in 5 minutes
+           ▶ approx. 20 test subjects
+
+
+                                                       Turpin & Scholer 2006
+        System differences cannot be identified by user testing
+           ▶   model for TREC and CLEF is the “dedicated searcher”
+                                                                                      Turpin & Hersh 2001
+
+
+
+
+Prof. Dr.-Ing. Ingo Schmitt (BTUCS)           Lecture Information Retrieval           Lecture in summer semester 123 / 543
+
